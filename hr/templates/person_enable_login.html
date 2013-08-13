@@ -1,0 +1,18 @@
+{% extends "templates/shell.html" %}
+{% block content %}
+<div class="navbar subnav white">
+	<ul class="nav subnav_area">
+		<li class="headline">User Account Activated</li>
+	</ul>
+</div>
+<div class="container"><div class="row-fluid font-admin">
+{{person.name}} can now login to this application.<br><br>
+Email: {{person.email}}<br>
+Temporary Password: {{password}}<br><br>
+Please instruct {{person.name}} to change their password after logging in.
+<br><br>
+Return to <a href="{{request.application_url}}/administration/employees">Employee Administration</a>
+</div></div>
+
+{% endblock %}
+</html>

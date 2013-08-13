@@ -1,0 +1,35 @@
+{% extends "templates/shell.html" %}
+{% block content %}
+<div class="navbar subnav white">
+	<ul class="nav subnav_area">
+		<li class="headline">Edit Prospect</li>
+	</ul>
+</div>
+<div class="container"><div class="row-fluid"><div class="maintable">
+<form method="post" action="{{request.application_url}}/ghost/client/{{ghost_client.id}}/edit">
+<table class="table">
+<tbody>
+	<tr>
+		<td>Name:</td>
+		<td><input type="text" name="ghost_client_name" value="{{ghost_client.name}}"><br/>
+					<input type="checkbox" name="is_tbg" value="1" {% if ghost_client.is_tbg %}checked{% endif %}> Count as TBG revenue instead of a prospect
+		</td>
+	</tr>
+	<tr>
+		<td>Office:</td>
+		<td>
+			<select name="office_id">
+				<option value="">Select</option>
+				{% for office in offices %}
+				<option value="{{office.id}}" {% if ghost_client.office.id == office.id %}selected{% endif %}>{{office.name|title}}</option>
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+</tbody>
+</table>
+<input type="submit">
+</div></div></div>
+
+{% endblock %}
+</html>

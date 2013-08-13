@@ -1,0 +1,10 @@
+- Fix office-level and department-level aggregate utilization totals: now wrong
+
+--
+5. recheck all math starting with salaries!  
+	especially: salaries that change!
+	if salary is allocated to a prospect, and then the quarter ends, confirm that salary is still counted in the billable/nonbillable (presumably, would go into the bench number)
+--
+put a small selection of data in the system!!!
+
+put real data in the system!!!!!!

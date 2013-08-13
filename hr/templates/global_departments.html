@@ -1,0 +1,63 @@
+{% extends "templates/shell.html" %}
+{% block content %}
+<div class="navbar subnav white">
+	<ul class="nav subnav_area">
+		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/global/financials/{{year}}">FINANCIALS</a></li>
+		{% if user.is_administrator or user.permissions_global_financials %}
+		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/global/offices/{{year}}" >OFFICES</a></li>
+		<li class="entity-nav-pull-left-cell-selected push-down"><a href="{{request.application_url}}/global/departments/{{year}}" class="entity-nav-selected" >DEPARTMENTS</a></li>
+		{% endif %}
+		{% if user.is_administrator or user.permissions_global_utilization %}
+		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/global/utilization/{{year}}">OFFICE UTILIZATION</a></li>
+		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/global/utilization/department/{{year}}">DEPARTMENT UTILIZATION</a></li>
+		{% endif %}
+		{% if user.is_administrator %}
+		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/global/expenses/{{year}}">EXPENSES</a></li>
+		{% endif %}
+	</ul>
+</div>
+<div class="container-fluid"><div class="row-fluid"><div class="maintable">
+<table class="table">
+<thead>
+	<th>Global Financials By Department ({% if user.currency %}{{user.currency.name|upper}}{% else %}USD{% endif %}):
+		<div class="btn-group">
+			<a id="year_button" class="year-text dropdown-toggle" data-toggle="dropdown" href="#">{{year}} <span class="year-carot caret"></span></a>
+			<ul class="dropdown-menu">
+				{% for y in account.years %}
+				<li><a href="{{request.application_url}}/global/offices/{{y}}" tabindex="-1">{{y}}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</th>
+	<th colspan="2" class="center">Q1 (R/M)</th>
+	<th colspan="2" class="center">Q2 (R/M)</th>
+	<th colspan="2" class="center">Q3 (R/M)</th>
+	<th colspan="2" class="center">Q4 (R/M)</th>
+	<th colspan="2" class="center">Annual (R/M)</th>
+</thead>
+<tbody>
+	{% for department_financials in financials.department_financials %}
+	<tr>
+		<td><a href="{{request.application_url}}/department/{{department_financials.department.id}}/financials/{{year}}">{{department_financials.department.name|title}}</a></td>
+		<td class="align-right">{{"{:,.0f}".format(department_financials.revenue_total[0])}}</td><td class="align-right">{{"{:,.0f}".format(department_financials.margin[0])}}%</td>
+		<td class="align-right">{{"{:,.0f}".format(department_financials.revenue_total[1])}}</td><td class="align-right">{{"{:,.0f}".format(department_financials.margin[1])}}%</td>
+		<td class="align-right">{{"{:,.0f}".format(department_financials.revenue_total[2])}}</td><td class="align-right">{{"{:,.0f}".format(department_financials.margin[2])}}%</td>
+		<td class="align-right">{{"{:,.0f}".format(department_financials.revenue_total[3])}}</td><td class="align-right">{{"{:,.0f}".format(department_financials.margin[3])}}%</td>
+		<td class="align-right">{{"{:,.0f}".format(department_financials.revenue_total[4])}}</td><td class="align-right">{{"{:,.0f}".format(department_financials.margin[4])}}%</td>
+	</tr>
+	{% endfor %}
+	<tr><td colspan="11"></td></tr>
+	<tr>
+		<td><a href="{{request.application_url}}/global/financials/{{year}}">Total</a></td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_total[0])}}</td><td class="align-right">{{"{:,.0f}".format(financials.margin[0])}}%</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_total[1])}}</td><td class="align-right">{{"{:,.0f}".format(financials.margin[1])}}%</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_total[2])}}</td><td class="align-right">{{"{:,.0f}".format(financials.margin[2])}}%</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_total[3])}}</td><td class="align-right">{{"{:,.0f}".format(financials.margin[3])}}%</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_total[4])}}</td><td class="align-right">{{"{:,.0f}".format(financials.margin[4])}}%</td>
+	</tr>
+</tbody>
+</table>
+</div></div></div>
+
+{% endblock %}
+</html>

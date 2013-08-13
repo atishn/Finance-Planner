@@ -1,0 +1,5 @@
+      [paste.app_factory]
+      main = hr:main
+      [console_scripts]
+      initialize_hr_db = hr.scripts.initializedb:main
+      

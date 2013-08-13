@@ -1,0 +1,29 @@
+{% extends "templates/shell.html" %}
+{% block content %}
+<div class="navbar subnav white">
+	<ul class="nav subnav_area">
+		<li class="headline">Bulk Edit Clients for {{office.name|title}}</li>
+	</ul>
+</div>
+<form method="post" action="{{request.application_url}}/office/{{office.id}}/bulk/edit">
+<div class="container-fluid"><div class="row-fluid"><div class="maintable">
+<table class="table">
+<thead></thead>
+<tbody>
+	<tr><td colspan="4">Projects:</td></tr>
+	{% for project in account.projects %}
+	{% if project.is_active == True and project.client.office_id == office.id %}
+	<tr>
+		<td>{{project.client.name|title}}: {{project.name|title}}</td>
+		<td>Start Date (mm/dd/yyyy): <input class="input-small" type="text" name="{{project.id}}-start_date" value="{{project.start_date.strftime('%m/%d/%Y')}}"></td>
+		<td>End Date (mm/dd/yyyy): <input class="input-small" type="text" name="{{project.id}}-end_date" value="{{project.end_date.strftime('%m/%d/%Y')}}"></td>
+		<td>Revenue ({% if user.currency %}{{user.currency.name|upper}}{% else %}USD{% endif %}): <input class="input-small" type="text" name="{{project.id}}-revenue" value="{% if user.currency %}{{project.revenue * user.currency.usd_to_currency }}{% else %}{{project.revenue}}{% endif %}"></td>
+	</tr>
+	{% endif %}
+	{% endfor %}
+	<tr><td colspan="4"><input type="submit"></td></tr>
+</tbody>
+</table>
+</div></div></div>
+{% endblock %}
+</html>

@@ -1,0 +1,191 @@
+{% extends "templates/shell.html" %}
+{% block content %}
+<div class="navbar subnav white">
+	<ul class="nav subnav_area">
+		{% if access_financials %}
+		<li class="entity-nav-pull-left-cell-selected push-down"><a href="{{request.application_url}}/department/{{department.id}}/financials/{{year}}" class="entity-nav-selected">FINANCIALS</a></li>
+		{% endif %}
+		{% if access_utilization %}
+		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/department/{{department.id}}/utilization/{{year}}">UTILIZATION</a></li>
+		{% endif %}
+	</ul>
+</div>
+<div class="container-fluid"><div class="row-fluid"><div class="maintable">
+<table class="table">
+<thead>
+	<th>{{department.name|title}} Financials ({% if user.currency %}{{user.currency|upper}}{% else %}USD{% endif %}):
+		<div class="btn-group">
+			<a id="year_button" class="year-text dropdown-toggle" data-toggle="dropdown" href="#">{{year}} <span class="year-carot caret"></span></a>
+			<ul class="dropdown-menu">
+				{% for y in account.years %}
+				<li><a href="{{request.application_url}}/department/{{department.id}}/financials/{{y}}" tabindex="-1">{{y}}</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</th>
+	<th class="center">Q1</th>
+	<th class="center">Q2</th>
+	<th class="center">Q3</th>
+	<th class="center">Q4</th>
+	<th class="center">Annual</th>
+</thead>
+<tbody>
+	<tr><td colspan="6">Revenue</td></tr>
+	<tr>
+		<td>Closed</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_closed[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_closed[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_closed[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_closed[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_closed[4])}}</td>
+	</tr><tr>
+		<td>Client Opportunities</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_client_opportunities[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_client_opportunities[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_client_opportunities[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_client_opportunities[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_client_opportunities[4])}}</td>
+	</tr><tr>
+		<td>Prospects</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_prospects[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_prospects[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_prospects[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_prospects[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_prospects[4])}}</td>
+	</tr><tr>
+		<td>TBG</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_tbg[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_tbg[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_tbg[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_tbg[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_tbg[4])}}</td>
+	</tr><tr>
+		<td>Total</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_total[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_total[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_total[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_total[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.revenue_total[4])}}</td>
+	</tr>
+	<tr><td colspan="6">Expenses</td></tr>
+	<tr>
+		<td>Salary (Billable)</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_billable[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_billable[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_billable[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_billable[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_billable[4])}}</td>
+	</tr><tr>
+		<td>Salary (Prospects)</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_prospects[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_prospects[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_prospects[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_prospects[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_prospects[4])}}</td>
+	</tr><tr>	
+		<td>Salary (Bench)</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_bench[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_bench[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_bench[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_bench[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_bench[4])}}</td>
+	</tr><tr>
+		<td>Salary (Non-Billable)</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_non_billable[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_non_billable[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_non_billable[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_non_billable[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_non_billable[4])}}</td>
+	</tr><tr>		
+		<td>Open Reqs (Billable)</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_billable[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_billable[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_billable[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_billable[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_billable[4])}}</td>
+	</tr><tr>
+		<td>Open Reqs (Non-Billable)</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_non_billable[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_non_billable[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_non_billable[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_non_billable[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_non_billable[4])}}</td>
+	</tr><tr>
+		<td>Open Reqs (Prospects)</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_prospects[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_prospects[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_prospects[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_prospects[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_prospects[4])}}</td>
+	</tr><tr>
+		<td>Open Reqs (Bench)</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_bench[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_bench[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_bench[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_bench[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_open_req_bench[4])}}</td>
+	</tr><tr>		
+		<td>Freelance (Billable)</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_freelance_billable[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_freelance_billable[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_freelance_billable[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_freelance_billable[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_freelance_billable[4])}}</td>
+	</tr><tr>
+		<td>Freelance (Non-Billable)</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_freelance_non_billable[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_freelance_non_billable[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_freelance_non_billable[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_freelance_non_billable[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_freelance_non_billable[4])}}</td>
+	</tr><tr>
+		<td>Salary (Global Allocated)</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_global[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_global[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_global[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_global[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_salary_global[4])}}</td>
+	</tr><tr>
+		<td>Non-Billable Client Expenses</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.non_billable_expenses[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.non_billable_expenses[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.non_billable_expenses[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.non_billable_expenses[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.non_billable_expenses[4])}}</td>
+	</tr><tr>		
+		<td>SG&A</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_sga[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_sga[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_sga[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_sga[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_sga[4])}}</td>
+	</tr><tr>		
+		<td>Total</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_total[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_total[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_total[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_total[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.expense_total[4])}}</td>
+	</tr>
+	<tr><td colspan="6">&nbsp;</td></tr>
+	<tr>
+		<td>Profit</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.profit[0])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.profit[1])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.profit[2])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.profit[3])}}</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.profit[4])}}</td>						
+	</tr><tr>
+		<td>Margin</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.margin[0])}}%</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.margin[1])}}%</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.margin[2])}}%</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.margin[3])}}%</td>
+		<td class="align-right">{{"{:,.0f}".format(financials.margin[4])}}%</td>
+	</tr>			
+</tbody>
+</table>
+</div></div></div>
+
+{% endblock %}
+</html>

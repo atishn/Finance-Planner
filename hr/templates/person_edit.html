@@ -1,0 +1,178 @@
+{% extends "templates/shell.html" %}
+{% block content %}
+<div class="navbar subnav white">
+	<ul class="nav subnav_area">
+		<li class="headline">Edit Person</li>
+	</ul>
+</div>
+<div class="container"><div class="row-fluid"><div class="maintable">
+<form method="post" action="{{request.application_url}}/person/{{person.id}}/edit">
+	<input type="hidden" name="source" value="{{source}}">
+<table class="table">
+<tbody>
+	<tr>
+		<td>Name:</td>
+		<td><input type="text" name="name" value="{{person.name|title}}"></td>
+	</tr>
+	<tr>
+		<td>Employee ID:</td>
+		<td><input type="text" name="employee_number" value="{{person.employee_number}}"></td>
+	</tr>
+	<tr>
+		<td>Email:</td>
+		<td><input type="text" name="email" value="{{person.email}}"></td>
+	</tr>
+	<tr>
+		<td>Annual Salary ({% if user.currency %}{{user.currency.name|upper}}{% else %}USD{% endif %}):</td>
+		<td><input type="text" name="salary" value="{{person.salary}}"><br/>
+			<input type="checkbox" name="raise" value="1"> This is a raise effective immediately (as opposed to fixing a salary error)
+		</td>
+	</tr>
+	<tr>
+		<td>Office:</td>
+		<td>
+			<select name="office_id">
+				<option value="">Select</option>
+				{% for office in offices %}
+				{% if office.is_active %}
+				<option value="{{office.id}}" {% if office.id == person.office_id %}selected{% endif %}>{{office.name|title}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Role:</td>
+		<td>
+			<select name="role_id">
+				<option value="">Select</option>
+				{% for role in roles %}
+				{% if role.is_active %}
+				<option value="{{role.id}}" {% if role.id == person.role_id %}selected{% endif %}>{{role.name|title}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Percent Billable (%):</td>
+		<td><input type="text" name="percent_billable" value="{{person.percent_billable}}">
+			<input type="checkbox" name="change_allocation" value="1"> This is a change in allocation effective immediately (as opposed to fixing an allocation error)
+		</td>
+	</tr>
+	<tr>
+		<td>Start Date:</td>
+		<td><input type="text" name="start_date" value="{% if person.start_date %}{{person.start_date.strftime('%m/%d/%Y')}}{% endif %}"></td>
+	</tr>
+	<tr>
+		<td>End Date:</td>
+		<td><input type="text" name="end_date" value="{% if person.end_date %}{{person.end_date.strftime('%m/%d/%Y')}}{% endif %}"></td>
+	</tr>
+	<tr>
+		<td>Administration:</td>
+		<td>
+			<input type="checkbox" name="is_administrator" value="1" {% if person.is_administrator %}checked{% endif %}> Overall Administrator</br>
+			<input type="checkbox" name="is_hr_administrator" value="1" {% if person.is_hr_administrator %}checked{% endif %}> HR Administrator</br>
+		</td>
+	</tr>
+	<tr>
+		<td>Currency:</td>
+		<td>
+			<select name="currency_id">
+				<option value="" {% if person.currency_id == None %}selected{% endif %}>USD</option>
+				{% for currency in currencies %}
+				<option value="{{currency.id}}"{% if currency.id == person.currency_id %}selected{% endif %}>{{currency.name|title}}</option>
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Office Finances Permissions:</td>
+		<td>
+			<select multiple name="permissions_office_financials">
+				<option value="" {% if person.permissions_office_financials|count == 0 %}selected{% endif %}>None</option>
+				<option value="all" {% if person.permissions_global_financials %}selected{% endif %}>All</option>
+				{% for office in offices %}
+				{% if office.is_active %}
+				<option value="{{office.id}}" {% for off in person.permissions_office_financials %}{% if off.id == office.id %}selected{% endif %}{% endfor %}>{{office.name|title}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Office Pipeline Permissions:</td>
+		<td>
+			<select multiple name="permissions_office_pipeline">
+				<option value="" {% if person.permissions_office_pipeline|count == 0 %}selected{% endif %}>None</option>
+				<option value="all" {% if person.permissions_global_pipeline %}selected{% endif %}>All</option>
+				{% for office in offices %}
+				{% if office.is_active %}
+				<option value="{{office.id}}" {% for off in person.permissions_office_pipeline %}{% if off.id == office.id %}selected{% endif %}{% endfor %}>{{office.name|title}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Office Utilization Permissions:</td>
+		<td>
+			<select multiple name="permissions_office_utilization">
+				<option value="" {% if person.permissions_office_utilization|count == 0 %}selected{% endif %}>None</option>
+				<option value="all" {% if person.permissions_global_utilization %}selected{% endif %}>All</option>
+				{% for office in offices %}
+				{% if office.is_active %}
+				<option value="{{office.id}}" {% for off in person.permissions_office_utilization %}{% if off.id == office.id %}selected{% endif %}{% endfor %}>{{office.name|title}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Client Finances Permissions:</td>
+		<td>
+			<select multiple name="permissions_client_financials">
+				<option value="" {% if person.permissions_client_financials|count == 0 %}selected{% endif %}>None</option>
+				{% for client in clients %}
+				{% if client.is_active %}
+				<option value="{{client.id}}" {% for cl in person.permissions_client_financials %}{% if cl.id == office.id %}selected{% endif %}{% endfor %}>{{client.name|title}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+			<br>
+			Note: if a user has global permissions or office-level permissions they can see all clients globally/in that office.
+		</td>
+	</tr>
+	<tr>
+		<td>Client Pipeline Permissions:</td>
+		<td>
+			<select multiple name="permissions_client_pipeline">
+				<option value="" {% if person.permissions_client_pipeline|count == 0 %}selected{% endif %}>None</option>
+				{% for client in clients %}
+				{% if client.is_active %}
+				<option value="{{client.id}}" {% for cl in person.permissions_client_pipeline %}{% if cl.id == office.id %}selected{% endif %}{% endfor %}>{{client.name|title}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Client Utilization Permissions:</td>
+		<td>
+			<select multiple name="permissions_client_utilization">
+				<option value="" {% if person.permissions_client_utilization|count == 0 %}selected{% endif %}>None</option>
+				{% for client in clients %}
+				{% if client.is_active %}
+				<option value="{{client.id}}" {% for cl in person.permissions_client_utilization %}{% if cl.id == office.id %}selected{% endif %}{% endfor %}>{{client.name|title}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+</tbody>
+</table>
+<input type="submit">
+</div></div></div>
+
+{% endblock %}
+</html>

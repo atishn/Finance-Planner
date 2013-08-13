@@ -1,0 +1,38 @@
+{% extends "templates/shell.html" %}
+{% block content %}
+<div class="navbar subnav white">
+	<ul class="nav subnav_area">
+		<li class="headline">Administration: Company</li>
+	</ul>
+</div>
+<div class="container"><div class="row-fluid font-admin">
+<span class="admin_superheader">{{account.name|title}}</span> <a href="{{request.application_url}}/administration/company/edit">Edit</a><br/><br/>
+<span class="admin_header">Offices</span> <a href="{{request.application_url}}/office/add">Add Office</a><br/>
+{% for office in account.offices %}
+{% if office.is_active %}
+{{office.name|title}} <a href="{{request.application_url}}/office/{{office.id}}/edit">Edit</a> | <a href="{{request.application_url}}/office/{{office.id}}/delete">Delete</a><br/>
+{% endif %}
+{% endfor %}
+<br/><br/>
+<span class="admin_header">Currencies</span> <a href="{{request.application_url}}/currency/add">Add Currency</a><br/>
+USD (default)<br/>
+{% for currency in account.currencys %}
+{{currency.name|upper}} ({{'%0.2f'| format(currency.currency_to_usd|float)}} USD) <a href="{{request.application_url}}/currency/{{currency.id}}/edit">Edit</a> | <a href="{{request.application_url}}/currency/{{currency.id}}/delete">Delete</a><br/>
+{% endfor %}
+<br/><br/>
+<span class="admin_header">Departments</span> <a href="{{request.application_url}}/department/add">Add Department</a><br/>
+{% for department in account.departments %}
+{% if department.is_active %}
+{{department.name|title}} <a href="{{request.application_url}}/department/{{department.id}}/edit">Edit</a> | <a href="{{request.application_url}}/department/{{department.id}}/delete">Delete</a><br/>
+{% endif %}
+{% endfor %}
+<br/><br/>
+<span class="admin_header">Roles</span> <a href="{{request.application_url}}/role/add">Add Role</a><br/>
+{% for role in account.roles %}
+{% if role.is_active %}
+{{role.department.name|title}}: {{role.name|title}} ({{"{:,.0f}".format(role.salary_low)}}-{{"{:,.0f}".format(role.salary_high)}}) <a href="{{request.application_url}}/role/{{role.id}}/edit">Edit</a> | <a href="{{request.application_url}}/role/{{role.id}}/delete">Delete</a><br/>
+{% endif %}
+{% endfor %}
+</div></div>
+{% endblock %}
+</html>

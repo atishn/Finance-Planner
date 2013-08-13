@@ -1,0 +1,227 @@
+{% extends "templates/shell.html" %}
+{% block content %}
+<script>
+var skillset_midyear = [];
+var skillset_annual = [];
+</script>
+<div class="navbar subnav white">
+	<ul class="nav subnav_area">
+		<li class="headline">{{ person.first_name }} {{ person.last_name }}</li>
+	</ul>
+	<ul class="nav pull-right subnav_area">
+		{% if person.manager_id == user.id and ((review.current_datetime > account.midyear_review_start and review.midyear_visible_to_user == False) or (review.current_datetime > account.annual_review_start and review.annual_visible_to_user == False)) %}
+		<li class="submenu-btn"><a class="submenu-btn-text" href='{{request.application_url}}/person/{{person.id}}/{{review.id}}/show'>SHOW REVIEW TO PERSON</a></li>
+		{% endif %}
+		<li class="dropdown submenu-menu">
+			<a class="dropdown-toggle submenu-menu-link" data-toggle="dropdown" href="#">CHANGE REVIEW CYCLE <i class="icon-caret-down"></i></a>
+			<ul class="dropdown-menu">
+				{% for review in person.reviews %}
+				<li>
+					<a href="{{request.application_url}}/{{person.id}}?year=review.review_cycle_year">{{ review.review_cycle_year }}</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</li>
+	</ul>
+</div>
+<div class="standard-background">
+<div class="container">
+	<div class="span12">
+		<div class="subheadline">Career History</div>
+		<div>
+			<table class="table table-bordered whitebg">
+				<tbody>
+					{% for job_history_entry in person.job_history %}
+						<tr>
+							<td class="review_table_cell">{{job_history_entry.created_at.strftime('%b %Y')}}</td>
+							<td class="review_table_cell">{{job_history_entry.role.name}}</td>
+							<td class="review_table_cell">{{job_history_entry.salary_formatted_micro}}</td>
+						</tr>
+						{% endfor %}
+						<tr>
+							<td class="review_table_cell">Current Goal</td>
+							<td class="review_table_cell">{{person.next_role.name}}</td>
+							<td class="review_table_cell"></td>
+				</tbody>
+			</table>
+		</div>
+		<div class="subheadline">My Own Assessment</div>
+		<div>
+			<table class="table table-bordered whitebg">
+				<tbody>
+					<tr>
+						<td class="review_table_cell">My Personal Goals:
+							<ul>
+								{{review.self_assessment_goals}}
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td class="review_table_cell">My Performance (Mid-Year):
+							<ul>
+								{{review.self_assessment_performance_midyear}}
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td class="review_table_cell">My Performance (Year-End):
+							<ul>
+								{{review.self_assessment_performance_annual}}
+							</ul>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		{% for skillset_category in person.department.skillset_categorys %}
+		<div class="subheadline">{{skillset_category.name}}</div>
+		<div>
+			<table class="table table-bordered whitebg">
+				<thead class="header-background">
+					<td></td>
+					<td class="review_table_cell center">Mid-Year Check-In <a id="help" href="#" class="no-underline" data-toggle="popover" data-placement="top" data-content="Check-ins happen each June.  Your manager will rate each skillset as Never, Sometimes, Often and Always." title="" data-original-title="About Mid-Year Check-Ins"><i class="icon-question-sign"></i></a></th>
+					<td class="review_table_cell center">Annual Review <a id="help2" href="#" class="no-underline" data-toggle="popover" data-placement="top" data-content="Year-End Reviews happen in January.  Your manager will rate each skillset as Never, Sometimes, Often and Always.  If more than half of your skillsets are Often or Always, you are eligible for a promotion." title="" data-original-title="About Year-End Reviews"><i class="icon-question-sign"></i></a></th>
+				</thead>
+				<tbody>
+					{% for skillset in review.role.skillsets %}
+						{% if skillset.skillset_category_id == skillset_category.id %}
+						<tr>
+							<td class="review_table_cell">{{skillset.name}}</td>
+							<td class="review_table_cell">
+								{% for skillset_entry in review.skillset_entries %}
+									{% if skillset_entry.skillset_id == skillset.id and skillset_entry.is_midyear == True %}
+										{% if review.midyear_visible_to_user and person.id == user.id %}
+											{{ skillset_entry.ranking_as_text }}
+											<script>skillset_midyear.push({{skillset.id}});</script>
+										{% elif review.current_datetime > account.midyear_review_end_date %}
+											{{ skillset_entry.ranking_as_text }}
+											<script>skillset_midyear.push({{skillset.id}});</script>
+										{% elif (review.current_datetime > account.midyear_review_start and (user.id == person.manager_id or user.permissions.is_administrator)) %}
+											<select id="use_m_e_{{skillset.id}}" class="new_select_start" onChange="update_skillset_entry({{skillset_entry.id}},this.value);">
+												<option value="0">Select</option>
+												<option value="1" {% if skillset_entry.ranking == 1 %}selected{% endif %}>Never</option>
+												<option value="2" {% if skillset_entry.ranking == 2 %}selected{% endif %}>Sometimes</option>
+												<option value="3" {% if skillset_entry.ranking == 3 %}selected{% endif %}>Often</option>
+												<option value="4" {% if skillset_entry.ranking == 4 %}selected{% endif %}>Always</option>
+											</select>
+											<script>skillset_midyear.push({{skillset.id}});</script>
+										{% endif %}
+									{% endif %}
+								{% endfor %}
+								{% if (review.current_datetime > account.midyear_review_start and (user.id == person.manager_id or user.permissions.is_administrator)) %}
+								<select class="new_select_end" id="use_m_n_{{skillset.id}}" onChange="new_skillset_entry('midyear',{{skillset.id}},this.value);">
+									<option value="0" selected>Select</option>
+									<option value="1">Never</option>
+									<option value="2">Sometimes</option>
+									<option value="3">Often</option>
+									<option value="4">Always</option>
+								</select>
+								{% endif %}
+							</td>
+							<td class="review_table_cell">
+								{% for skillset_entry in review.skillset_entries %}
+									{% if skillset_entry.skillset_id == skillset.id and skillset_entry.is_midyear == False %}
+										{% if review.annual_visible_to_user and person.id == user.id %}
+											{{ skillset_entry.ranking_as_text }}
+											<script>skillset_annual.push({{skillset.id}});</script>
+										{% elif review.current_datetime > account.annual_review_end_date %}
+											{{ skillset_entry.ranking_as_text }}
+											<script>skillset_annual.push({{skillset.id}});</script>
+										{% elif (review.current_datetime > account.annual_review_start and (user.id == person.manager_id or user.permissions.is_administrator)) %}
+											<select class="new_select_start" id="use_a_e_{{skillset.id}}" onChange="update_skillset_entry({{skillset_entry.id}},this.value);">
+												<option value="0">-- Select --</option>
+												<option value="1" {% if skillset_entry.ranking == 1 %}selected{% endif %}>Never</option>
+												<option value="2" {% if skillset_entry.ranking == 2 %}selected{% endif %}>Sometimes</option>
+												<option value="3" {% if skillset_entry.ranking == 3 %}selected{% endif %}>Often</option>
+												<option value="4" {% if skillset_entry.ranking == 4 %}selected{% endif %}>Always</option>
+											</select>
+											<script>skillset_annual.push({{skillset.id}});</script>
+										{% endif %}
+									{% endif %}
+								{% endfor %}
+								{% if (review.current_datetime > account.annual_review_start and (user.id == person.manager_id or user.permissions.is_administrator)) %}
+								<select class="new_select_end" id="use_a_n_{{skillset.id}}" onChange="new_skillset_entry('annual',{{skillset.id}},this.value);">
+									<option value="0" selected>Select</option>
+									<option value="1">Never</option>
+									<option value="2">Sometimes</option>
+									<option value="3">Often</option>
+									<option value="4">Always</option>
+								</select>
+								{% endif %}
+							</td>
+						</tr>
+						{% endif %}
+					{% endfor %}
+					{% for skillset_category_entry in review.skillset_category_entries %}
+						{% if skillset_category_entry.skillset_category_id == skillset_category.id %}
+						<tr>
+							<td class="review_table_cell" colspan="3">
+							Mid-Year Comments:<br/>
+							
+							<ul>
+							{% if skillset_category_entry.comments_midyear %}{{ skillset_category_entry.comments_midyear }}{% endif %}
+							</ul>
+							Annual Comments:<br/>
+							<ul>
+							{% if skillset_category_entry.comments_annual %}{{ skillset_category_entry.comments_annual }}{% endif %}
+							</ul>
+							</td>
+						</tr>
+						{% endif %}
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		{% endfor %}
+		<div class="subheadline">General</div>
+		<div>
+			<table class="table table-bordered whitebg">
+				<tbody>
+					<tr>
+						<td class="review_table_cell">Mid-Year Comments:
+							<ul>
+								{% if review.general_midyear_comments %}{{review.general_midyear_comments}}{% endif %}
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td class="review_table_cell">Year-End Comments:
+							<ul>
+								{% if review.general_annual_comments %}{{review.general_annual_comments}}{% endif %}
+							</ul>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<script>
+function update_skillset_entry(skillset_entry_id,value) {
+	$.get('{{request.application_url}}/skillset_entry/{{person.id}}/' + skillset_entry_id + '/update/' + value, function(data) {
+	  $('.result').html(data);
+	});
+}
+
+function new_skillset_entry(period,skillset_id,value) {
+	$.get('{{request.application_url}}/skillset_entry/{{person.id}}/{{review.id}}/add/' + skillset_id + '/' + period + '/' + value, function(data) {
+	  $('.result').html(data);
+	});
+}
+for (var i = 0; i < skillset_midyear.length; i++) {
+	if(document.getElementById("use_m_n_" + skillset_midyear[i])) 
+	{ 
+		document.getElementById('use_m_n_' + skillset_midyear[i]).style.display = 'none';
+		document.getElementById('use_m_e_' + skillset_midyear[i]).className = 'new_select_end';
+	}
+}
+for (var i = 0; i < skillset_annual.length; i++) {
+	if(document.getElementById("use_a_n_" + skillset_annual[i])) 
+	{ 
+		document.getElementById('use_a_n_' + skillset_annual[i]).style.display = 'none';
+		document.getElementById('use_a_e_' + skillset_midyear[i]).className = 'new_select_end';
+	}
+}
+</script>
+{% endblock %}
+</html>

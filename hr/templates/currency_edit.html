@@ -1,0 +1,26 @@
+{% extends "templates/shell.html" %}
+{% block content %}
+<div class="navbar subnav white">
+	<ul class="nav subnav_area">
+		<li class="headline">Edit {{currency.name}}</li>
+	</ul>
+</div>
+<div class="container"><div class="row-fluid"><div class="maintable">
+<form method="post" action="{{request.application_url}}/currency/{{currency.id}}/edit">
+<table class="table">
+<tbody>
+	<tr>
+		<td>Name:</td>
+		<td><input type="text" name="name" value="{{currency.name}}"></td>
+	</tr>
+	<tr>
+		<td>Currency to USD:</td>
+		<td><input type="text" name="currency_to_usd" value="{{'%0.2f'| format(currency.currency_to_usd|float)}}"></td>
+	</tr>
+</tbody>
+</table>
+<input type="submit">
+</div></div></div>
+
+{% endblock %}
+</html>

@@ -1,0 +1,200 @@
+{% extends "templates/shell.html" %}
+{% block content %}
+<div class="navbar subnav white">
+	<ul class="nav subnav_area">
+		<li class="headline">Add Person</li>
+	</ul>
+</div>
+<div class="container"><div class="row-fluid"><div class="maintable">
+<form method="post" action="{{request.application_url}}/person/add">
+	<input type="hidden" name="source" value="{{source}}">
+<table class="table">
+<tbody>
+	<tr>
+		<td>Name:</td>
+		<td><input type="text" name="name" value=""></td>
+	</tr>
+	<tr>
+		<td>Employee ID:</td>
+		<td><input type="text" name="employee_number" value=""></td>
+	</tr>
+	<tr>
+		<td>Email:</td>
+		<td><input type="text" name="email" value=""></td>
+	</tr>	
+	<tr>
+		<td>Annual Salary ({% if user.currency %}{{user.currency.name|upper}}{% else %}USD{% endif %}):</td>
+		<td><input type="text" name="salary" value=""></td>
+	</tr>
+	<tr>
+		<td>Office:</td>
+		<td>
+			<select name="office_id">
+				<option value="">Select</option>
+				{% for office in offices %}
+				{% if office.is_active %}
+				<option value="{{office.id}}">{{office.name|title}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Role:</td>
+		<td>
+			<select name="role_id">
+				<option value="">Select</option>
+				{% for role in roles %}
+				{% if role.is_active %}
+				<option value="{{role.id}}">{{role.name|title}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Percent Billable (%):</td>
+		<td><input type="text" name="percent_billable" value="">%</td>
+	</tr>
+	<tr>
+		<td>Start Date (mm/dd/yyyy):</td>
+		<td><input type="text" name="start_date" value=""></td>
+	</tr>
+	<tr>
+		<td>End Date (mm/dd/yyyy):</td>
+		<td><input type="text" name="end_date" value=""></td>
+	</tr>
+	<tr>
+		<td>Administration:</td>
+		<td>
+			<input type="checkbox" name="is_administrator" value="1"> Overall Administrator</br>
+			<input type="checkbox" name="is_hr_administrator" value="1"> HR Administrator</br>
+		</td>
+	</tr>
+	<tr>
+		<td>Currency:</td>
+		<td>
+			<select name="currency_id">
+				<option value="">USD</option>
+				{% for currency in currencies %}
+				<option value="{{currency.id}}">{{currency.name|upper}}</option>
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Office Finances Permissions:</td>
+		<td>
+			<select multiple name="permissions_office_financials">
+				<option value="" selected>None</option>
+				<option value="all">All</option>
+				{% for office in offices %}
+				{% if office.is_active %}
+				<option value="{{office.id}}">{{office.name|title}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Office Pipeline Permissions:</td>
+		<td>
+			<select multiple name="permissions_office_pipeline">
+				<option value="" selected>None</option>
+				<option value="all">All</option>
+				{% for office in offices %}
+				{% if office.is_active %}
+				<option value="{{office.id}}">{{office.name|title}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Office Utilization Permissions:</td>
+		<td>
+			<select multiple name="permissions_office_utilization">
+				<option value="" selected>None</option>
+				<option value="all">All</option>
+				{% for office in offices %}
+				{% if office.is_active %}
+				<option value="{{office.id}}">{{office.name|title}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Client Finances Permissions:</td>
+		<td>
+			<select multiple name="permissions_client_financials">
+				<option value="" selected>None</option>
+				{% for client in clients %}
+				{% if client.is_active %}
+				<option value="{{client.id}}">{{client.name|title}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+			<br>
+			Note: if a user has global permissions or office-level permissions they can see all clients globally/in that office.
+		</td>
+	</tr>
+	<tr>
+		<td>Client Pipeline Permissions:</td>
+		<td>
+			<select multiple name="permissions_client_pipeline">
+				<option value="" selected>None</option>
+				{% for client in clients %}
+				{% if client.is_active %}
+				<option value="{{client.id}}">{{client.name|title}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Client Utilization Permissions:</td>
+		<td>
+			<select multiple name="permissions_client_utilization">
+				<option value="" selected>None</option>
+				{% for client in clients %}
+				{% if client.is_active %}
+				<option value="{{client.id}}">{{client.name|title}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Department Finances Permissions:</td>
+		<td>
+			<select multiple name="permissions_department_financials">
+				<option value="" selected>None</option>
+				{% for department in departments %}
+				{% if department.is_active %}
+				<option value="{{department.id}}">{{department.name|title}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Department Utilization Permissions:</td>
+		<td>
+			<select multiple name="permissions_department_utilization">
+				<option value="" selected>None</option>
+				{% for department in departments %}
+				{% if department.is_active %}
+				<option value="{{department.id}}">{{department.name|title}}</option>
+				{% endif %}
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+</tbody>
+</table>
+<input type="submit"> <input type="submit" name="add_another" value="Submit and Add Another">
+</div></div></div>
+
+{% endblock %}
+</html>

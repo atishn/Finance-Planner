@@ -1,0 +1,64 @@
+{% extends "templates/shell.html" %}
+{% block content %}
+<div class="navbar subnav white">
+	<ul class="nav subnav_area">
+		<li class="headline">Edit Opportunity</li>
+	</ul>
+</div>
+<div class="container"><div class="row-fluid"><div class="maintable">
+<form method="post" action="{{request.application_url}}/ghost/project/{{ghost_project.id}}/edit">
+<table class="table">
+<tbody>
+	<tr>
+		<td>Name:</td>
+		<td><input type="text" name="name" value="{{ghost_project.name}}"></td>
+	</tr>
+	{% if clients %}
+	<tr>
+		<td>Client:</td>
+		<td>
+			<select name="client_id">
+				<option value="">Select</option>
+				{% for client in clients %}
+				<option value="{{client.id}}" {% if ghost_project.client and ghost_project.client.id == client.id %}selected{% endif %}>{{client.name|title}}</option>
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	{% endif %}
+	{% if ghost_clients %}
+	<tr>
+		<td>Or, Prospect:</td>
+		<td>
+			<select name="ghost_client_id">
+				<option value="">Select</option>
+				{% for ghost_client in ghost_clients %}
+				<option value="{{ghost_client.id}}" {% if ghost_project.ghost_client and ghost_project.ghost_client.id == ghost_client.id %}selected{% endif %}>{{ghost_client.name|title}}</option>
+				{% endfor %}
+			</select>
+		</td>
+	</tr>
+	{% endif %}
+	<tr>
+		<td>Revenue ({% if user.currency %}{{user.currency|upper}}{% else %}USD{% endif %}):</td>
+		<td><input type="text" name="revenue" value="{{ghost_project.revenue}}"></td>
+	</tr>
+	<tr>
+		<td>Likelihood (%):</td>
+		<td><input type="text" name="likelihood" value="{{ghost_project.likelihood}}">%</td>
+	</tr>
+	<tr>
+		<td>Start Date (mm/dd/yyyy):</td>
+		<td><input type="text" name="start_date" value="{{ghost_project.start_date.strftime('%m/%d/%Y')}}"></td>
+	</tr>
+	<tr>
+		<td>End Date (mm/dd/yyyy):</td>
+		<td><input type="text" name="end_date" value="{{ghost_project.end_date.strftime('%m/%d/%Y')}}"></td>
+	</tr>
+</tbody>
+</table>
+<input type="submit">
+</div></div></div>
+
+{% endblock %}
+</html>
