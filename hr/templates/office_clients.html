@@ -1,55 +1,80 @@
 {% extends "templates/shell.html" %}
 {% block content %}
-<div class="navbar subnav white">
-	<ul class="nav subnav_area">
-		{% if access_financials %}
-		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/office/{{office.id}}/financials/{{year}}">FINANCIALS</a></li>
-		<li class="entity-nav-pull-left-cell-selected push-down"><a href="{{request.application_url}}/office/{{office.id}}/clients/{{year}}" class="entity-nav-selected">CLIENTS</a></li>
-		{% endif %}
-		{% if access_utilization %}
-		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/office/{{office.id}}/utilization/{{year}}">UTILIZATION</a></li>
-		{% endif %}
-		{% if access_pipeline %}
-		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/office/{{office.id}}/pipeline/{{year}}">PIPELINE</a></li>
-		{% endif %}
-	</ul>
-	<ul class="nav pull-right subnav_area">
-		<li class="submenu-btn"><a class="submenu-btn-text" href='{{request.application_url}}/office/{{office.id}}/projects/update'>UPDATE ALL CLIENTS</a></li>
-		<li class="submenu-btn"><a class="submenu-btn-text" href='{{request.application_url}}/client/add'>ADD CLIENT</a></li>
-	</ul>
-</div>
-<div class="container-fluid"><div class="row-fluid"><div class="maintable">
-<table class="table">
-<thead>
-	<th>{{ office.name|title }} Clients ({% if user.currency %}{{user.currency|upper}}{% else %}USD{% endif %}):
-	<div class="btn-group">
-		<a id="year_button" class="year-text dropdown-toggle" data-toggle="dropdown" href="#">{{year}} <span class="year-carot caret"></span></a>
-		<ul class="dropdown-menu">
-			{% for y in account.years %}
-			<li><a href="{{request.application_url}}/global/utilization/{{y}}" tabindex="-1">{{y}}</a></li>
-			{% endfor %}
-		</ul>
-	</div>
-	</th>
-	<th colspan="2" class="center">Q1 (R/M)</th>
-	<th colspan="2" class="center">Q2 (R/M)</th>
-	<th colspan="2" class="center">Q3 (R/M)</th>
-	<th colspan="2" class="center">Q4 (R/M)</th>
-	<th colspan="2" class="center">Annual (R/M)</th>
-</thead>
-<tbody>
-{% for client_finances in financials.client_financials %}
-<tr>
-	<td><a href="{{request.application_url}}/client/{{client_finances.client.id}}/financials/{{year}}">{{client_finances.client.name|title}}</a></td>
-	<td class="align-right">{{"{:,.0f}".format(client_finances.revenue_total[0])}}</td><td class="align-right">{{"{:,.0f}".format(client_finances.margin[0])}}%</td>
-	<td class="align-right">{{"{:,.0f}".format(client_finances.revenue_total[1])}}</td><td class="align-right">{{"{:,.0f}".format(client_finances.margin[1])}}%</td>
-	<td class="align-right">{{"{:,.0f}".format(client_finances.revenue_total[2])}}</td><td class="align-right">{{"{:,.0f}".format(client_finances.margin[2])}}%</td>
-	<td class="align-right">{{"{:,.0f}".format(client_finances.revenue_total[3])}}</td><td class="align-right">{{"{:,.0f}".format(client_finances.margin[3])}}%</td>
-	<td class="align-right">{{"{:,.0f}".format(client_finances.revenue_total[4])}}</td><td class="align-right">{{"{:,.0f}".format(client_finances.margin[4])}}%</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
-</div></div></div>
+    <div class="navbar subnav white">
+        <ul class="nav subnav_area">
+            {% if access_financials %}
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/office/{{ office.id }}/financials/{{ year }}">FINANCIALS</a>
+                </li>
+                <li class="entity-nav-pull-left-cell-selected push-down"><a
+                        href="{{ request.application_url }}/office/{{ office.id }}/clients/{{ year }}"
+                        class="entity-nav-selected">CLIENTS</a></li>
+            {% endif %}
+            {% if access_utilization %}
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/office/{{ office.id }}/utilization/{{ year }}">UTILIZATION</a>
+                </li>
+            {% endif %}
+            {% if access_pipeline %}
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/office/{{ office.id }}/pipeline/{{ year }}">PIPELINE</a>
+                </li>
+            {% endif %}
+        </ul>
+        <ul class="nav pull-right subnav_area">
+            <li class="submenu-btn"><a class="submenu-btn-text"
+                                       href='{{ request.application_url }}/office/{{ office.id }}/projects/update'>UPDATE
+                ALL CLIENTS</a></li>
+            <li class="submenu-btn"><a class="submenu-btn-text" href='{{ request.application_url }}/client/add'>ADD
+                CLIENT</a></li>
+        </ul>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="maintable">
+                <table class="table">
+                    <thead>
+                    <th>{{ office.name|title }} Clients ({% if user.currency %}{{ user.currency|upper }}{% else %}
+                        USD{% endif %}):
+                        <div class="btn-group">
+                            <a id="year_button" class="year-text dropdown-toggle" data-toggle="dropdown"
+                               href="#">{{ year }} <span class="year-carot caret"></span></a>
+                            <ul class="dropdown-menu">
+                                {% for y in account.years %}
+                                    <li><a href="{{ request.application_url }}/global/utilization/{{ y }}"
+                                           tabindex="-1">{{ y }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </th>
+                    <th colspan="2" class="center">Q1 (R/M)</th>
+                    <th colspan="2" class="center">Q2 (R/M)</th>
+                    <th colspan="2" class="center">Q3 (R/M)</th>
+                    <th colspan="2" class="center">Q4 (R/M)</th>
+                    <th colspan="2" class="center">Annual (R/M)</th>
+                    </thead>
+                    <tbody>
+                    {% for client_finances in financials.client_financials %}
+                        <tr>
+                            <td>
+                                <a href="{{ request.application_url }}/client/{{ client_finances.client.id }}/financials/{{ year }}">{{ client_finances.client.name|title }}</a>
+                            </td>
+                            <td class="align-right">{{ "{:,.0f}".format(client_finances.revenue_total[0])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(client_finances.margin[0])}}%</td>
+                            <td class="align-right">{{ "{:,.0f}".format(client_finances.revenue_total[1])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(client_finances.margin[1])}}%</td>
+                            <td class="align-right">{{ "{:,.0f}".format(client_finances.revenue_total[2])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(client_finances.margin[2])}}%</td>
+                            <td class="align-right">{{ "{:,.0f}".format(client_finances.revenue_total[3])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(client_finances.margin[3])}}%</td>
+                            <td class="align-right">{{ "{:,.0f}".format(client_finances.revenue_total[4])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(client_finances.margin[4])}}%</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 </html>

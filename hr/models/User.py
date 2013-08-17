@@ -193,7 +193,7 @@ class User(Base):
 
     def _loaded_non_billable_salary_per_day(self):
         return ((self.salary + (self.salary * self.account.benefits_and_bonus / 100)) * (
-        1 - self.percent_billable / 100)) / 365
+            1 - self.percent_billable / 100)) / 365
 
     loaded_non_billable_salary_per_day = property(_loaded_non_billable_salary_per_day)
 

@@ -1,63 +1,69 @@
 {% extends "templates/shell.html" %}
 {% block content %}
-<div class="navbar subnav white">
-	<ul class="nav subnav_area">
-		<li class="headline">Assign Open Req To Client</li>
-	</ul>
-</div>
-<div class="container"><div class="row-fluid"><div class="maintable">
-<form method="post" action="{{request.application_url}}/client/assign/ghost">
-<table class="table">
-<tbody>
-	<tr>
-		<td>Open Req:</td>
-		<td>
-			<select name="ghost_user_id">
-				<option value="">Select</option>
-				{% for ghost_user in ghost_users %}
-				<option value="{{ghost_user.id}}">{{ghost_user.role.name|title}} / {{ghost_user.office.name|title}}</option>
-				{% endfor %}
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td>Client:</td>
-		<td>
-			<select name="client_id">
-				<option value="">Select</option>
-				{% for client in clients %}
-				<option value="{{client.id}}">{{client.name|title}}</option>
-				{% endfor %}
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td>Or, Prospect:</td>
-		<td>
-			<select name="ghost_client_id">
-				<option value="">Select</option>
-				{% for ghost_client in ghost_clients %}
-				<option value="{{ghost_client.id}}">{{ghost_client.name|title}}</option>
-				{% endfor %}
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td>Utilization (%):</td>
-		<td><input type="text" name="utilization" value="">%</td>
-	</tr>
-	<tr>
-		<td>Start Date (mm/dd/yyyy):</td>
-		<td><input type="text" name="start_date" value=""></td>
-	</tr>
-	<tr>
-		<td>End Date (mm/dd/yyyy):</td>
-		<td><input type="text" name="end_date" value=""></td>
-	</tr>
-</tbody>
-</table>
-<input type="submit">
-</div></div></div>
+    <div class="navbar subnav white">
+        <ul class="nav subnav_area">
+            <li class="headline">Assign Open Req To Client</li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="row-fluid">
+            <div class="maintable">
+                <form method="post" action="{{ request.application_url }}/client/assign/ghost">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>Open Req:</td>
+                            <td>
+                                <select name="ghost_user_id">
+                                    <option value="">Select</option>
+                                    {% for ghost_user in ghost_users %}
+                                        <option value="{{ ghost_user.id }}">{{ ghost_user.role.name|title }}
+                                            / {{ ghost_user.office.name|title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Client:</td>
+                            <td>
+                                <select name="client_id">
+                                    <option value="">Select</option>
+                                    {% for client in clients %}
+                                        <option value="{{ client.id }}">{{ client.name|title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Or, Prospect:</td>
+                            <td>
+                                <select name="ghost_client_id">
+                                    <option value="">Select</option>
+                                    {% for ghost_client in ghost_clients %}
+                                        <option value="{{ ghost_client.id }}">{{ ghost_client.name|title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Utilization (%):</td>
+                            <td><input type="text" name="utilization" value="">%</td>
+                        </tr>
+                        <tr>
+                            <td>Start Date (mm/dd/yyyy):</td>
+                            <td><input type="text" name="start_date" value=""></td>
+                        </tr>
+                        <tr>
+                            <td>End Date (mm/dd/yyyy):</td>
+                            <td><input type="text" name="end_date" value=""></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <input type="submit">
+                </form>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 </html>

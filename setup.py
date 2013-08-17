@@ -16,20 +16,21 @@ requires = [
     'waitress',
     'pyramid_jinja2',
     'bcrypt',
-	'nameparser',
+    'nameparser',
+    'py-bcrypt',
     'oursql'
-    ]
+]
 
 setup(name='hr',
       version='0.0',
       description='hr',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
-        "Programming Language :: Python",
-        "Framework :: Pyramid",
-        "Topic :: Internet :: WWW/HTTP",
-        "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
-        ],
+          "Programming Language :: Python",
+          "Framework :: Pyramid",
+          "Topic :: Internet :: WWW/HTTP",
+          "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+      ],
       author='',
       author_email='',
       url='',
@@ -45,4 +46,4 @@ setup(name='hr',
       [console_scripts]
       initialize_hr_db = hr.scripts.initializedb:main
       """,
-      )
+)

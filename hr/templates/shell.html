@@ -1,64 +1,79 @@
 <html>
 <head>
-	<script src="{{request.application_url}}/static/lib/js/jquery.min.js"></script>
-	<script src="{{request.application_url}}/static/lib/js/jquery.handsontable.full.js"></script>
-	<script src="{{request.application_url}}/static/lib/js/bootstrap-transition.js"></script>
-	<script src="{{request.application_url}}/static/lib/js/bootstrap-dropdown.js"></script>
-	<script src="{{request.application_url}}/static/lib/js/bootstrap-tab.js"></script>
-	<script src="{{request.application_url}}/static/lib/js/bootstrap-collapse.js"></script>
-	<script src="{{request.application_url}}/static/lib/js/bootstrap-scroll-modal.js"></script>
-	<script src="{{request.application_url}}/static/lib/js/jquery-autogrow-textarea.js"></script>
-	<link rel="stylesheet" media="screen" href="{{request.application_url}}/static/lib/css/bootstrap.mod.css">
-	<link rel="stylesheet" media="screen" href="{{request.application_url}}/static/lib/css/bootstrap-responsive.min.css">
-	<link rel="stylesheet" media="screen" href="{{request.application_url}}/static/lib/css/jquery.handsontable.full.css">
-	<link rel="stylesheet" media="screen" href="{{request.application_url}}/static/lib/css/bootstrap-scroll-modal.css"> 
-	<link rel="stylesheet" href="{{request.application_url}}/static/lib/css/font-awesome.min.css">
-	<link rel="stylesheet" media="screen" href="{{request.application_url}}/static/css/main.css">
+    <script src="{{ request.application_url }}/static/lib/js/jquery.min.js"></script>
+    <script src="{{ request.application_url }}/static/lib/js/jquery.handsontable.full.js"></script>
+    <script src="{{ request.application_url }}/static/lib/js/bootstrap-transition.js"></script>
+    <script src="{{ request.application_url }}/static/lib/js/bootstrap-dropdown.js"></script>
+    <script src="{{ request.application_url }}/static/lib/js/bootstrap-tab.js"></script>
+    <script src="{{ request.application_url }}/static/lib/js/bootstrap-collapse.js"></script>
+    <script src="{{ request.application_url }}/static/lib/js/bootstrap-scroll-modal.js"></script>
+    <script src="{{ request.application_url }}/static/lib/js/jquery-autogrow-textarea.js"></script>
+    <link rel="stylesheet" media="screen" href="{{ request.application_url }}/static/lib/css/bootstrap.mod.css">
+    <link rel="stylesheet" media="screen"
+          href="{{ request.application_url }}/static/lib/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" media="screen"
+          href="{{ request.application_url }}/static/lib/css/jquery.handsontable.full.css">
+    <link rel="stylesheet" media="screen"
+          href="{{ request.application_url }}/static/lib/css/bootstrap-scroll-modal.css">
+    <link rel="stylesheet" href="{{ request.application_url }}/static/lib/css/font-awesome.min.css">
+    <link rel="stylesheet" media="screen" href="{{ request.application_url }}/static/css/main.css">
 
 </head>
 <body>
-	<div class="navbar navbar-inverse navbar-fixed-top">
-	  <ul class="nav navmain">
-		<!--<li class="navbar-pull-left-cell {{active_people}}"><a href="{{request.application_url}}/people/all/all/direct" class="{{header.reviews}}">REVIEWS</a></li>-->
-		<li class="navbar-pull-left-cell {{active_roles}}"><a href="{{request.application_url}}/global/financials/{{header.year}}" class="{{header.financials}}">FINANCIALS</a></li>
-	  </ul>
-	  <ul class="nav pull-right border-left">
-		<li class="navbar-pull-right-cell dropdown submenu-menu">
-			<a class="dropdown-toggle submenu-menu-link" data-toggle="dropdown" href="#"><i class="icon-cog icon-large"></i></a>
-			<ul class="dropdown-menu">
-				{% if user.is_administrator %}
-				<li>
-					<a href="{{request.application_url}}/administration/company">Company Administration</a>
-				</li>
-				<li>
-					<a href="{{request.application_url}}/administration/revenue">Recognize Revenue</a>
-				</li>
-				<li>
-					<a href="{{request.application_url}}/administration/expenses/offices">Book Office Expenses</a>
-				</li>
-				<li>
-					<a href="{{request.application_url}}/administration/expenses/clients">Book Client Expenses</a>
-				</li>
-				{% endif %}
-				{% if user.is_administrator or user.is_hr_administrator %}
-				<li>
-					<a href="{{request.application_url}}/administration/employees">Employee Administration</a>
-				</li>
-				{% endif %}
-				<li>
-					<a href="{{request.application_url}}/administration/password">Change Password</a>
-				</li>
-				<li>
-					<a href="{{request.application_url}}/logout">Logout</a>
-				</li>
-			</ul>
-		</li>
-	  </ul>
-	</div>
-	{% block content %}{% endblock %}
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <ul class="nav navmain">
+        <!--<li class="navbar-pull-left-cell {{active_people}}"><a href="{{request.application_url}}/people/all/all/direct" class="{{header.reviews}}">REVIEWS</a></li>-->
+        <li class="navbar-pull-left-cell {{ active_roles }}"><a
+                href="{{ request.application_url }}/global/financials/{{ header.year }}"
+                class="{{ header.financials }}">FINANCIALS</a></li>
+    </ul>
+    <ul class="nav pull-right border-left">
+        <li class="navbar-pull-right-cell dropdown submenu-menu">
+            <a class="dropdown-toggle submenu-menu-link" data-toggle="dropdown" href="#"><i
+                    class="icon-cog icon-large"></i></a>
+            <ul class="dropdown-menu">
+                {% if user.is_administrator %}
+                    <li>
+                        <a href="{{ request.application_url }}/administration/company">Company Administration</a>
+                    </li>
+                    <li>
+                        <a href="{{ request.application_url }}/administration/revenue">Recognize Revenue</a>
+                    </li>
+                    <li>
+                        <a href="{{ request.application_url }}/administration/expenses/offices">Book Office Expenses</a>
+                    </li>
+                    <li>
+                        <a href="{{ request.application_url }}/administration/expenses/clients">Book Client Expenses</a>
+                    </li>
+                {% endif %}
+                {% if user.is_administrator or user.is_hr_administrator %}
+                    <li>
+                        <a href="{{ request.application_url }}/administration/employees">Employee Administration</a>
+                    </li>
+                {% endif %}
+                <li>
+                    <a href="{{ request.application_url }}/administration/password">Change Password</a>
+                </li>
+                <li>
+                    <a href="{{ request.application_url }}/logout">Logout</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+{% block content %}{% endblock %}
 </body>
 <script>
-$(function(){$("#year_button").mouseout(function(){$(this).css("color","rgb(51, 51, 51)"); $(this).css("outline","none"); }); });
-$(function(){$("#year_button").click(function(){$(this).css("box-shadow","none")}); });
+    $(function () {
+        $("#year_button").mouseout(function () {
+            $(this).css("color", "rgb(51, 51, 51)");
+            $(this).css("outline", "none");
+        });
+    });
+    $(function () {
+        $("#year_button").click(function () {
+            $(this).css("box-shadow", "none")
+        });
+    });
 </script>
 </html>

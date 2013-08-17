@@ -2,10 +2,10 @@
 Welcome to Huge Plans: Alpha Edition<br/>
 (Needs QA and there is poor error handling, but otherwise...)<br/>
 Login:
-<form action="{{request.application_url}}/login" method="post">
-  <input type="hidden" name="came_from" value="{{came_from}}"/>
-  <input type="text" name="email" value="{{email}}"/><br/>
-  <input type="password" name="password" value=""/><br/>
-  <input type="submit" name="form.submitted" value="Log In"/>
+<form action="{{ request.application_url }}/login" method="post">
+    <input type="hidden" name="came_from" value="{{ came_from }}"/>
+    <input type="text" name="email" value="{{ email }}"/><br/>
+    <input type="password" name="password" value=""/><br/>
+    <input type="submit" name="form.submitted" value="Log In"/>
 </form>
 </html>

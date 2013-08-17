@@ -1,56 +1,77 @@
 {% extends "templates/shell.html" %}
 {% block content %}
-<div class="navbar subnav white">
-	<ul class="nav subnav_area">
-		{% if access_financials %}
-		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/client/{{client.id}}/financials/{{year}}">FINANCIALS</a></li>
-		<li class="entity-nav-pull-left-cell-selected push-down"><a href="{{request.application_url}}/client/{{client.id}}/projects/{{year}}" class="entity-nav-selected">PROJECTS</a></li>
-		{% endif %}
-		{% if access_utilization %}
-		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/client/{{client.id}}/utilization/{{year}}">UTILIZATION</a></li>
-		{% endif %}
-		{% if access_pipeline %}
-		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/client/{{client.id}}/pipeline/{{year}}">PIPELINE</a></li>
-		{% endif %}
-	</ul>
-	<ul class="nav pull-right subnav_area">
-		<li class="submenu-btn"><a class="submenu-btn-text" href='{{request.application_url}}/client/{{client.id}}/projects/update'>UPDATE ALL PROJECTS</a></li>
-		<li class="submenu-btn"><a class="submenu-btn-text" href='{{request.application_url}}/project/add'>ADD PROJECT</a></li>
-	</ul>
-</div>
-<div class="container-fluid"><div class="row-fluid"><div class="maintable">
-<table class="table">
-<thead>
-	<th>{{client.name|title}} Projects ({% if user.currency %}{{user.currency|upper}}{% else %}USD{% endif %}):
-			<div class="btn-group">
-				<a id="year_button" class="year-text dropdown-toggle" data-toggle="dropdown" href="#">{{year}} <span class="year-carot caret"></span></a>
-				<ul class="dropdown-menu">
-					{% for y in account.years %}
-					<li><a href="{{request.application_url}}/client/{{client.id}}/projects/{{y}}" tabindex="-1">{{y}}</li>
-					{% endfor %}
-				</ul>
-			</div>
-	</th>
-	<th class="center">Q1</th>
-	<th class="center">Q2</th>
-	<th class="center">Q3</th>
-	<th class="center">Q4</th>
-	<th class="center">Annual</th>
-</thead>
-<tbody>
-{% for project_revenue in financials.project_revenues %}
-<tr>
-	<td><a href="{{request.application_url}}/project/{{project_revenue.project.id}}/edit">{{project_revenue.project.name|title}}</a> [<a href="{{request.application_url}}/project/{{project_revenue.project.id}}/delete">Delete</a>]</td>
-	<td class="align-right">{{"{:,.0f}".format(project_revenue.Q1)}}</td>
-	<td class="align-right">{{"{:,.0f}".format(project_revenue.Q2)}}</td>
-	<td class="align-right">{{"{:,.0f}".format(project_revenue.Q3)}}</td>
-	<td class="align-right">{{"{:,.0f}".format(project_revenue.Q4)}}</td>
-	<td class="align-right">{{"{:,.0f}".format(project_revenue.annual_revenue)}}</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
-</div></div></div>
+    <div class="navbar subnav white">
+        <ul class="nav subnav_area">
+            {% if access_financials %}
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/client/{{ client.id }}/financials/{{ year }}">FINANCIALS</a>
+                </li>
+                <li class="entity-nav-pull-left-cell-selected push-down"><a
+                        href="{{ request.application_url }}/client/{{ client.id }}/projects/{{ year }}"
+                        class="entity-nav-selected">PROJECTS</a></li>
+            {% endif %}
+            {% if access_utilization %}
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/client/{{ client.id }}/utilization/{{ year }}">UTILIZATION</a>
+                </li>
+            {% endif %}
+            {% if access_pipeline %}
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/client/{{ client.id }}/pipeline/{{ year }}">PIPELINE</a>
+                </li>
+            {% endif %}
+        </ul>
+        <ul class="nav pull-right subnav_area">
+            <li class="submenu-btn"><a class="submenu-btn-text"
+                                       href='{{ request.application_url }}/client/{{ client.id }}/projects/update'>UPDATE
+                ALL PROJECTS</a></li>
+            <li class="submenu-btn"><a class="submenu-btn-text" href='{{ request.application_url }}/project/add'>ADD
+                PROJECT</a></li>
+        </ul>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="maintable">
+                <table class="table">
+                    <thead>
+                    <th>{{ client.name|title }} Projects ({% if user.currency %}{{ user.currency|upper }}{% else %}
+                        USD{% endif %}):
+                        <div class="btn-group">
+                            <a id="year_button" class="year-text dropdown-toggle" data-toggle="dropdown"
+                               href="#">{{ year }} <span class="year-carot caret"></span></a>
+                            <ul class="dropdown-menu">
+                                {% for y in account.years %}
+                                    <li><a href="{{ request.application_url }}/client/{{ client.id }}/projects/{{ y }}"
+                                           tabindex="-1">{{ y }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </th>
+                    <th class="center">Q1</th>
+                    <th class="center">Q2</th>
+                    <th class="center">Q3</th>
+                    <th class="center">Q4</th>
+                    <th class="center">Annual</th>
+                    </thead>
+                    <tbody>
+                    {% for project_revenue in financials.project_revenues %}
+                        <tr>
+                            <td>
+                                <a href="{{ request.application_url }}/project/{{ project_revenue.project.id }}/edit">{{ project_revenue.project.name|title }}</a>
+                                [<a href="{{ request.application_url }}/project/{{ project_revenue.project.id }}/delete">Delete</a>]
+                            </td>
+                            <td class="align-right">{{ "{:,.0f}".format(project_revenue.Q1)}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(project_revenue.Q2)}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(project_revenue.Q3)}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(project_revenue.Q4)}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(project_revenue.annual_revenue)}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 </html>

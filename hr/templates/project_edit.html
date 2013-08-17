@@ -1,57 +1,67 @@
 {% extends "templates/shell.html" %}
 {% block content %}
-<div class="navbar subnav white">
-	<ul class="nav subnav_area">
-		<li class="headline">Edit Project</li>
-	</ul>
-</div>
-<div class="container"><div class="row-fluid"><div class="maintable">
-<form method="post" action="{{request.application_url}}/project/{{project.id}}/edit">
-<table class="table">
-<tbody>
-	<tr>
-		<td>Name:</td>
-		<td><input type="text" name="name" value="{{project.name}}"></td>
-	</tr>
-	<tr>
-		<td>Client:</td>
-		<td>
-			<select name="client_id">
-				<option value="">Select</option>
-				{% for client in clients %}
-				<option value="{{client.id}}" {% if project.client.id == client.id %}selected{% endif %}>{{client.name|title}}</option>
-				{% endfor %}
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td>Revenue ({% if user.currency %}{{user.currency|upper}}{% else %}USD{% endif %}):</td>
-		<td><input type="text" name="revenue" value="{% if user.currency %}{{project.revenue * user.currency.usd_to_currency }}{% else %}{{project.revenue}}{% endif %}"></td>
-	</tr>
-	<tr>
-		<td>Start Date (mm/dd/yyyy):</td>
-		<td><input type="text" name="start_date" value="{{project.start_date.strftime('%m/%d/%Y')}}"></td>
-	</tr>
-	<tr>
-		<td>End Date (mm/dd/yyyy):</td>
-		<td><input type="text" name="end_date" value="{{project.end_date.strftime('%m/%d/%Y')}}"></td>
-	</tr>
-	<tr>
-		<td>Budget Allocations (%):</br>TODO: put in current actual allocations</td>
-		<td>
-			{% for department in account.departments %}
-				{% if department.is_active %}
-					{{department.name|title}}: 
-					<input class="input-small" type="text" name="{{department.id}}-allocation" value="">%
-					<br/>
-				{% endif %}
-			{% endfor %}
-		</td>
-	</tr>
-</tbody>
-</table>
-<input type="submit">
-</div></div></div>
+    <div class="navbar subnav white">
+        <ul class="nav subnav_area">
+            <li class="headline">Edit Project</li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="row-fluid">
+            <div class="maintable">
+                <form method="post" action="{{ request.application_url }}/project/{{ project.id }}/edit">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>Name:</td>
+                            <td><input type="text" name="name" value="{{ project.name }}"></td>
+                        </tr>
+                        <tr>
+                            <td>Client:</td>
+                            <td>
+                                <select name="client_id">
+                                    <option value="">Select</option>
+                                    {% for client in clients %}
+                                        <option value="{{ client.id }}"
+                                                {% if project.client.id == client.id %}selected{% endif %}>{{ client.name|title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Revenue ({% if user.currency %}{{ user.currency|upper }}{% else %}USD{% endif %}):</td>
+                            <td><input type="text" name="revenue" value="
+                                    {% if user.currency %}{{ project.revenue * user.currency.usd_to_currency }}{% else %}{{ project.revenue }}{% endif %}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Start Date (mm/dd/yyyy):</td>
+                            <td><input type="text" name="start_date"
+                                       value="{{ project.start_date.strftime('%m/%d/%Y')}}"></td>
+                        </tr>
+                        <tr>
+                            <td>End Date (mm/dd/yyyy):</td>
+                            <td><input type="text" name="end_date" value="{{ project.end_date.strftime('%m/%d/%Y')}}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Budget Allocations (%):</br>TODO: put in current actual allocations</td>
+                            <td>
+                                {% for department in account.departments %}
+                                    {% if department.is_active %}
+                                        {{ department.name|title }}:
+                                        <input class="input-small" type="text" name="{{ department.id }}-allocation"
+                                               value="">%
+                                        <br/>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <input type="submit">
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 </html>

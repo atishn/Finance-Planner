@@ -1,33 +1,38 @@
 {% extends "templates/shell.html" %}
 {% block content %}
-<div class="navbar subnav white">
-	<ul class="nav subnav_area">
-		<li class="headline">Edit Client</li>
-	</ul>
-</div>
-<div class="container"><div class="row-fluid"><div class="maintable">
-<form method="post" action="{{request.application_url}}/client/{{client.id}}/edit">
-<table class="table">
-<tbody>
-	<tr>
-		<td>Name:</td>
-		<td><input type="text" name="name" value="{{client.name}}"></td>
-	</tr>
-	<tr>
-		<td>Office:</td>
-		<td>
-			<select name="office_id">
-				<option value="">Select</option>
-				{% for office in offices %}
-				<option value="{{office.id}}" {% if client.office.id == office.id %}selected{% endif %}>{{office.name|title}}</option>
-				{% endfor %}
-			</select>
-		</td>
-	</tr>
-</tbody>
-</table>
-<input type="submit" value="update">
-</div></div></div>
+    <div class="navbar subnav white">
+        <ul class="nav subnav_area">
+            <li class="headline">Edit Client</li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="row-fluid">
+            <div class="maintable">
+                <form method="post" action="{{ request.application_url }}/client/{{ client.id }}/edit">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>Name:</td>
+                            <td><input type="text" name="name" value="{{ client.name }}"></td>
+                        </tr>
+                        <tr>
+                            <td>Office:</td>
+                            <td>
+                                <select name="office_id">
+                                    <option value="">Select</option>
+                                    {% for office in offices %}
+                                        <option value="{{ office.id }}"
+                                                {% if client.office.id == office.id %}selected{% endif %}>{{ office.name|title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <input type="submit" value="update">
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 </html>

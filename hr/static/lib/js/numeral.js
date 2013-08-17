@@ -7,26 +7,26 @@
 (function () {
 
     /************************************
-        Constants
-    ************************************/
+     Constants
+     ************************************/
 
     var numeral,
         VERSION = '1.4.7',
-        // internal storage for language config files
+    // internal storage for language config files
         languages = {},
         currentLanguage = 'en',
         zeroFormat = null,
-        // check for nodeJS
+    // check for nodeJS
         hasModule = (typeof module !== 'undefined' && module.exports);
 
 
     /************************************
-        Constructors
-    ************************************/
+     Constructors
+     ************************************/
 
 
-    // Numeral prototype object
-    function Numeral (number) {
+        // Numeral prototype object
+    function Numeral(number) {
         this._n = number;
     }
 
@@ -36,7 +36,7 @@
      * Fixes binary rounding issues (eg. (0.615).toFixed(2) === '0.61') that present
      * problems for accounting- and finance-related software.
      */
-    function toFixed (value, precision, optionals) {
+    function toFixed(value, precision, optionals) {
         var power = Math.pow(10, precision),
             output;
 
@@ -52,11 +52,11 @@
     }
 
     /************************************
-        Formatting
-    ************************************/
+     Formatting
+     ************************************/
 
-    // determine what type of formatting we need to do
-    function formatNumeral (n, format) {
+        // determine what type of formatting we need to do
+    function formatNumeral(n, format) {
         var output;
 
         // figure out what kind of format we are dealing with
@@ -75,7 +75,7 @@
     }
 
     // revert to number
-    function unformatNumeral (n, string) {
+    function unformatNumeral(n, string) {
         if (string.indexOf(':') > -1) {
             n._n = unformatTime(string);
         } else {
@@ -84,7 +84,7 @@
             } else {
                 var stringOriginal = string;
                 if (languages[currentLanguage].delimiters.decimal !== '.') {
-                    string = string.replace(/\./g,'').replace(languages[currentLanguage].delimiters.decimal, '.');
+                    string = string.replace(/\./g, '').replace(languages[currentLanguage].delimiters.decimal, '.');
                 }
 
                 // see if abbreviations are there so that we can multiply to the correct number
@@ -115,7 +115,7 @@
         return n._n;
     }
 
-    function formatCurrency (n, format) {
+    function formatCurrency(n, format) {
         var prependSymbol = (format.indexOf('$') <= 1) ? true : false;
 
         // remove $ for the moment
@@ -157,7 +157,7 @@
         return output;
     }
 
-    function formatPercentage (n, format) {
+    function formatPercentage(n, format) {
         var space = '';
         // check for space before %
         if (format.indexOf(' %') > -1) {
@@ -169,7 +169,7 @@
 
         n._n = n._n * 100;
         var output = formatNumeral(n, format);
-        if (output.indexOf(')') > -1 ) {
+        if (output.indexOf(')') > -1) {
             output = output.split('');
             output.splice(-1, 0, space + '%');
             output = output.join('');
@@ -179,14 +179,14 @@
         return output;
     }
 
-    function formatTime (n, format) {
-        var hours = Math.floor(n._n/60/60),
-            minutes = Math.floor((n._n - (hours * 60 * 60))/60),
+    function formatTime(n, format) {
+        var hours = Math.floor(n._n / 60 / 60),
+            minutes = Math.floor((n._n - (hours * 60 * 60)) / 60),
             seconds = Math.round(n._n - (hours * 60 * 60) - (minutes * 60));
         return hours + ':' + ((minutes < 10) ? '0' + minutes : minutes) + ':' + ((seconds < 10) ? '0' + seconds : seconds);
     }
 
-    function unformatTime (string) {
+    function unformatTime(string) {
         var timeArray = string.split(':'),
             seconds = 0;
         // turn hours and minutes into seconds and add them all up
@@ -206,7 +206,7 @@
         return Number(seconds);
     }
 
-    function formatNumber (n, format) {
+    function formatNumber(n, format) {
         var negP = false,
             optDec = false,
             abbr = '',
@@ -269,7 +269,7 @@
 
                 for (var power = 0; power <= prefixes.length; power++) {
                     min = Math.pow(1024, power);
-                    max = Math.pow(1024, power+1);
+                    max = Math.pow(1024, power + 1);
 
                     if (n._n >= min && n._n < max) {
                         bytes = bytes + prefixes[power];
@@ -348,8 +348,8 @@
     }
 
     /************************************
-        Top Level Functions
-    ************************************/
+     Top Level Functions
+     ************************************/
 
     numeral = function (input) {
         if (numeral.isNumeral(input)) {
@@ -401,10 +401,10 @@
         },
         ordinal: function (number) {
             var b = number % 10;
-            return (~~ (number % 100 / 10) === 1) ? 'th' :
+            return (~~(number % 100 / 10) === 1) ? 'th' :
                 (b === 1) ? 'st' :
-                (b === 2) ? 'nd' :
-                (b === 3) ? 'rd' : 'th';
+                    (b === 2) ? 'nd' :
+                        (b === 3) ? 'rd' : 'th';
         },
         currency: {
             symbol: '$'
@@ -420,8 +420,8 @@
     };
 
     /************************************
-        Helpers
-    ************************************/
+     Helpers
+     ************************************/
 
     function loadLanguage(key, values) {
         languages[key] = values;
@@ -429,58 +429,58 @@
 
 
     /************************************
-        Numeral Prototype
-    ************************************/
+     Numeral Prototype
+     ************************************/
 
 
     numeral.fn = Numeral.prototype = {
 
-        clone : function () {
+        clone: function () {
             return numeral(this);
         },
 
-        format : function (inputString) {
+        format: function (inputString) {
             return formatNumeral(this, inputString ? inputString : numeral.defaultFormat);
         },
 
-        unformat : function (inputString) {
+        unformat: function (inputString) {
             return unformatNumeral(this, inputString ? inputString : numeral.defaultFormat);
         },
 
-        value : function () {
+        value: function () {
             return this._n;
         },
 
-        valueOf : function () {
+        valueOf: function () {
             return this._n;
         },
 
-        set : function (value) {
+        set: function (value) {
             this._n = Number(value);
             return this;
         },
 
-        add : function (value) {
+        add: function (value) {
             this._n = this._n + Number(value);
             return this;
         },
 
-        subtract : function (value) {
+        subtract: function (value) {
             this._n = this._n - Number(value);
             return this;
         },
 
-        multiply : function (value) {
+        multiply: function (value) {
             this._n = this._n * Number(value);
             return this;
         },
 
-        divide : function (value) {
+        divide: function (value) {
             this._n = this._n / Number(value);
             return this;
         },
 
-        difference : function (value) {
+        difference: function (value) {
             var difference = this._n - Number(value);
 
             if (difference < 0) {
@@ -493,8 +493,8 @@
     };
 
     /************************************
-        Exposing Numeral
-    ************************************/
+     Exposing Numeral
+     ************************************/
 
     // CommonJS module is defined
     if (hasModule) {

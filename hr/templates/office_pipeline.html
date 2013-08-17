@@ -1,72 +1,95 @@
 {% extends "templates/shell.html" %}
 {% block content %}
-<div class="navbar subnav white">
-	<ul class="nav subnav_area">
-		{% if access_financials %}
-		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/office/{{office.id}}/financials/{{year}}">FINANCIALS</a></li>
-		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/office/{{office.id}}/clients/{{year}}">CLIENTS</a></li>
-		{% endif %}
-		{% if access_utilization %}
-		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/office/{{office.id}}/utilization/{{year}}">UTILIZATION</a></li>
-		{% endif %}
-		{% if access_pipeline %}
-		<li class="entity-nav-pull-left-cell-selected push-down"><a href="{{request.application_url}}/office/{{office.id}}/pipeline/{{year}}" class="entity-nav-selected">PIPELINE</a></li>
-		{% endif %}
-	</ul>
-	<ul class="nav pull-right subnav_area">
-		<li class="submenu-btn"><a class="submenu-btn-text" href='{{request.application_url}}/ghost/client/add'>ADD OPPORTUNITY</a></li>
-	</ul>
-</div>
-<div class="container-fluid"><div class="row-fluid"><div class="maintable">
-<table class="table">
-<thead>
-	<th>{{office.name|title}} Pipeline ({% if user.currency %}{{user.currency|upper}}{% else %}USD{% endif %}):</th>
-	<th class="center">Q1</th>
-	<th class="center">Q2</th>
-	<th class="center">Q3</th>
-	<th class="center">Q4</th>
-	<th class="center">Total</th>
-	<th class="center">Likelihood</th>
-	<th class="center">Total Weighted</th>
-</thead>
-<tbody>
-{% for ghost_client_finances in financials.ghost_client_financials %}
-<tr>
-	<td><a href="{{request.application_url}}/ghost/client/{{ghost_client_finances.ghost_client.id}}/financials/{{year}}">{{ghost_client_finances.ghost_client.name|title}}</a> ({% if ghost_client_finances.ghost_client.is_tbg == True %}TBG{% else %}P{% endif %})</td>
-	<td class="align-right">{{"{:,.0f}".format(ghost_client_finances.revenue[0])}}</td>
-	<td class="align-right">{{"{:,.0f}".format(ghost_client_finances.revenue[1])}}</td>
-	<td class="align-right">{{"{:,.0f}".format(ghost_client_finances.revenue[2])}}</td>
-	<td class="align-right">{{"{:,.0f}".format(ghost_client_finances.revenue[3])}}</td>
-	<td class="align-right">{{"{:,.0f}".format(ghost_client_finances.revenue[4])}}</td>
-	<td class="align-right">{{ghost_client_finances.likelihood}}%</td>
-	<td class="align-right">{{"{:,.0f}".format(ghost_client_finances.weighted_revenue[4])}}</td>
-</tr>
-{% endfor %}
-{% for tbg_finances in financials.tbg_financials %}
-<tr>
-	<td><a href="{{request.application_url}}/ghost/client/{{tbg_finances.ghost_client.id}}/financials/{{year}}">{{tbg_finances.ghost_client.name|title}}</a> ({% if tbg_finances.ghost_client.is_tbg == True %}TBG{% else %}P{% endif %})</td>
-	<td class="align-right">{{"{:,.0f}".format(tbg_finances.revenue[0])}}</td>
-	<td class="align-right">{{"{:,.0f}".format(tbg_finances.revenue[1])}}</td>
-	<td class="align-right">{{"{:,.0f}".format(tbg_finances.revenue[2])}}</td>
-	<td class="align-right">{{"{:,.0f}".format(tbg_finances.revenue[3])}}</td>
-	<td class="align-right">{{"{:,.0f}".format(tbg_finances.revenue[4])}}</td>
-	<td class="align-right">{{tbg_finances.likelihood}}%</td>
-	<td class="align-right">{{"{:,.0f}".format(tbg_finances.weighted_revenue[4])}}</td>
-</tr>
-{% endfor %}
-<tr>
-	<td>Total</td>
-	<td class="align-right">{{"{:,.0f}".format(financials.revenue_prospects[0])}}</td>
-	<td class="align-right">{{"{:,.0f}".format(financials.revenue_prospects[1])}}</td>
-	<td class="align-right">{{"{:,.0f}".format(financials.revenue_prospects[2])}}</td>
-	<td class="align-right">{{"{:,.0f}".format(financials.revenue_prospects[3])}}</td>
-	<td class="align-right">{{"{:,.0f}".format(financials.revenue_prospects[4])}}</td>
-	<td class="align-right">{% if financials.likelihood %}{{financials.likelihood}}{% else %}0{% endif %}%</td>
-	<td class="align-right">{{"{:,.0f}".format(financials.revenue_prospects_weighted[4])}}</td>
-</tr>
-</tbody>
-</table>
-</div></div></div>
+    <div class="navbar subnav white">
+        <ul class="nav subnav_area">
+            {% if access_financials %}
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/office/{{ office.id }}/financials/{{ year }}">FINANCIALS</a>
+                </li>
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/office/{{ office.id }}/clients/{{ year }}">CLIENTS</a></li>
+            {% endif %}
+            {% if access_utilization %}
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/office/{{ office.id }}/utilization/{{ year }}">UTILIZATION</a>
+                </li>
+            {% endif %}
+            {% if access_pipeline %}
+                <li class="entity-nav-pull-left-cell-selected push-down"><a
+                        href="{{ request.application_url }}/office/{{ office.id }}/pipeline/{{ year }}"
+                        class="entity-nav-selected">PIPELINE</a></li>
+            {% endif %}
+        </ul>
+        <ul class="nav pull-right subnav_area">
+            <li class="submenu-btn"><a class="submenu-btn-text" href='{{ request.application_url }}/ghost/client/add'>ADD
+                OPPORTUNITY</a></li>
+        </ul>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="maintable">
+                <table class="table">
+                    <thead>
+                    <th>{{ office.name|title }} Pipeline ({% if user.currency %}{{ user.currency|upper }}{% else %}
+                        USD{% endif %}):
+                    </th>
+                    <th class="center">Q1</th>
+                    <th class="center">Q2</th>
+                    <th class="center">Q3</th>
+                    <th class="center">Q4</th>
+                    <th class="center">Total</th>
+                    <th class="center">Likelihood</th>
+                    <th class="center">Total Weighted</th>
+                    </thead>
+                    <tbody>
+                    {% for ghost_client_finances in financials.ghost_client_financials %}
+                        <tr>
+                            <td>
+                                <a href="{{ request.application_url }}/ghost/client/{{ ghost_client_finances.ghost_client.id }}/financials/{{ year }}">{{ ghost_client_finances.ghost_client.name|title }}</a>
+                                ({% if ghost_client_finances.ghost_client.is_tbg == True %}TBG{% else %}P{% endif %})
+                            </td>
+                            <td class="align-right">{{ "{:,.0f}".format(ghost_client_finances.revenue[0])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(ghost_client_finances.revenue[1])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(ghost_client_finances.revenue[2])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(ghost_client_finances.revenue[3])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(ghost_client_finances.revenue[4])}}</td>
+                            <td class="align-right">{{ ghost_client_finances.likelihood }}%</td>
+                            <td class="align-right">
+                                {{ "{:,.0f}".format(ghost_client_finances.weighted_revenue[4])}}</td>
+                        </tr>
+                    {% endfor %}
+                    {% for tbg_finances in financials.tbg_financials %}
+                        <tr>
+                            <td>
+                                <a href="{{ request.application_url }}/ghost/client/{{ tbg_finances.ghost_client.id }}/financials/{{ year }}">{{ tbg_finances.ghost_client.name|title }}</a>
+                                ({% if tbg_finances.ghost_client.is_tbg == True %}TBG{% else %}P{% endif %})
+                            </td>
+                            <td class="align-right">{{ "{:,.0f}".format(tbg_finances.revenue[0])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(tbg_finances.revenue[1])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(tbg_finances.revenue[2])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(tbg_finances.revenue[3])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(tbg_finances.revenue[4])}}</td>
+                            <td class="align-right">{{ tbg_finances.likelihood }}%</td>
+                            <td class="align-right">{{ "{:,.0f}".format(tbg_finances.weighted_revenue[4])}}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>Total</td>
+                        <td class="align-right">{{ "{:,.0f}".format(financials.revenue_prospects[0])}}</td>
+                        <td class="align-right">{{ "{:,.0f}".format(financials.revenue_prospects[1])}}</td>
+                        <td class="align-right">{{ "{:,.0f}".format(financials.revenue_prospects[2])}}</td>
+                        <td class="align-right">{{ "{:,.0f}".format(financials.revenue_prospects[3])}}</td>
+                        <td class="align-right">{{ "{:,.0f}".format(financials.revenue_prospects[4])}}</td>
+                        <td class="align-right">
+                            {% if financials.likelihood %}{{ financials.likelihood }}{% else %}0{% endif %}%
+                        </td>
+                        <td class="align-right">{{ "{:,.0f}".format(financials.revenue_prospects_weighted[4])}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 </html>

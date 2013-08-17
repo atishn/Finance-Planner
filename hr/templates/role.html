@@ -1,35 +1,36 @@
 {% extends "templates/shell.html" %}
 {% block content %}
-<div class="navbar subnav white">
-	<ul class="nav subnav_area">
-		<li class="headline">{{ role.name }}</li>
-	</ul>
-	<ul class="nav pull-right subnav_area">
-		{% if user.permissions.is_administrator or role.department.manager_id == user.id %}
-		<li class="submenu-btn"><a class="submenu-btn-text" href='#' data-toggle='modal' data-dynamic='true'>EDIT ROLE</a></li>
-		{% endif %}
-	</ul>
-</div>
-<div class="standard-background">
-<div class="container">
-	<div class="span12">
-		{% for skillset_category in role.department.skillset_categorys %}
-		<div class="subheadline">{{skillset_category.name}}</div>
-		<div>
-			<table class="table table-bordered whitebg">
-				<tbody>
-					{% for skillset in role.skillsets %}
-						{% if skillset.skillset_category_id == skillset_category.id %}
-						<tr>
-							<td class="review_table_cell">{{skillset.name}}</td>
-						</tr>
-						{% endif %}
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
-		{% endfor %}
-	</div>
-</div>
+    <div class="navbar subnav white">
+        <ul class="nav subnav_area">
+            <li class="headline">{{ role.name }}</li>
+        </ul>
+        <ul class="nav pull-right subnav_area">
+            {% if user.permissions.is_administrator or role.department.manager_id == user.id %}
+                <li class="submenu-btn"><a class="submenu-btn-text" href='#' data-toggle='modal' data-dynamic='true'>EDIT
+                    ROLE</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="standard-background">
+    <div class="container">
+        <div class="span12">
+            {% for skillset_category in role.department.skillset_categorys %}
+                <div class="subheadline">{{ skillset_category.name }}</div>
+                <div>
+                    <table class="table table-bordered whitebg">
+                        <tbody>
+                        {% for skillset in role.skillsets %}
+                            {% if skillset.skillset_category_id == skillset_category.id %}
+                                <tr>
+                                    <td class="review_table_cell">{{ skillset.name }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
 </html>

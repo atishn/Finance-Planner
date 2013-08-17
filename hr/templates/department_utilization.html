@@ -1,128 +1,208 @@
 {% extends "templates/shell.html" %}
 {% block content %}
-<div class="navbar subnav white">
-	<ul class="nav subnav_area">
-		{% if access_financials %}
-		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/department/{{department.id}}/financials/{{year}}">FINANCIALS</a></li>
-		{% endif %}
-		{% if access_utilization %}
-		<li class="entity-nav-pull-left-cell-selected push-down"><a href="{{request.application_url}}/department/{{department.id}}/utilization/{{year}}" class="entity-nav-selected">UTILIZATION</a></li>
-		{% endif %}
-		</ul>
-	<ul class="nav pull-right subnav_area">
-		<li class="submenu-btn"><a class="submenu-btn-text" href='{{request.application_url}}/freelancer/add'>ADD FREELANCER</a></li>
-		<li class="submenu-btn"><a class="submenu-btn-text" href='{{request.application_url}}/ghost/user/add'>ADD OPEN ROLE</a></li>
-	</ul>
-</div>
-<div class="container-fluid"><div class="row-fluid"><div class="maintable">
-<table class="table">
-<thead>
-	<th>{{department.name|title}} Utilization:
-		<div class="btn-group">
-			<a id="year_button" class="year-text dropdown-toggle" data-toggle="dropdown" href="#">{{year}} <span class="year-carot caret"></span></a>
-			<ul class="dropdown-menu">
-				{% for y in account.years %}
-				<li><a href="{{request.application_url}}/department/{{department.id}}/utilization/{{y}}" tabindex="-1">{{y}}</a></li>
-				{% endfor %}
-			</ul>
-		</div>
-	</th>
-	<th class="center">Jan</th>
-	<th class="center">Feb</th>
-	<th class="center">Mar</th>
-	<th class="center">Apr</th>
-	<th class="center">May</th>
-	<th class="center">Jun</th>
-	<th class="center">Jul</th>
-	<th class="center">Aug</th>
-	<th class="center">Sep</th>
-	<th class="center">Oct</th>
-	<th class="center">Nov</th>
-	<th class="center">Dec</th>
-</thead>
-<tbody>
-<tr><td colspan="13">Fulltime Staff</td></tr>
-{% for user_utilization in utilization.user_utilization %}
-<tr>
-	<td>{{user_utilization.role.name|title}}: <a href="{{request.application_url}}/person/{{user_utilization.id}}/assign/edit?source_type=office&source_id={{office.id}}">{{user_utilization.name|title}}</a></td>
-	{% for util in user_utilization.utilization %}
-	<td class="center">
-		{% for entry in util %}
-		{% if entry.percentage %}
-		{{"{:,.0f}".format(entry.percentage)}}% {% if entry.client %}<a href="{{request.application_url}}/client/{{entry.client.id}}/utilization/{{year}}">{{entry.client.name|title}}</a>{% else %}<a href="{{request.application_url}}/ghost/client/{{entry.ghost_client.id}}/utilization/{{year}}">{{entry.ghost_client.name|title}}</a> {% if entry.ghost_client.is_tbg == True %}(TBG){% else %}(P){% endif %}{% endif %}
-		{% if loop.last %}{% else %}, {% endif %}
-		{% endif %}
-		{% endfor %}
-	</td>
-	{% endfor %}
-</tr>
-{% endfor %}
-<tr><td colspan="13">Open Reqs</td></tr>
-{% for ghost_utilization in utilization.ghost_utilization %}
-<tr>
-	<td><a href="{{request.application_url}}/ghost/user/{{ghost_utilization.id}}/assign/edit?source_type=office&source_id={{office.id}}">{{ghost_utilization.role.name|title}}</a></td>
-	{% for util in ghost_utilization.utilization %}
-	<td class="center">
-		{% for entry in util %}
-		{{"{:,.0f}".format(entry.percentage)}}% {% if entry.client %}<a href="{{request.application_url}}/client/{{entry.client.id}}/utilization/{{year}}">{{entry.client.name|title}}</a>{% else %}<a href="{{request.application_url}}/ghost/client/{{entry.ghost_client.id}}/utilization/{{year}}">{{entry.ghost_client.name|title}}</a> {% if entry.ghost_client.is_tbg == True %}(TBG){% else %}(P){% endif %}{% endif %}
-		{% if loop.last %}{% else %}, {% endif %}
-		{% endfor %}
-	</td>
-	{% endfor %}
-</tr>
-{% endfor %}
-{% for ghost_user in utilization.ghosts_not_allocated %}
-<tr>
-	<td><a href="{{request.application_url}}/ghost/user/{{ghost_user.id}}/assign/add?source_type=office&source_id={{office.id}}">{{ghost_user.role.name|title}}</a></td>
-	<td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td>
-</tr>
-{% endfor %}
-<tr><td colspan="13">Freelancers</td></tr>
-{% for freelance_utilization in utilization.freelance_utilization %}
-<tr>
-	<td>{{freelance_utilization.role.name|title}}: <a href="{{request.application_url}}/freelancer/{{freelance_utilization.id}}/edit">{{freelance_utilization.name|title}}</a></td>
-	{% for util in freelance_utilization.utilization %}
-	<td class="center">
-		{% for entry in util %}
-		{{"{:,.0f}".format(entry.percentage)}}% {% if entry.client %}<a href="{{request.application_url}}/client/{{entry.client.id}}/utilization/{{year}}">{{entry.client.name|title}}</a>{% else %}NB{% endif %}
-		{% if loop.last %}{% else %}, {% endif %}
-		{% endfor %}
-	</td>
-	{% endfor %}
-</tr>
-{% endfor %}
-<tr><td colspan="13">Bench</td></tr>
-{% for u in utilization.bench %}
-<tr>
-	<td>{{u.role.name|title}}: <a href="{{request.application_url}}/person/{{u.id}}/assign/add">{{u.name|title}}</a></td>
-	{% if u.percent_billable == 100 %}
-	<td class="center">&nbsp;</td><td class="center">&nbsp;</td><td class="center">&nbsp;</td><td class="center">&nbsp;</td><td class="center">&nbsp;</td><td class="center">&nbsp;</td><td class="center">&nbsp;</td><td class="center">&nbsp;</td><td class="center">&nbsp;</td><td class="center">&nbsp;</td><td class="center">&nbsp;</td><td class="center">&nbsp;</td>
-	{% else %}
-	<td class="center"> ({{u.percent_billable}}% avail)</td>
-	<td class="center"> ({{u.percent_billable}}% avail)</td>
-	<td class="center"> ({{u.percent_billable}}% avail)</td>
-	<td class="center"> ({{u.percent_billable}}% avail)</td>
-	<td class="center"> ({{u.percent_billable}}% avail)</td>
-	<td class="center"> ({{u.percent_billable}}% avail)</td>
-	<td class="center"> ({{u.percent_billable}}% avail)</td>
-	<td class="center"> ({{u.percent_billable}}% avail)</td>
-	<td class="center"> ({{u.percent_billable}}% avail)</td>
-	<td class="center"> ({{u.percent_billable}}% avail)</td>
-	<td class="center"> ({{u.percent_billable}}% avail)</td>
-	<td class="center"> ({{u.percent_billable}}% avail)</td>
-	{% endif %}
-</tr>
-{% endfor %}
-<tr><td colspan="13">Non-Billable</td></tr>
-{% for u in utilization.non_billable %}
-<tr>
-	<td>{{u.role.name|title}}: {% if user.is_administrator %}<a href="{{request.application_url}}/person/{{u.id}}/edit">{{u.name|title}}</a>{% else %}{{u.name|title}}{% endif %}</td>
-	<td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td><td> &nbsp;</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
-</div></div></div>
+    <div class="navbar subnav white">
+        <ul class="nav subnav_area">
+            {% if access_financials %}
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/department/{{ department.id }}/financials/{{ year }}">FINANCIALS</a>
+                </li>
+            {% endif %}
+            {% if access_utilization %}
+                <li class="entity-nav-pull-left-cell-selected push-down"><a
+                        href="{{ request.application_url }}/department/{{ department.id }}/utilization/{{ year }}"
+                        class="entity-nav-selected">UTILIZATION</a></li>
+            {% endif %}
+        </ul>
+        <ul class="nav pull-right subnav_area">
+            <li class="submenu-btn"><a class="submenu-btn-text" href='{{ request.application_url }}/freelancer/add'>ADD
+                FREELANCER</a></li>
+            <li class="submenu-btn"><a class="submenu-btn-text" href='{{ request.application_url }}/ghost/user/add'>ADD
+                OPEN ROLE</a></li>
+        </ul>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="maintable">
+                <table class="table">
+                    <thead>
+                    <th>{{ department.name|title }} Utilization:
+                        <div class="btn-group">
+                            <a id="year_button" class="year-text dropdown-toggle" data-toggle="dropdown"
+                               href="#">{{ year }} <span class="year-carot caret"></span></a>
+                            <ul class="dropdown-menu">
+                                {% for y in account.years %}
+                                    <li>
+                                        <a href="{{ request.application_url }}/department/{{ department.id }}/utilization/{{ y }}"
+                                           tabindex="-1">{{ y }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </th>
+                    <th class="center">Jan</th>
+                    <th class="center">Feb</th>
+                    <th class="center">Mar</th>
+                    <th class="center">Apr</th>
+                    <th class="center">May</th>
+                    <th class="center">Jun</th>
+                    <th class="center">Jul</th>
+                    <th class="center">Aug</th>
+                    <th class="center">Sep</th>
+                    <th class="center">Oct</th>
+                    <th class="center">Nov</th>
+                    <th class="center">Dec</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td colspan="13">Fulltime Staff</td>
+                    </tr>
+                    {% for user_utilization in utilization.user_utilization %}
+                        <tr>
+                            <td>{{ user_utilization.role.name|title }}: <a
+                                    href="{{ request.application_url }}/person/{{ user_utilization.id }}/assign/edit?source_type=office&source_id={{ office.id }}">{{ user_utilization.name|title }}</a>
+                            </td>
+                            {% for util in user_utilization.utilization %}
+                                <td class="center">
+                                    {% for entry in util %}
+                                        {% if entry.percentage %}
+                                            {{ "{:,.0f}".format(entry.percentage)}}% {% if entry.client %}
+                                            <a href="{{ request.application_url }}/client/{{ entry.client.id }}/utilization/{{ year }}">{{ entry.client.name|title }}</a>
+                                        {% else %}
+                                            <a href="{{ request.application_url }}/ghost/client/{{ entry.ghost_client.id }}/utilization/{{ year }}">{{ entry.ghost_client.name|title }}</a>
+                                            {% if entry.ghost_client.is_tbg == True %}(TBG){% else %}(P)
+                                            {% endif %}{% endif %}
+                                            {% if loop.last %}{% else %}, {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="13">Open Reqs</td>
+                    </tr>
+                    {% for ghost_utilization in utilization.ghost_utilization %}
+                        <tr>
+                            <td>
+                                <a href="{{ request.application_url }}/ghost/user/{{ ghost_utilization.id }}/assign/edit?source_type=office&source_id={{ office.id }}">{{ ghost_utilization.role.name|title }}</a>
+                            </td>
+                            {% for util in ghost_utilization.utilization %}
+                                <td class="center">
+                                    {% for entry in util %}
+                                        {{ "{:,.0f}".format(entry.percentage)}}% {% if entry.client %}
+                                        <a href="{{ request.application_url }}/client/{{ entry.client.id }}/utilization/{{ year }}">{{ entry.client.name|title }}</a>
+                                    {% else %}
+                                        <a href="{{ request.application_url }}/ghost/client/{{ entry.ghost_client.id }}/utilization/{{ year }}">{{ entry.ghost_client.name|title }}</a>
+                                        {% if entry.ghost_client.is_tbg == True %}(TBG){% else %}(P)
+                                        {% endif %}{% endif %}
+                                        {% if loop.last %}{% else %}, {% endif %}
+                                    {% endfor %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    {% for ghost_user in utilization.ghosts_not_allocated %}
+                        <tr>
+                            <td>
+                                <a href="{{ request.application_url }}/ghost/user/{{ ghost_user.id }}/assign/add?source_type=office&source_id={{ office.id }}">{{ ghost_user.role.name|title }}</a>
+                            </td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="13">Freelancers</td>
+                    </tr>
+                    {% for freelance_utilization in utilization.freelance_utilization %}
+                        <tr>
+                            <td>{{ freelance_utilization.role.name|title }}: <a
+                                    href="{{ request.application_url }}/freelancer/{{ freelance_utilization.id }}/edit">{{ freelance_utilization.name|title }}</a>
+                            </td>
+                            {% for util in freelance_utilization.utilization %}
+                                <td class="center">
+                                    {% for entry in util %}
+                                        {{ "{:,.0f}".format(entry.percentage)}}% {% if entry.client %}
+                                        <a href="{{ request.application_url }}/client/{{ entry.client.id }}/utilization/{{ year }}">{{ entry.client.name|title }}</a>
+                                    {% else %}NB{% endif %}
+                                        {% if loop.last %}{% else %}, {% endif %}
+                                    {% endfor %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="13">Bench</td>
+                    </tr>
+                    {% for u in utilization.bench %}
+                        <tr>
+                            <td>{{ u.role.name|title }}: <a
+                                    href="{{ request.application_url }}/person/{{ u.id }}/assign/add">{{ u.name|title }}</a>
+                            </td>
+                            {% if u.percent_billable == 100 %}
+                                <td class="center">&nbsp;</td>
+                                <td class="center">&nbsp;</td>
+                                <td class="center">&nbsp;</td>
+                                <td class="center">&nbsp;</td>
+                                <td class="center">&nbsp;</td>
+                                <td class="center">&nbsp;</td>
+                                <td class="center">&nbsp;</td>
+                                <td class="center">&nbsp;</td>
+                                <td class="center">&nbsp;</td>
+                                <td class="center">&nbsp;</td>
+                                <td class="center">&nbsp;</td>
+                                <td class="center">&nbsp;</td>
+                            {% else %}
+                                <td class="center"> ({{ u.percent_billable }}% avail)</td>
+                                <td class="center"> ({{ u.percent_billable }}% avail)</td>
+                                <td class="center"> ({{ u.percent_billable }}% avail)</td>
+                                <td class="center"> ({{ u.percent_billable }}% avail)</td>
+                                <td class="center"> ({{ u.percent_billable }}% avail)</td>
+                                <td class="center"> ({{ u.percent_billable }}% avail)</td>
+                                <td class="center"> ({{ u.percent_billable }}% avail)</td>
+                                <td class="center"> ({{ u.percent_billable }}% avail)</td>
+                                <td class="center"> ({{ u.percent_billable }}% avail)</td>
+                                <td class="center"> ({{ u.percent_billable }}% avail)</td>
+                                <td class="center"> ({{ u.percent_billable }}% avail)</td>
+                                <td class="center"> ({{ u.percent_billable }}% avail)</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="13">Non-Billable</td>
+                    </tr>
+                    {% for u in utilization.non_billable %}
+                        <tr>
+                            <td>{{ u.role.name|title }}: {% if user.is_administrator %}
+                                <a href="{{ request.application_url }}/person/{{ u.id }}/edit">{{ u.name|title }}</a>{% else %}
+                                {{ u.name|title }}{% endif %}</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                            <td> &nbsp;</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 </html>

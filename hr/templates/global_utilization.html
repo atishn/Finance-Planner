@@ -1,68 +1,96 @@
 {% extends "templates/shell.html" %}
 {% block content %}
-<div class="navbar subnav white">
-	<ul class="nav subnav_area">
-		{% if user.is_administrator or user.permissions_global_financials %}
-		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/global/financials/{{year}}">FINANCIALS</a></li>
-		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/global/offices/{{year}}" >OFFICES</a></li>
-		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/global/departments/{{year}}" >DEPARTMENTS</a></li>
-		{% endif %}
-		{% if user.is_administrator or user.permissions_global_utilization %}
-		<li class="entity-nav-pull-left-cell-selected push-down"><a href="{{request.application_url}}/global/utilization/{{year}}" class="entity-nav-selected">OFFICE UTILIZATION</a></li>
-		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/global/utilization/department/{{year}}">DEPARTMENT UTILIZATION</a></li>
-		{% endif %}
-		{% if user.is_administrator %}
-		<li class="entity-nav-pull-left-cell push-down"><a href="{{request.application_url}}/global/expenses/{{year}}">EXPENSES</a></li>
-		{% endif %}
-	</ul>
-</div>
-<div class="container-fluid"><div class="row-fluid"><div class="maintable">
-<table class="table">
-<thead>
-	<th>Global Utilization By Office:
-		<div class="btn-group">
-			<a id="year_button" class="year-text dropdown-toggle" data-toggle="dropdown" href="#">{{year}} <span class="year-carot caret"></span></a>
-			<ul class="dropdown-menu">
-				{% for y in account.years %}
-				<li><a href="{{request.application_url}}/global/utilization/{{y}}" tabindex="-1">{{y}}</a></li>
-				{% endfor %}
-			</ul>
-		</div>
-	</th>
-	<th class="center">Jan</th>
-	<th class="center">Feb</th>
-	<th class="center">Mar</th>
-	<th class="center">Apr</th>
-	<th class="center">May</th>
-	<th class="center">Jun</th>
-	<th class="center">Jul</th>
-	<th class="center">Aug</th>
-	<th class="center">Sep</th>
-	<th class="center">Oct</th>
-	<th class="center">Nov</th>
-	<th class="center">Dec</th>
-</thead>
-<tbody>
-	{% for utilization in utilization.office_utilization %}
-	<tr>
-		<td><a href="{{request.application_url}}/office/{{utilization.office.id}}/utilization/{{year}}">{{utilization.office.name|title}}</a></td>
-		<td class="center">{% if utilization.total[0] == 0%}&nbsp;{% else %}{{"{:,.0f}".format(utilization.total[0])}}%{% endif %}</td>
-		<td class="center">{% if utilization.total[1] == 0%}&nbsp;{% else %}{{"{:,.0f}".format(utilization.total[1])}}%{% endif %}</td>
-		<td class="center">{% if utilization.total[2] == 0%}&nbsp;{% else %}{{"{:,.0f}".format(utilization.total[2])}}%{% endif %}</td>
-		<td class="center">{% if utilization.total[3] == 0%}&nbsp;{% else %}{{"{:,.0f}".format(utilization.total[3])}}%{% endif %}</td>
-		<td class="center">{% if utilization.total[4] == 0%}&nbsp;{% else %}{{"{:,.0f}".format(utilization.total[4])}}%{% endif %}</td>
-		<td class="center">{% if utilization.total[5] == 0%}&nbsp;{% else %}{{"{:,.0f}".format(utilization.total[5])}}%{% endif %}</td>
-		<td class="center">{% if utilization.total[6] == 0%}&nbsp;{% else %}{{"{:,.0f}".format(utilization.total[6])}}%{% endif %}</td>
-		<td class="center">{% if utilization.total[7] == 0%}&nbsp;{% else %}{{"{:,.0f}".format(utilization.total[7])}}%{% endif %}</td>
-		<td class="center">{% if utilization.total[8] == 0%}&nbsp;{% else %}{{"{:,.0f}".format(utilization.total[8])}}%{% endif %}</td>
-		<td class="center">{% if utilization.total[9] == 0%}&nbsp;{% else %}{{"{:,.0f}".format(utilization.total[9])}}%{% endif %}</td>
-		<td class="center">{% if utilization.total[10] == 0%}&nbsp;{% else %}{{"{:,.0f}".format(utilization.total[10])}}%{% endif %}</td>
-		<td class="center">{% if utilization.total[11] == 0%}&nbsp;{% else %}{{"{:,.0f}".format(utilization.total[11])}}%{% endif %}</td>
-	</tr>
-	{% endfor %}
-</tbody>
-</table>
-</div></div></div>
+    <div class="navbar subnav white">
+        <ul class="nav subnav_area">
+            {% if user.is_administrator or user.permissions_global_financials %}
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/global/financials/{{ year }}">FINANCIALS</a></li>
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/global/offices/{{ year }}">OFFICES</a></li>
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/global/departments/{{ year }}">DEPARTMENTS</a></li>
+            {% endif %}
+            {% if user.is_administrator or user.permissions_global_utilization %}
+                <li class="entity-nav-pull-left-cell-selected push-down"><a
+                        href="{{ request.application_url }}/global/utilization/{{ year }}" class="entity-nav-selected">OFFICE
+                    UTILIZATION</a></li>
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/global/utilization/department/{{ year }}">DEPARTMENT
+                    UTILIZATION</a></li>
+            {% endif %}
+            {% if user.is_administrator %}
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/global/expenses/{{ year }}">EXPENSES</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="maintable">
+                <table class="table">
+                    <thead>
+                    <th>Global Utilization By Office:
+                        <div class="btn-group">
+                            <a id="year_button" class="year-text dropdown-toggle" data-toggle="dropdown"
+                               href="#">{{ year }} <span class="year-carot caret"></span></a>
+                            <ul class="dropdown-menu">
+                                {% for y in account.years %}
+                                    <li><a href="{{ request.application_url }}/global/utilization/{{ y }}"
+                                           tabindex="-1">{{ y }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </th>
+                    <th class="center">Jan</th>
+                    <th class="center">Feb</th>
+                    <th class="center">Mar</th>
+                    <th class="center">Apr</th>
+                    <th class="center">May</th>
+                    <th class="center">Jun</th>
+                    <th class="center">Jul</th>
+                    <th class="center">Aug</th>
+                    <th class="center">Sep</th>
+                    <th class="center">Oct</th>
+                    <th class="center">Nov</th>
+                    <th class="center">Dec</th>
+                    </thead>
+                    <tbody>
+                    {% for utilization in utilization.office_utilization %}
+                        <tr>
+                            <td>
+                                <a href="{{ request.application_url }}/office/{{ utilization.office.id }}/utilization/{{ year }}">{{ utilization.office.name|title }}</a>
+                            </td>
+                            <td class="center">{% if utilization.total[0] == 0 %}&nbsp;
+                                {% else %}{{ "{:,.0f}".format(utilization.total[0])}}%{% endif %}</td>
+                            <td class="center">{% if utilization.total[1] == 0 %}&nbsp;
+                                {% else %}{{ "{:,.0f}".format(utilization.total[1])}}%{% endif %}</td>
+                            <td class="center">{% if utilization.total[2] == 0 %}&nbsp;
+                                {% else %}{{ "{:,.0f}".format(utilization.total[2])}}%{% endif %}</td>
+                            <td class="center">{% if utilization.total[3] == 0 %}&nbsp;
+                                {% else %}{{ "{:,.0f}".format(utilization.total[3])}}%{% endif %}</td>
+                            <td class="center">{% if utilization.total[4] == 0 %}&nbsp;
+                                {% else %}{{ "{:,.0f}".format(utilization.total[4])}}%{% endif %}</td>
+                            <td class="center">{% if utilization.total[5] == 0 %}&nbsp;
+                                {% else %}{{ "{:,.0f}".format(utilization.total[5])}}%{% endif %}</td>
+                            <td class="center">{% if utilization.total[6] == 0 %}&nbsp;
+                                {% else %}{{ "{:,.0f}".format(utilization.total[6])}}%{% endif %}</td>
+                            <td class="center">{% if utilization.total[7] == 0 %}&nbsp;
+                                {% else %}{{ "{:,.0f}".format(utilization.total[7])}}%{% endif %}</td>
+                            <td class="center">{% if utilization.total[8] == 0 %}&nbsp;
+                                {% else %}{{ "{:,.0f}".format(utilization.total[8])}}%{% endif %}</td>
+                            <td class="center">{% if utilization.total[9] == 0 %}&nbsp;
+                                {% else %}{{ "{:,.0f}".format(utilization.total[9])}}%{% endif %}</td>
+                            <td class="center">{% if utilization.total[10] == 0 %}&nbsp;
+                                {% else %}{{ "{:,.0f}".format(utilization.total[10])}}%{% endif %}</td>
+                            <td class="center">{% if utilization.total[11] == 0 %}&nbsp;
+                                {% else %}{{ "{:,.0f}".format(utilization.total[11])}}%{% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 </html>

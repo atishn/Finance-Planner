@@ -1,18 +1,30 @@
 {% extends "templates/shell.html" %}
 {% block content %}
-<div class="navbar subnav white">
-	<ul class="nav subnav_area">
-		<li class="headline">Administration: Employees</li>
-	</ul>
-</div>
-<div class="container"><div class="row-fluid font-admin">
-<span class="admin_header">People</span> <a href="{{request.application_url}}/person/add">Add User</a><br/>
-{% for person in account.users %}
-{% if person.is_active %}
-{{person.name|title}} ({{person.role.name|title}}) - <a href="mailto:{{person.email}}">{{person.email}}</a> &nbsp; <a href="{{request.application_url}}/person/{{person.id}}/edit">Edit</a> {% if user.id != person.id %}| <a href="{{request.application_url}}/person/{{person.id}}/delete">Delete</a> | {% if person.password %}<a href="{{request.application_url}}/person/{{person.id}}/disable/login">Disable Login</a>{% else %}<a href="{{request.application_url}}/person/{{person.id}}/enable/login">Enable Login</a>{% endif %}{% endif %}<br/>
-{% endif %}
-{% endfor %}
-</div></div>
+    <div class="navbar subnav white">
+        <ul class="nav subnav_area">
+            <li class="headline">Administration: Employees</li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="row-fluid font-admin">
+            <span class="admin_header">People</span> <a href="{{ request.application_url }}/person/add">Add
+            User</a><br/>
+            {% for person in account.users %}
+                {% if person.is_active %}
+                    {{ person.name|title }} ({{ person.role.name|title }}) -
+                    <a href="mailto:{{ person.email }}">{{ person.email }}</a> &nbsp;
+                    <a href="{{ request.application_url }}/person/{{ person.id }}/edit">Edit</a>
+                    {% if user.id != person.id %}|
+                        <a href="{{ request.application_url }}/person/{{ person.id }}/delete">Delete</a> |
+                        {% if person.password %}
+                            <a href="{{ request.application_url }}/person/{{ person.id }}/disable/login">Disable
+                                Login</a>{% else %}
+                            <a href="{{ request.application_url }}/person/{{ person.id }}/enable/login">Enable Login</a>
+                        {% endif %}{% endif %}<br/>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
 
 {% endblock %}
 </html>

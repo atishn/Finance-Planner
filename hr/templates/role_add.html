@@ -1,43 +1,51 @@
 {% extends "templates/shell.html" %}
 {% block content %}
-<div class="navbar subnav white">
-	<ul class="nav subnav_area">
-		<li class="headline">Add Role</li>
-	</ul>
-</div>
-<div class="container"><div class="row-fluid"><div class="maintable">
-<form method="post" action="{{request.application_url}}/role/add">
-<table class="table">
-<tbody>
-	<tr>
-		<td>Name:</td>
-		<td><input type="text" name="name" value=""></td>
-	</tr>
-	<tr>
-		<td>Department:</td>
-		<td>
-			<select name="department_id">
-				<option value="">Select</option>
-				{% for department in departments %}
-				{% if department.is_active %}
-				<option value="{{department.id}}">{{department.name|title}}</option>
-				{% endif %}
-				{% endfor %}
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td>Salary (Low - {% if user.currency %}{{user.currency.name|upper}}{% else %}USD{% endif %}):</td>
-		<td><input type="text" name="salary_low" value=""></td>
-	</tr>
-	<tr>
-		<td>Salary (High - {% if user.currency %}{{user.currency.name|upper}}{% else %}USD{% endif %}):</td>
-		<td><input type="text" name="salary_high" value=""></td>
-	</tr>
-</tbody>
-</table>
-<input type="submit"> <input type="submit" name="add_another" value="Submit and Add Another">
-</div></div></div>
+    <div class="navbar subnav white">
+        <ul class="nav subnav_area">
+            <li class="headline">Add Role</li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="row-fluid">
+            <div class="maintable">
+                <form method="post" action="{{ request.application_url }}/role/add">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>Name:</td>
+                            <td><input type="text" name="name" value=""></td>
+                        </tr>
+                        <tr>
+                            <td>Department:</td>
+                            <td>
+                                <select name="department_id">
+                                    <option value="">Select</option>
+                                    {% for department in departments %}
+                                        {% if department.is_active %}
+                                            <option value="{{ department.id }}">{{ department.name|title }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Salary (Low -
+                                {% if user.currency %}{{ user.currency.name|upper }}{% else %}USD{% endif %}):
+                            </td>
+                            <td><input type="text" name="salary_low" value=""></td>
+                        </tr>
+                        <tr>
+                            <td>Salary (High -
+                                {% if user.currency %}{{ user.currency.name|upper }}{% else %}USD{% endif %}):
+                            </td>
+                            <td><input type="text" name="salary_high" value=""></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <input type="submit"> <input type="submit" name="add_another" value="Submit and Add Another">
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 </html>

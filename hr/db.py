@@ -6,13 +6,16 @@ from datetime import datetime
 from hashlib import sha512
 from uuid import uuid4
 
+
 def db_utc_now(format='%Y-%m-%d %H:%M:%S'):
     return datetime.utcnow().strftime(format).decode()
+
 
 def convert_db_datetime(value, format="%Y-%m-%d %H:%M:%S"):
     if isinstance(value, datetime):
         return value.strftime(format)
     return value
+
 
 def parse_datetime_string(s, format="%Y-%m-%d %H:%M:%S"):
     if isinstance(s, datetime):
@@ -20,10 +23,12 @@ def parse_datetime_string(s, format="%Y-%m-%d %H:%M:%S"):
     try:
         return datetime.strptime(s, format)
     except:
-       return None
+        return None
+
 
 def random_key(length):
     return sha512(uuid4().hex).hexdigest()[0:length]
+
 
 class IntEnumTypeMeta(type):
     def __init__(cls, classname, bases, dict_):
@@ -33,6 +38,7 @@ class IntEnumTypeMeta(type):
                 for v in values:
                     setattr(cls, v.upper(), v)
         return type.__init__(cls, classname, bases, dict_)
+
 
 class IntEnumType(TypeDecorator):
     impl = TINYINT
@@ -51,6 +57,7 @@ class IntEnumType(TypeDecorator):
         if value is None:
             return None
         return self.values[(value - 1)]
+
 
 class IntEnum(object):
     __metaclass__ = IntEnumTypeMeta
@@ -102,6 +109,7 @@ class EnumSymbol(object):
     def __repr__(self):
         return "<%s>" % self.name
 
+
 class EnumMeta(type):
     """Generate new DeclEnum classes."""
 
@@ -122,16 +130,17 @@ class EnumMeta(type):
     def __len__(cls):
         return len(list(cls.__iter__()))
 
+
 class DeclEnumType(SchemaType, TypeDecorator):
     def __init__(self, enum):
         self.enum = enum
         self.impl = Enum(
-                        *enum.values(),
-                        name="ck%s" % re.sub(
-                                    '([A-Z])',
-                                    lambda m:"_" + m.group(1).lower(),
-                                    enum.__name__)
-                    )
+            *enum.values(),
+            name="ck%s" % re.sub(
+                '([A-Z])',
+                lambda m: "_" + m.group(1).lower(),
+                enum.__name__)
+        )
 
     def _set_table(self, table, column):
         self.impl._set_table(table, column)
@@ -148,6 +157,7 @@ class DeclEnumType(SchemaType, TypeDecorator):
         if value is None:
             return None
         return self.enum.from_string(value.strip())
+
 
 class DeclEnum(object):
     """Declarative enumeration."""

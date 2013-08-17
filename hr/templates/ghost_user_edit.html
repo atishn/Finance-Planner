@@ -1,48 +1,57 @@
 {% extends "templates/shell.html" %}
 {% block content %}
-<div class="navbar subnav white">
-	<ul class="nav subnav_area">
-		<li class="headline">Edit Prospect</li>
-	</ul>
-</div>
-<div class="container"><div class="row-fluid"><div class="maintable">
-<form method="post" action="{{request.application_url}}/ghost/user/{{ghost_user.id}}/edit">
-<table class="table">
-<tbody>
-	<tr>
-		<td>Role:</td>
-		<td>
-			<select name="role_id">
-				<option value="">Select</option>
-				{% for role in roles %}
-				<option value="{{role.id}}" {% if role.id == ghost_user.role_id %}selected{% endif %}>{{role.name|title}}</option>
-				{% endfor %}
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td>Office:</td>
-		<td>
-			<select name="office_id">
-				<option value="">Select</option>
-				{% for office in offices %}
-				<option value="{{office.id}}" {% if office.id == ghost_user.office_id %}selected{% endif %}>{{office.name|title}}</option>
-				{% endfor %}
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td>Start Date (mm/dd/yyyy):</td>
-		<td><input type="text" name="start_date" value="{{ghost_user.start_date.strftime('%m/%d/%Y')}}"></td>
-	</tr>
-	<tr>
-		<td>Percent Billable (%):</td>
-		<td><input type="text" name="percent_billable" value="{{ghost_user.percent_billable}}">%</td>
-	</tr>
-</tbody>
-</table>
-<input type="submit">
-</div></div></div>
+    <div class="navbar subnav white">
+        <ul class="nav subnav_area">
+            <li class="headline">Edit Prospect</li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="row-fluid">
+            <div class="maintable">
+                <form method="post" action="{{ request.application_url }}/ghost/user/{{ ghost_user.id }}/edit">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>Role:</td>
+                            <td>
+                                <select name="role_id">
+                                    <option value="">Select</option>
+                                    {% for role in roles %}
+                                        <option value="{{ role.id }}"
+                                                {% if role.id == ghost_user.role_id %}selected{% endif %}>{{ role.name|title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Office:</td>
+                            <td>
+                                <select name="office_id">
+                                    <option value="">Select</option>
+                                    {% for office in offices %}
+                                        <option value="{{ office.id }}"
+                                                {% if office.id == ghost_user.office_id %}selected{% endif %}>{{ office.name|title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Start Date (mm/dd/yyyy):</td>
+                            <td><input type="text" name="start_date"
+                                       value="{{ ghost_user.start_date.strftime('%m/%d/%Y')}}"></td>
+                        </tr>
+                        <tr>
+                            <td>Percent Billable (%):</td>
+                            <td><input type="text" name="percent_billable" value="{{ ghost_user.percent_billable }}">%
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <input type="submit">
+                </form>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 </html>

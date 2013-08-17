@@ -1,116 +1,129 @@
 {% extends "templates/shell.html" %}
 {% block content %}
-<div class="navbar subnav white">
-	<ul class="nav subnav_area">
-		<li class="headline">{{ header }}</li>
-	</ul>
-	<ul class="nav pull-right subnav_area">
-		{% if user.permissions.is_administrator %}
-		<li class="submenu-btn"><a class="submenu-btn-text" href='{{request.application_url}}/role/add'>ADD ROLE</a></li>
-		{% endif %}
-		<!-- this needs to be tweaked, because if you only have permission to see one department you'll still see this pulldown -->
-		{% if user.permissions.is_administrator or user.permissions.can_view_all_departments or user.permissions.view_departments is iterable %}
-		<li class="dropdown submenu-menu">
-			<a class="dropdown-toggle submenu-menu-link" data-toggle="dropdown" href="#">CHANGE ROLES <i class="icon-caret-down"></i></a>
-			<ul class="dropdown-menu">
-				<li>
-					{% if user.permissions.is_administrator or user.permissions.can_view_all_departments or user.permissions.view_departments is iterable %}
-					<label>Department:</label><select id="select_department">
-						{% if user.permissions.is_admininstrator or user.permissions.can_view_all_departments %}
-							<option value="all">All</option>
-							{% for department in account.departments %}
-								<option value="{{department.id}}">{{department.name}}</option>
-							{% endfor %}
-						{% else %}
-							{% for department in user.permissions.view_departments %}
-								<option value="{{department.id}}">{{department.name}}</option>
-							{% endfor %}
-						{% endif %}
-					</select></br>
-					{% endif %}
-					<input type="submit" value="Go" id="change_people_go">
-				</li>
-			</ul>
-		</li>
-		{% endif %}
-	</ul>
-</div>
-<div class="container-fluid"><div class="row-fluid"><div class="maintable">
-<table class="table">
-<thead>
-	<th>Role</th>
-	<th>Department</th>
-	<th>People</th>
-	<th>Skillsets</th>
-	{% if user.permissions.can_view_salaries %}
-		<th>Salary (Low)</th>
-		<th>Salary (High)</th>
-	{% endif %}	
-	<th>Manager</th>
-	{% if user.permissions.is_administrator or user.is_department_head %}
-	<th>Edit</th>
-	{% endif %}
-</thead>
-<tbody>
-{% for role in roles %}
-<tr>
-	<td class="first_cell"><a href="{{request.application_url}}/role/{{role.id}}">{{role.name}}</a></td>
-	<td>{{role.department.name}}</td>
-	<td>{{role.active_users_count}}</td>
-	<td>{{role.skillset_count}}</td>
-	{% if user.permissions.can_view_salaries %}
-		<td>{{role.salary_low}}</td>
-		<td>{{role.salary_high}}</td>
-	{% endif %}	
-	<td>{% if role.department %}<a href="{{role.department.manager_id}}">{{role.department.manager_name}}</a>{% endif %}</td>
-	{% if user.permissions.is_administrator or role.department.manager_id == user.id %}<td><a href='#addRoleModal' data-toggle='modal' data-dynamic='true'>Edit</a> 
-		| <a href="{{request.application_url}}/role/{{role.id}}/delete?source={{request.application_url}}/role/{{department_id}}">Disable</a>
-		</td>
-	{% endif %}
-</tr>
-{% endfor %}
-</tbody>
-</table>
-</div></div></div>
-<div id="addRoleModal" class="modal hide fade modal-black" tabindex="-1" role="dialog" aria-labelledby="feedModalLabel" aria-hidden="true">
-	<ul class="activity_modal_header_row">
-	  <li class="activity_modal_header_first">
-	    <span class="activity_modal_header_link_active">Add Person</span>
-	  </li>
-	</ul>
-	<div class="pull-right activity_modal_close">
-		<a href="#" data-dismiss="modal" aria-hidden="true"><i class="icon-remove icon-large activity_modal_close_icon"></i></a>
-	</div>
-	<div class="tab-content activity_modal_body">
-		<div>
-		<input type="text" name="name" class="activity_modal_input_text" value="Role"><br/>
-		<select class="activity_modal_select" name="department">
-			<option value="none">Department</option>
-			{% for department in account.departments %}
-				<option value="{{department.id}}">{{department.name}}</option>
-			{% endfor %}
-		</select><br/>
-		<select class="activity_modal_select" name="manager">
-			<option value="none">Manager</option>
-			<!-- make this dynamic! -->
-		</select><br/>
-		<input type="text" name="name" class="activity_modal_input_text" value="Salary (Low)"><br/>
-		<input type="text" name="name" class="activity_modal_input_text" value="Salary (High)">
-		</div>
-		<div class="activity_buttons_area">
-				<button class="button_cancel">Cancel</button>
-				<button class="button_add">Add</button>
-			</div>
-		</div>
-	</div>
-</div>
-<script>
+    <div class="navbar subnav white">
+        <ul class="nav subnav_area">
+            <li class="headline">{{ header }}</li>
+        </ul>
+        <ul class="nav pull-right subnav_area">
+            {% if user.permissions.is_administrator %}
+                <li class="submenu-btn"><a class="submenu-btn-text" href='{{ request.application_url }}/role/add'>ADD
+                    ROLE</a></li>
+            {% endif %}
+            <!-- this needs to be tweaked, because if you only have permission to see one department you'll still see this pulldown -->
+            {% if user.permissions.is_administrator or user.permissions.can_view_all_departments or user.permissions.view_departments is iterable %}
+                <li class="dropdown submenu-menu">
+                    <a class="dropdown-toggle submenu-menu-link" data-toggle="dropdown" href="#">CHANGE ROLES <i
+                            class="icon-caret-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            {% if user.permissions.is_administrator or user.permissions.can_view_all_departments or user.permissions.view_departments is iterable %}
+                                <label>Department:</label><select id="select_department">
+                                {% if user.permissions.is_admininstrator or user.permissions.can_view_all_departments %}
+                                    <option value="all">All</option>
+                                    {% for department in account.departments %}
+                                        <option value="{{ department.id }}">{{ department.name }}</option>
+                                    {% endfor %}
+                                {% else %}
+                                    {% for department in user.permissions.view_departments %}
+                                        <option value="{{ department.id }}">{{ department.name }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select></br>
+                            {% endif %}
+                            <input type="submit" value="Go" id="change_people_go">
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="maintable">
+                <table class="table">
+                    <thead>
+                    <th>Role</th>
+                    <th>Department</th>
+                    <th>People</th>
+                    <th>Skillsets</th>
+                    {% if user.permissions.can_view_salaries %}
+                        <th>Salary (Low)</th>
+                        <th>Salary (High)</th>
+                    {% endif %}
+                    <th>Manager</th>
+                    {% if user.permissions.is_administrator or user.is_department_head %}
+                        <th>Edit</th>
+                    {% endif %}
+                    </thead>
+                    <tbody>
+                    {% for role in roles %}
+                        <tr>
+                            <td class="first_cell"><a
+                                    href="{{ request.application_url }}/role/{{ role.id }}">{{ role.name }}</a></td>
+                            <td>{{ role.department.name }}</td>
+                            <td>{{ role.active_users_count }}</td>
+                            <td>{{ role.skillset_count }}</td>
+                            {% if user.permissions.can_view_salaries %}
+                                <td>{{ role.salary_low }}</td>
+                                <td>{{ role.salary_high }}</td>
+                            {% endif %}
+                            <td>{% if role.department %}
+                                <a href="{{ role.department.manager_id }}">{{ role.department.manager_name }}</a>{% endif %}
+                            </td>
+                            {% if user.permissions.is_administrator or role.department.manager_id == user.id %}
+                                <td><a href='#addRoleModal' data-toggle='modal' data-dynamic='true'>Edit</a>
+                                    |
+                                    <a href="{{ request.application_url }}/role/{{ role.id }}/delete?source={{ request.application_url }}/role/{{ department_id }}">Disable</a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="addRoleModal" class="modal hide fade modal-black" tabindex="-1" role="dialog"
+         aria-labelledby="feedModalLabel" aria-hidden="true">
+        <ul class="activity_modal_header_row">
+            <li class="activity_modal_header_first">
+                <span class="activity_modal_header_link_active">Add Person</span>
+            </li>
+        </ul>
+        <div class="pull-right activity_modal_close">
+            <a href="#" data-dismiss="modal" aria-hidden="true"><i
+                    class="icon-remove icon-large activity_modal_close_icon"></i></a>
+        </div>
+        <div class="tab-content activity_modal_body">
+            <div>
+                <input type="text" name="name" class="activity_modal_input_text" value="Role"><br/>
+                <select class="activity_modal_select" name="department">
+                    <option value="none">Department</option>
+                    {% for department in account.departments %}
+                        <option value="{{ department.id }}">{{ department.name }}</option>
+                    {% endfor %}
+                </select><br/>
+                <select class="activity_modal_select" name="manager">
+                    <option value="none">Manager</option>
+                    <!-- make this dynamic! -->
+                </select><br/>
+                <input type="text" name="name" class="activity_modal_input_text" value="Salary (Low)"><br/>
+                <input type="text" name="name" class="activity_modal_input_text" value="Salary (High)">
+            </div>
+            <div class="activity_buttons_area">
+                <button class="button_cancel">Cancel</button>
+                <button class="button_add">Add</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
 
-$("#change_people_go").click(function() {
-  	new_location = "{{request.application_url}}" + "/people/" + $("#select_department").val();
-	document.location.href = new_location;
-});
+        $("#change_people_go").click(function () {
+            new_location = "{{request.application_url}}" + "/people/" + $("#select_department").val();
+            document.location.href = new_location;
+        });
 
-</script>
+    </script>
 {% endblock %}
 </html>

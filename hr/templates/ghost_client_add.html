@@ -1,65 +1,71 @@
 {% extends "templates/shell.html" %}
 {% block content %}
-<div class="navbar subnav white">
-	<ul class="nav subnav_area">
-		<li class="headline">Add Prospect</li>
-	</ul>
-</div>
-<div class="container"><div class="row-fluid"><div class="maintable">
-<form method="post" action="{{request.application_url}}/ghost/client/add">
-<table class="table">
-<tbody>
-	<tr>
-		<td>Name:</td>
-		<td><input type="text" name="ghost_client_name" value=""></br>
-			<input type="checkbox" name="is_tbg" value="1"> Count as TBG revenue instead of a prospect
-		</td>
-	</tr>
-	<tr>
-		<td>Office:</td>
-		<td>
-			<select name="office_id">
-				<option value="">Select</option>
-				{% for office in offices %}
-				<option value="{{office.id}}">{{office.name|title}}</option>
-				{% endfor %}
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td>Opportunity Name:</td>
-		<td><input type="text" name="ghost_project_name" value=""></td>
-	</tr>
-	<tr>
-		<td>Revenue ({% if user.currency %}{{user.currency|upper}}{% else %}USD{% endif %}):</td>
-		<td><input type="text" name="revenue" value=""></td>
-	</tr>
-	<tr>
-		<td>Likelihood (%):</td>
-		<td><input type="text" name="likelihood" value="">%</td>
-	</tr>
-	<tr>
-		<td>Start Date (mm/dd/yyyy):</td>
-		<td><input type="text" name="start_date" value=""></td>
-	</tr>
-	<tr>
-		<td>End Date (mm/dd/yyyy):</td>
-		<td><input type="text" name="end_date" value=""></td>
-	</tr>
-	<tr>
-		<td>Budget Allocations (%):</td>
-		<td>
-			{% for department in account.departments %}
-				{% if department.is_active %}
-					{{department.name|title}}: <input type="text" name="{{department.id}}-allocation" value="">%<br/>
-				{% endif %}
-			{% endfor %}
-		</td>
-	</tr>
-</tbody>
-</table>
-<input type="submit"> <input type="submit" name="add_another" value="Submit and Add Another">
-</div></div></div>
+    <div class="navbar subnav white">
+        <ul class="nav subnav_area">
+            <li class="headline">Add Prospect</li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="row-fluid">
+            <div class="maintable">
+                <form method="post" action="{{ request.application_url }}/ghost/client/add">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>Name:</td>
+                            <td><input type="text" name="ghost_client_name" value=""></br>
+                                <input type="checkbox" name="is_tbg" value="1"> Count as TBG revenue instead of a
+                                prospect
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Office:</td>
+                            <td>
+                                <select name="office_id">
+                                    <option value="">Select</option>
+                                    {% for office in offices %}
+                                        <option value="{{ office.id }}">{{ office.name|title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Opportunity Name:</td>
+                            <td><input type="text" name="ghost_project_name" value=""></td>
+                        </tr>
+                        <tr>
+                            <td>Revenue ({% if user.currency %}{{ user.currency|upper }}{% else %}USD{% endif %}):</td>
+                            <td><input type="text" name="revenue" value=""></td>
+                        </tr>
+                        <tr>
+                            <td>Likelihood (%):</td>
+                            <td><input type="text" name="likelihood" value="">%</td>
+                        </tr>
+                        <tr>
+                            <td>Start Date (mm/dd/yyyy):</td>
+                            <td><input type="text" name="start_date" value=""></td>
+                        </tr>
+                        <tr>
+                            <td>End Date (mm/dd/yyyy):</td>
+                            <td><input type="text" name="end_date" value=""></td>
+                        </tr>
+                        <tr>
+                            <td>Budget Allocations (%):</td>
+                            <td>
+                                {% for department in account.departments %}
+                                    {% if department.is_active %}
+                                        {{ department.name|title }}:
+                                        <input type="text" name="{{ department.id }}-allocation" value="">%<br/>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <input type="submit"> <input type="submit" name="add_another" value="Submit and Add Another">
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 </html>
