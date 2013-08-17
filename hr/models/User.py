@@ -118,12 +118,12 @@ class User(Base):
 
     def set_password(self, password):
         if password:
-            self.password = bcrypt.hashpw(password, bcrypt.gensalt())
+            self.password = bcrypt.hashpw(unicode(password).encode('utf-8'), bcrypt.gensalt())
 
     def is_valid_password(self, password):
         if not self.password:
             return False
-        return bcrypt.hashpw(password, self.password) == self.password
+        return bcrypt.hashpw(unicode(password).encode('utf-8'), unicode(self.password).encode('utf-8')) == unicode(self.password).encode('utf-8')
 
     def _review_status(self):
         return "None Pending"

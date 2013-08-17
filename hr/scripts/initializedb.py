@@ -72,4 +72,3 @@ def main(argv=sys.argv):
         aaron.salary_history.append(salary)
 
         DBSession.add(aaron)
-        

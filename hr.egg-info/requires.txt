@@ -8,4 +8,5 @@ waitress
 pyramid_jinja2
 bcrypt
 nameparser
+py-bcrypt
 oursql
