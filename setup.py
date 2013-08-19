@@ -18,6 +18,12 @@ requires = [
     'bcrypt',
     'nameparser',
     'py-bcrypt',
+    'requests',
+    'psutil',
+    'starter',
+    'zodb',
+    'transaction',
+    'supervisor',
     'oursql'
 ]
 

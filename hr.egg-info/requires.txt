@@ -9,4 +9,10 @@ pyramid_jinja2
 bcrypt
 nameparser
 py-bcrypt
+requests
+psutil
+starter
+zodb
+transaction
+supervisor
 oursql
