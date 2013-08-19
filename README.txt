@@ -6,9 +6,15 @@ Getting Started
 
 - cd <directory containing this file>
 
-- $venv/bin/python setup.py develop
+- python setup.py develop
 
-- $venv/bin/initialize_hr_db development.ini
 
-- $venv/bin/pserve development.ini
+1. Create database hr;
+2. Create user hup identified by 'password123'
+3. grant all privileges on hr.* to hup@localhost;
+
+
+- initialize_hr_db development.ini
+
+- pserve development.ini
 
