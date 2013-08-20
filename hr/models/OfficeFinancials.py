@@ -1,14 +1,11 @@
 from __future__ import division
-import bcrypt, locale, datetime, traceback
-from sqlalchemy import Column, ForeignKey, Integer, DateTime, Boolean, Unicode, UnicodeText, Text, Table
-from hr.db import db_utc_now, convert_db_datetime, parse_datetime_string
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, backref, scoped_session, sessionmaker
-from zope.sqlalchemy import ZopeTransactionExtension
-from hr.models import Base
-from hr.utilities import money_formatted_micro,money_formatted,quarterly_money,quarterly_salary
+import datetime
+import traceback
+
+from hr.utilities import quarterly_money,quarterly_salary
 from hr.models.ClientFinancials import ClientFinancials
 from hr.models.GhostClientFinancials import GhostClientFinancials
+
 
 class OfficeFinancials(object):
     
@@ -212,22 +209,22 @@ class OfficeFinancials(object):
                     if actual_expense.quarter_end_date.month == 3:
                         if actual_expense.expense_local is not None:
                             self.expense_sga[0] = actual_expense.expense_local * self.usd_to_local
-                        if actual_expense_expense_global is not None:
+                        if actual_expense.expense_global is not None:
                             self.expense_salary_global[0] = actual_expense.expense_global * self.usd_to_local
                     elif actual_expense.quarter_end_date.month == 6:
                         if actual_expense.expense_local is not None:
                             self.expense_sga[1] = actual_expense.expense_local * self.usd_to_local
-                        if actual_expense_expense_global is not None:
+                        if actual_expense.expense_global is not None:
                             self.expense_salary_global[1] = actual_expense.expense_global * self.usd_to_local
                     elif actual_expense.quarter_end_date.month == 9:
                         if actual_expense.expense_local is not None:
                             self.expense_sga[2] = actual_expense.expense_local * self.usd_to_local
-                        if actual_expense_expense_global is not None:
+                        if actual_expense.expense_global is not None:
                             self.expense_salary_global[2] = actual_expense.expense_global * self.usd_to_local
                     elif actual_expense.quarter_end_date.month == 12:
                         if actual_expense.expense_local is not None:
                             self.expense_sga[3] = actual_expense.expense_local * self.usd_to_local
-                        if actual_expense_expense_global is not None:
+                        if actual_expense.expense_global is not None:
                             self.expense_salary_global[3] = actual_expense.expense_global * self.usd_to_local
                          
             for x in range(0,5):

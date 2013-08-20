@@ -1,11 +1,7 @@
-import bcrypt, locale, datetime
-from sqlalchemy import Column, ForeignKey, Integer, DateTime, Boolean, Unicode, UnicodeText, Text, Table
-from hr.db import db_utc_now, convert_db_datetime, parse_datetime_string
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, backref, scoped_session, sessionmaker
-from zope.sqlalchemy import ZopeTransactionExtension
+from sqlalchemy import Column, Integer, Boolean
+from sqlalchemy.orm import relationship
 from hr.models import Base
-from hr.models.ManyToMany import permissions_office_financials, permissions_client_financials, permissions_office_utilization, permissions_client_utilization, permissions_office_pipeline, view_permissions_to_office, edit_permissions_to_office, view_permissions_to_department, edit_permissions_to_department
+from hr.models.ManyToMany import view_permissions_to_office, edit_permissions_to_office, view_permissions_to_department, edit_permissions_to_department
 
 
 class Permissions(Base):

@@ -1,11 +1,11 @@
 from pyramid.config import Configurator
-from pyramid_jinja2 import renderer_factory as jinja_renderer
 from sqlalchemy import engine_from_config
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
+from pyramid.session import UnencryptedCookieSessionFactoryConfig
+
 from hr.security import permission_finder
 
-from pyramid.session import UnencryptedCookieSessionFactoryConfig
 
 my_session_factory = UnencryptedCookieSessionFactoryConfig('supersecretsecret')
 

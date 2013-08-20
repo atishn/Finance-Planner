@@ -1,14 +1,14 @@
 from __future__ import division
-import bcrypt, locale, datetime
-from sqlalchemy import Column, ForeignKey, Integer, DateTime, Boolean, Unicode, UnicodeText, Text, Table
-from hr.db import db_utc_now, convert_db_datetime, parse_datetime_string
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, backref, scoped_session, sessionmaker
-from zope.sqlalchemy import ZopeTransactionExtension
+import datetime
+
+from sqlalchemy import Column, ForeignKey, Integer, DateTime, Boolean, Unicode
+from sqlalchemy.orm import relationship
+
+from hr.db import db_utc_now
 from hr.models import Base
 from hr.models.OfficeFinancials import OfficeFinancials
 from hr.models.OfficeUtilization import OfficeUtilization
-from hr.utilities import days_employed_per_year, quarterly_money
+from hr.utilities import quarterly_money
 
 
 class Office(Base):

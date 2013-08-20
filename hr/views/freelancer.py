@@ -1,8 +1,12 @@
 from __future__ import print_function
-from pyramid.response import Response
-from pyramid.view import view_config, forbidden_view_config
-from pyramid.security import remember, forget, authenticated_userid
+import datetime
+import traceback
+
+from pyramid.view import view_config
+from pyramid.security import authenticated_userid
 from pyramid.httpexceptions import HTTPFound
+from nameparser.parser import HumanName
+
 from hr.models import DBSession
 from hr.models.User import User
 from hr.models.Office import Office
@@ -11,8 +15,6 @@ from hr.models.Account import Account
 from hr.models.Role import Role
 from hr.models.Freelancer import Freelancer
 from hr.models.Header import Header
-import transaction, datetime, traceback
-from nameparser.parser import HumanName
 
 
 @view_config(route_name='freelancer_add', request_method='POST', renderer='templates/freelancer_add.html')

@@ -1,9 +1,9 @@
-import bcrypt, locale, datetime
-from sqlalchemy import Column, ForeignKey, Integer, DateTime, Boolean, Unicode, UnicodeText, Text, Table
-from hr.db import db_utc_now, convert_db_datetime, parse_datetime_string
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, backref, scoped_session, sessionmaker
-from zope.sqlalchemy import ZopeTransactionExtension
+import datetime
+
+from sqlalchemy import Column, Integer, DateTime, Boolean, Unicode
+from sqlalchemy.orm import relationship
+
+from hr.db import db_utc_now
 from hr.models import Base
 from hr.models.GlobalUtilization import GlobalUtilization
 from hr.models.GlobalFinancials import GlobalFinancials
@@ -56,11 +56,13 @@ class Account(Base):
     def _years(self):
         years = []
         years.append(self.start_year)
-        y_temp = 2012
+        y_temp = y_start = 2012
+        years.append(y_start)
         y_now = int(datetime.datetime.now().year)
         while y_temp <= y_now:
             y_temp = y_temp + 1
-            years.append(str(y_temp))
+            if y_temp not in years:
+                years.append(str(y_temp))
         return years
 
     years = property(_years)

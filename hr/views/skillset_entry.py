@@ -1,17 +1,15 @@
 from __future__ import print_function
 import datetime
-from pyramid.response import Response
-from pyramid.view import view_config, forbidden_view_config
-from pyramid.security import remember, forget, authenticated_userid
-from pyramid.httpexceptions import HTTPFound
+
+from pyramid.view import view_config
+import transaction
+
 from hr.models import DBSession
 from hr.models.User import User
-from hr.views.people import people
 from hr.models.Review import Review
 from hr.models.Account import Account
 from hr.models.SkillsetEntry import SkillsetEntry
 from hr.models.Skillset import Skillset
-import transaction
 
 
 @view_config(route_name='skillset_entry_add', request_method='GET', renderer="json")

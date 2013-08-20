@@ -1,19 +1,18 @@
 from __future__ import print_function
-from pyramid.response import Response
-from pyramid.view import view_config, forbidden_view_config
-from pyramid.security import remember, forget, authenticated_userid
+import datetime
+import traceback
+
+from pyramid.view import view_config
+from pyramid.security import authenticated_userid
 from pyramid.httpexceptions import HTTPFound
+import transaction
+
 from hr.models import DBSession
 from hr.models.User import User
-from hr.models.Office import Office
-from hr.models.Currency import Currency
-from hr.models.Role import Role
-from hr.models.Department import Department
 from hr.models.Header import Header
 from hr.models.Account import Account
 from hr.models.ActualRevenue import ActualRevenue
 from hr.models.ActualExpense import ActualExpense
-import datetime, transaction, traceback
 
 
 @view_config(route_name='administration_company', request_method='GET',

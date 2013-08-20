@@ -1,14 +1,16 @@
 import traceback
-from hr.models import DBSession
-from hr.models.User import User
-from hr.models.Department import Department
-from hr.models.Office import Office
-from hr.models.Role import Role
+
 from pyramid.security import (
     Deny,
     Allow,
     Everyone,
     )
+
+from hr.models import DBSession
+from hr.models.User import User
+from hr.models.Department import Department
+from hr.models.Office import Office
+from hr.models.Role import Role
 
 
 class SecurityFactory(object):

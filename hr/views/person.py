@@ -1,12 +1,18 @@
 from __future__ import print_function
-from pyramid.response import Response
-from pyramid.view import view_config, forbidden_view_config
-from pyramid.security import remember, forget, authenticated_userid
+import datetime
+import string
+import random
+import traceback
+
+from pyramid.view import view_config
+from pyramid.security import authenticated_userid
 from pyramid.httpexceptions import HTTPFound
+import bcrypt
+from nameparser.parser import HumanName
+
 from hr.models import DBSession
 from hr.models.User import User
 from hr.models.UserAllocation import UserAllocation
-from hr.views.people import people
 from hr.models.Review import Review
 from hr.models.Account import Account
 from hr.models.Office import Office
@@ -17,8 +23,7 @@ from hr.models.Client import Client
 from hr.models.GhostClient import GhostClient
 from hr.models.Header import Header
 from hr.models.Salary import Salary
-import transaction, datetime, string, random, bcrypt, traceback
-from nameparser.parser import HumanName
+
 
 #OLD CODE FIX WTIH REVIEW SECTION!!!
 @view_config(route_name='person', request_method='GET', renderer='templates/person.html')

@@ -1,8 +1,11 @@
 from __future__ import print_function
-from pyramid.response import Response
-from pyramid.view import view_config, forbidden_view_config
-from pyramid.security import remember, forget, authenticated_userid
+import datetime
+import traceback
+
+from pyramid.view import view_config
+from pyramid.security import authenticated_userid
 from pyramid.httpexceptions import HTTPFound
+
 from hr.models import DBSession
 from hr.models.User import User
 from hr.models.Office import Office
@@ -11,7 +14,6 @@ from hr.models.Project import Project
 from hr.models.Account import Account
 from hr.models.Header import Header
 from hr.models.BudgetAllocation import BudgetAllocation
-import transaction, datetime, traceback
 
 
 @view_config(route_name='project_add', request_method='POST', renderer='templates/project_add.html')

@@ -1,14 +1,12 @@
 from __future__ import print_function
-from pyramid.response import Response
-from pyramid.view import view_config, forbidden_view_config
-from pyramid.security import remember, forget, authenticated_userid
+from pyramid.view import view_config
+from pyramid.security import authenticated_userid
 from pyramid.httpexceptions import HTTPFound
 from hr.models import DBSession
 from hr.models.User import User
 from hr.models.Account import Account
 from hr.models.Currency import Currency
 from hr.models.Header import Header
-import datetime
 
 
 @view_config(route_name='currency_add', request_method='POST', renderer='templates/currency_add.html')

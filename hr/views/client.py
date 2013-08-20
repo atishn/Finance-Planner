@@ -1,8 +1,11 @@
 from __future__ import print_function
-from pyramid.response import Response
-from pyramid.view import view_config, forbidden_view_config
-from pyramid.security import remember, forget, authenticated_userid
+import datetime
+import traceback
+
+from pyramid.view import view_config
+from pyramid.security import authenticated_userid
 from pyramid.httpexceptions import HTTPFound
+
 from hr.models import DBSession
 from hr.models.User import User
 from hr.models.Office import Office
@@ -16,7 +19,6 @@ from hr.models.GhostClient import GhostClient
 from hr.models.Project import Project
 from hr.models.Department import Department
 from hr.models.Header import Header
-import transaction, datetime, traceback, sys
 
 
 @view_config(route_name='client_utilization', request_method='GET', renderer='templates/client_utilization.html')

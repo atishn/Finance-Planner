@@ -1,9 +1,7 @@
-import bcrypt, locale, datetime
-from sqlalchemy import Column, ForeignKey, Integer, DateTime, Boolean, Unicode, UnicodeText, Text, Table
-from hr.db import db_utc_now, convert_db_datetime, parse_datetime_string
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, backref, scoped_session, sessionmaker
-from zope.sqlalchemy import ZopeTransactionExtension
+from sqlalchemy import Column, ForeignKey, Integer, DateTime, Boolean, Unicode
+from sqlalchemy.orm import relationship
+
+from hr.db import db_utc_now
 from hr.models import Base
 from hr.models.DepartmentUtilization import DepartmentUtilization
 from hr.models.DepartmentFinancials import DepartmentFinancials
