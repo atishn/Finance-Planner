@@ -18,6 +18,7 @@ from hr.models.Account import Account
 from hr.models.Role import Role
 from hr.models.Header import Header
 from hr.models.UserAllocation import UserAllocation
+from hr.models.BudgetAllocation import BudgetAllocation
 
 
 @view_config(route_name='ghost_client_financials', request_method='GET',

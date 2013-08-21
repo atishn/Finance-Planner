@@ -33,3 +33,7 @@ from hr.models.Client import Client
 from hr.models.Project import Project
 from hr.models.UserAllocation import UserAllocation
 from hr.models.Currency import Currency
+from hr.models.ActualRevenue import ActualRevenue
+from hr.models.ActualExpense import ActualExpense
+from hr.models.Salary import Salary
+from hr.models.BudgetAllocation import BudgetAllocation

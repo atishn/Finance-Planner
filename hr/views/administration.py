@@ -42,7 +42,7 @@ def administration_employees(request):
         account = DBSession.query(Account).filter_by(id=account_id).first()
         user = DBSession.query(User).filter_by(id=user_id).first()
 
-        if user is None or account is None or (user.is_administrator == False and user_is_hr_administrator == False):
+        if user is None or account is None or (user.is_administrator == False and user.is_hr_administrator == False):
             return HTTPFound(request.application_url)
 
         return dict(logged_in=authenticated_userid(request), header=Header("administration"), account=account,
