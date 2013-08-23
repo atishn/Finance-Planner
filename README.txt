@@ -1,8 +1,14 @@
-hr README
+HugePlanner README
 ==================
-
 Getting Started
 ---------------
+
+sudo apt-get install python-devsudo
+sudo apt-get install libffi-devsudo
+sudo apt-get install libmysqlclient-dev
+
+sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
+
 
 - cd <directory containing this file>
 

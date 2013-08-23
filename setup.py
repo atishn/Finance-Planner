@@ -8,13 +8,13 @@ CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
 requires = [
     'pyramid',
+    'pyramid_jinja2',
     'SQLAlchemy',
     'transaction',
     'pyramid_tm',
     'pyramid_debugtoolbar',
     'zope.sqlalchemy',
     'waitress',
-    'pyramid_jinja2',
     'bcrypt',
     'nameparser',
     'py-bcrypt',
@@ -24,6 +24,7 @@ requires = [
     'zodb',
     'transaction',
     'supervisor',
+    'cython',
     'oursql'
 ]
 
@@ -37,8 +38,8 @@ setup(name='hr',
           "Topic :: Internet :: WWW/HTTP",
           "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
       ],
-      author='',
-      author_email='',
+      author='Atish Narlawar',
+      author_email='anarlawar@hugeinc.com',
       url='',
       keywords='web wsgi bfg pylons pyramid',
       packages=find_packages(),
