@@ -118,7 +118,7 @@ class User(Base):
 
     def set_password(self, password):
         if password:
-            self.password = bcrypt.hashpw(unicode(password).encode('utf-8'), bcrypt.gensalt())
+            self.password = bcrypt.hashpw(unicode(password).encode('utf-8'), unicode(bcrypt.gensalt()).encode('utf-8'))
 
     def is_valid_password(self, password):
         if not self.password:

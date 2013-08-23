@@ -1,10 +1,9 @@
 import os
 import sys
-import transaction
 import datetime
 
+import transaction
 from sqlalchemy import engine_from_config
-
 from pyramid.paster import (
     get_appsettings,
     setup_logging,
@@ -12,36 +11,16 @@ from pyramid.paster import (
 
 from hr.models import DBSession, Base
 from hr.models.Account import Account
-from hr.models.Client import Client
 from hr.models.Department import Department
-from hr.models.JobHistoryEntry import JobHistoryEntry
 from hr.models.Office import Office
-from hr.models.Review import Review
 from hr.models.Role import Role
-from hr.models.Skillset import Skillset
-from hr.models.SkillsetCategory import SkillsetCategory
-from hr.models.SkillsetEntry import SkillsetEntry
 from hr.models.User import User
 
+
 #deprecated
-from hr.models.Permissions import Permissions
 #end deprecation
 
-from hr.models.ManyToMany import permissions_office_financials, permissions_client_financials, permissions_office_utilization, permissions_client_utilization, permissions_office_pipeline, permissions_department_utilization, permissions_department_financials, view_permissions_to_office, edit_permissions_to_office, view_permissions_to_department, edit_permissions_to_department
-from hr.models.Feedback import Feedback
-from hr.models.Freelancer import Freelancer
-from hr.models.GhostAllocation import GhostAllocation
-from hr.models.GhostUser import GhostUser
-from hr.models.GhostProject import GhostProject
-from hr.models.GhostClient import GhostClient
-from hr.models.Client import Client
-from hr.models.Project import Project
-from hr.models.UserAllocation import UserAllocation
-from hr.models.Currency import Currency
-from hr.models.ActualRevenue import ActualRevenue
-from hr.models.ActualExpense import ActualExpense
 from hr.models.Salary import Salary
-from hr.models.BudgetAllocation import BudgetAllocation
 
 
 def usage(argv):
