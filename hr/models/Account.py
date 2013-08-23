@@ -56,7 +56,7 @@ class Account(Base):
     def _years(self):
         years = []
         years.append(self.start_year)
-        y_temp = y_start = 2011
+        y_temp = y_start = 2012
         years.append(y_start)
         y_now = int(datetime.datetime.now().year)
         while y_temp <= y_now:
