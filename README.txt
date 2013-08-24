@@ -22,5 +22,5 @@ sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite
 
 - initialize_hr_db development.ini
 
-- pserve development.ini
+- pserve --reload development.ini
 
