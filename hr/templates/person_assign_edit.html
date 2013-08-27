@@ -68,6 +68,9 @@
                             {% elif source_type == "client" %}
                                 <a href="{{ request.application_url }}/client/{{ source_id }}/utilization/{{ year }}">Return
                                     to Utilization</a>
+                            {% elif source_type == "administration" %}
+                                <a href="{{ request.application_url }}/administration/employees">Return
+                                    to Administration</a>
                             {% endif %}
                         </td>
                     </tr>

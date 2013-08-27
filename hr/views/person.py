@@ -594,11 +594,14 @@ def person_assign_edit(request):
             return HTTPFound(request.application_url)
 
         source_type_text = request.params.get("source_type")
+
         if source_type_text is None:
             source_type = "office"
         elif source_type_text == "ghost_client":
             source_type = "ghost/client"
         elif source_type_text == "client":
+            source_type = source_type_text
+        elif source_type_text == "administration":
             source_type = source_type_text
         else:
             source_type = "office"
@@ -665,9 +668,11 @@ def person_assign_edit(request):
                 elif assignment.ghost_client_id is not None:
                     if user.can_access_office(assignment.ghost_client.office, "utilization"):
                         assignments.append(assignent)
-        if len(assignments) == 0:
-            return HTTPFound(request.application_url + "/" + source_type + "/" + str(source_id) + "/utilization/" + str(
-                datetime.datetime.now().year))
+
+        # Commented for now.
+        # if len(assignments) == 0:
+        #     return HTTPFound(request.application_url + "/" + source_type + "/" + str(source_id) + "/utilization/" + str(
+        #         datetime.datetime.now().year))
 
         clients_all = DBSession.query(Client).filter_by(account_id=account_id).all()
         clients = []

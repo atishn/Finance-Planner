@@ -11,7 +11,8 @@
             User</a><br/>
             {% for person in account.users %}
                 {% if person.is_active %}
-                    {{ person.name|title }} ({{ person.role.name|title }}) -
+
+                    <a href="{{ request.application_url }}/person/{{ person.id }}/assign/edit?source_type=administration">{{ person.name|title }}</a>({{ person.role.name|title }}) -
                     <a href="mailto:{{ person.email }}">{{ person.email }}</a> &nbsp;
                     <a href="{{ request.application_url }}/person/{{ person.id }}/edit">Edit</a>
                     {% if user.id != person.id %}|
