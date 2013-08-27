@@ -12,9 +12,10 @@
             {% for person in account.users %}
                 {% if person.is_active %}
 
-                    <a href="{{ request.application_url }}/person/{{ person.id }}/assign/edit?source_type=administration">{{ person.name|title }}</a>({{ person.role.name|title }}) -
+                    {{ person.name|title }}({{ person.role.name|title }}) -
                     <a href="mailto:{{ person.email }}">{{ person.email }}</a> &nbsp;
-                    <a href="{{ request.application_url }}/person/{{ person.id }}/edit">Edit</a>
+                    <a href="{{ request.application_url }}/person/{{ person.id }}/edit">Edit</a> |
+                    <a href="{{ request.application_url }}/person/{{ person.id }}/assign/edit?source_type=administration">Utilization</a>
                     {% if user.id != person.id %}|
                         <a href="{{ request.application_url }}/person/{{ person.id }}/delete">Delete</a> |
                         {% if person.password %}
