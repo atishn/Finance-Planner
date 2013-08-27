@@ -4,7 +4,15 @@
         <ul class="nav subnav_area">
             <li class="headline">Assign Resource To Client</li>
         </ul>
-    </div>
+
+        <ul class="nav pull-right subnav_area">
+            {% if access_administration %}
+            <li class="submenu-btn"><a class="submenu-btn-text"
+                                       href='{{ request.application_url }}/person/add'>ADD PERSON</a></li>
+            {% endif %}
+        </ul>
+     </div>
+
     <div class="container">
         <div class="row-fluid">
             <div class="maintable">

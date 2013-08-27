@@ -265,7 +265,6 @@ def client_assign_resource(request):
         account_id = long(request.session['aid'])
         user = DBSession.query(User).filter_by(id=user_id).first()
         account = DBSession.query(Account).filter_by(id=account_id).first()
-
         if user is None or account is None:
             return HTTPFound(request.application_url)
 
@@ -310,6 +309,8 @@ def client_assign_resource(request):
         if len(clients) == 0:
             return HTTPFound(request.application_url)
 
+        access_administration = user.is_administrator
+
         # fix this so the filtering is btter instead of doing a big loop
         users_all = DBSession.query(User).filter_by(account_id=account_id).all()
         users = []
@@ -319,7 +320,7 @@ def client_assign_resource(request):
         if len(users) == 0:
             return HTTPFound(request.application_url)
         return dict(logged_in=authenticated_userid(request), header=Header("financials"), clients=clients, users=users,
-                    user=user, account=account)
+                    user=user, account=account, access_administration=access_administration)
     except:
         print("*****")
         traceback.print_exc()
