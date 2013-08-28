@@ -1,11 +1,10 @@
 <html>
-Welcome to Huge Plans: Alpha Edition<br/>
-(Needs QA and there is poor error handling, but otherwise...)<br/>
+Huge Financial Planner: Beta Edition<br/><br/>
 Login:
 <form action="{{ request.application_url }}/login" method="post">
     <input type="hidden" name="came_from" value="{{ came_from }}"/>
-    <input type="text" name="email" value="{{ email }}"/><br/>
-    <input type="password" name="password" value=""/><br/>
+    <input type="text" name="email" placeholder="Email Address" value="{{ email }}"/><br/>
+    <input type="password" name="password" placeholder="Password" value=""/><br/>
     <input type="submit" name="form.submitted" value="Log In"/>
 </form>
 </html>
