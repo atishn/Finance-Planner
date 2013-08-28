@@ -1,10 +1,77 @@
 <html>
-Huge Financial Planner: Beta Edition<br/><br/>
-Login:
-<form action="{{ request.application_url }}/login" method="post">
-    <input type="hidden" name="came_from" value="{{ came_from }}"/>
-    <input type="text" name="email" placeholder="Email Address" value="{{ email }}"/><br/>
-    <input type="password" name="password" placeholder="Password" value=""/><br/>
-    <input type="submit" name="form.submitted" value="Log In"/>
-</form>
+<div id="header">
+    <div id="header-inner" class="clear-block">
+        <div id="logo-title">
+
+            <div id="logo"><a href="/resources-support" title="Home" rel="home"><img
+                    src="{{ request.application_url }}/static/img/intranet_logo.png" alt="Home" id="logo-image"></a>
+            </div>
+
+
+        </div>
+        <!-- /#logo-title -->
+
+    </div>
+</div>
+
+<div id="main">
+    <div id="main-inner" class="clear-block">
+
+        <div id="content">
+            <div id="content-inner">
+
+
+                <div id="content-header">
+
+                </div>
+                <!-- /#content-header -->
+
+                <div id="content-area">
+                    <form action="{{ request.application_url }}/login" accept-charset="UTF-8" method="post"
+                          id="user-login">
+                        <h1>Financial Planner
+                        </h1>
+                        <br/><br/>
+                        <h2>
+                            Login:
+                        </h2>
+                        <div>
+                            <div class="form-item" id="edit-name-wrapper">
+                                <label for="edit-name">Username</label>
+                                <input type="text" maxlength="60" name="email" id="edit-name" size="60" value=""
+                                       tabindex="1"
+                                       class="form-text required">
+
+                            </div>
+                            <div class="form-item" id="edit-pass-wrapper">
+                                <label for="edit-pass">Password</label>
+                                <input type="password" name="password" id="edit-pass" placeholder="Password"
+                                       maxlength="128" size="60"
+                                       tabindex="2"
+                                       class="form-text required">
+
+                            </div>
+                            <input type="hidden" name="came_from" value="{{ came_from }}"/>
+                            <input type="hidden" name="form.submitted" id="edit-user-login" value="Log In"><br/>
+                            <input type="image" class="login-btn"
+                                   src="{{ request.application_url }}/static/img//btn_login.png">
+
+                        </div>
+                    </form>
+
+{#                    <form action="{{ request.application_url }}/login" method="post">#}
+{#                        <input type="hidden" name="came_from" value="{{ came_from }}"/>#}
+{#                        <input type="text" name="email" placeholder="Email Address" value="{{ email }}"/><br/>#}
+{#                        <input type="password" name="password" placeholder="Password" value=""/><br/>#}
+{#                        <input type="submit" name="form.submitted" value="Log In"/>#}
+{#                    </form>#}
+
+                </div>
+            </div>
+            <!-- /#content-inner, /#content -->
+
+
+        </div>
+    </div>
+</div>
 </html>

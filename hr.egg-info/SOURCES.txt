@@ -78,6 +78,9 @@ hr/static/pyramid-small.png
 hr/static/pyramid.png
 hr/static/transparent.gif
 hr/static/css/main.css
+hr/static/css/login.css
+hr/static/img/btn_login.png
+hr/static/img/intranet_logo.png
 hr/static/lib/css/bootstrap-responsive.min.css
 hr/static/lib/css/bootstrap-scroll-modal.css
 hr/static/lib/css/bootstrap.min.css
