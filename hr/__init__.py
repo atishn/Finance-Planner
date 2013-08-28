@@ -44,6 +44,7 @@ def main(global_config, **settings):
     config.add_route('person', '/person/{person_id}')
     config.add_route('person_edit', '/person/{person_id}/edit')
     config.add_route('person_enable_login', '/person/{person_id}/enable/login')
+    config.add_route('person_password_reset', '/person/{person_id}/password/reset')
     config.add_route('person_disable_login', '/person/{person_id}/disable/login')
     config.add_route('person_assign_add', '/person/{person_id}/assign/add')
     config.add_route('person_assign_edit', '/person/{person_id}/assign/edit')

@@ -162,6 +162,8 @@ hr/templates/person_assign_add.html
 hr/templates/person_assign_edit.html
 hr/templates/person_edit.html
 hr/templates/person_enable_login.html
+hr/templates/person_password_reset.html
+hr/templates/person_.html
 hr/templates/project_add.html
 hr/templates/project_bulk_edit.html
 hr/templates/project_edit.html

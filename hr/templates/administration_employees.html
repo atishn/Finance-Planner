@@ -20,7 +20,9 @@
                         <a href="{{ request.application_url }}/person/{{ person.id }}/delete">Delete</a> |
                         {% if person.password %}
                             <a href="{{ request.application_url }}/person/{{ person.id }}/disable/login">Disable
-                                Login</a>{% else %}
+                                Login</a> |
+                            <a href="{{ request.application_url }}/person/{{ person.id }}/password/reset">Reset Password</a>
+                            {% else %}
                             <a href="{{ request.application_url }}/person/{{ person.id }}/enable/login">Enable Login</a>
                         {% endif %}{% endif %}<br/>
                 {% endif %}

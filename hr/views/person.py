@@ -667,7 +667,7 @@ def person_assign_edit(request):
                         assignments.append(assignment)
                 elif assignment.ghost_client_id is not None:
                     if user.can_access_office(assignment.ghost_client.office, "utilization"):
-                        assignments.append(assignent)
+                        assignments.append(assignment)
 
         # Commented for now.
         # if len(assignments) == 0:
@@ -748,7 +748,7 @@ def person_assign_delete(request):
         traceback.print_exc()
         return HTTPFound(request.application_url)
 
-
+@view_config(route_name='person_password_reset', request_method='GET', renderer='templates/person_password_reset.html')
 @view_config(route_name='person_enable_login', request_method='GET', renderer='templates/person_enable_login.html')
 def person_enable_login(request):
     try:
