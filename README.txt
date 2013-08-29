@@ -8,6 +8,7 @@ sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite
 
 sudo  easy_install pip
 sudo pip install pyramid_jinja2
+pip install supervisor --upgrade
 
 // Jinja2-2.6
 - cd <directory containing this file>
