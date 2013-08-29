@@ -25,4 +25,3 @@ pip install supervisor --upgrade
 - initialize_hr_db development.ini
 
 - pserve --reload development.ini
-
