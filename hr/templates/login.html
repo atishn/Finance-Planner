@@ -1,4 +1,9 @@
-<html>
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <link rel="stylesheet" media="screen" href="{{ request.application_url }}/static/css/login.css">
+</head>
+<body>
 <div id="header">
     <div id="header-inner" class="clear-block">
         <div id="logo-title">
@@ -6,8 +11,6 @@
             <div id="logo"><a href="/resources-support" title="Home" rel="home"><img
                     src="{{ request.application_url }}/static/img/intranet_logo.png" alt="Home" id="logo-image"></a>
             </div>
-
-
         </div>
         <!-- /#logo-title -->
 
@@ -32,9 +35,11 @@
                         <h1>Financial Planner
                         </h1>
                         <br/><br/>
+
                         <h2>
                             Login:
                         </h2>
+
                         <div>
                             <div class="form-item" id="edit-name-wrapper">
                                 <label for="edit-name">Username</label>
@@ -59,12 +64,12 @@
                         </div>
                     </form>
 
-{#                    <form action="{{ request.application_url }}/login" method="post">#}
-{#                        <input type="hidden" name="came_from" value="{{ came_from }}"/>#}
-{#                        <input type="text" name="email" placeholder="Email Address" value="{{ email }}"/><br/>#}
-{#                        <input type="password" name="password" placeholder="Password" value=""/><br/>#}
-{#                        <input type="submit" name="form.submitted" value="Log In"/>#}
-{#                    </form>#}
+                    {#                    <form action="{{ request.application_url }}/login" method="post">#}
+                    {#                        <input type="hidden" name="came_from" value="{{ came_from }}"/>#}
+                    {#                        <input type="text" name="email" placeholder="Email Address" value="{{ email }}"/><br/>#}
+                    {#                        <input type="password" name="password" placeholder="Password" value=""/><br/>#}
+                    {#                        <input type="submit" name="form.submitted" value="Log In"/>#}
+                    {#                    </form>#}
 
                 </div>
             </div>
@@ -74,4 +79,5 @@
         </div>
     </div>
 </div>
+</body>
 </html>
