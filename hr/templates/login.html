@@ -6,18 +6,19 @@
 <body>
 <div id="header">
     <div id="header-inner" class="clear-block">
-        <div id="logo-title">
 
-            <div id="logo"><a href="/resources-support" title="Home" rel="home"><img
-                    src="{{ request.application_url }}/static/img/intranet_logo.png" alt="Home" id="logo-image"></a>
-            </div>
-        </div>
         <!-- /#logo-title -->
 
     </div>
 </div>
 
-<div id="main">
+<div id="main" class="login">
+    <div id="logo-title">
+
+        <div id="logo"><a href="/resources-support" title="Home" rel="home"><img
+                src="{{ request.application_url }}/static/img/intranet_logo.png" alt="Home" id="logo-image"></a>
+        </div>
+    </div>
     <div id="main-inner" class="clear-block">
 
         <div id="content">
@@ -36,11 +37,7 @@
                         </h1>
                         <br/><br/>
 
-                        <h2>
-                            Login:
-                        </h2>
-
-                        <div>
+                        <div class='form'>
                             <div class="form-item" id="edit-name-wrapper">
                                 <label for="edit-name">Username</label>
                                 <input type="text" maxlength="60" name="email" id="edit-name" size="60" value=""

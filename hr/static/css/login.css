@@ -1,4 +1,40 @@
-.form-item .description {
+.login .form-item .description {
     font-size: 0.85em;
     display: none;
 }
+
+.login {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.login .form {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+.login .form-item {
+    margin-bottom: 15px;
+}
+
+.login h1 {
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.login .form-item input {
+    margin-left: 10px;
+    border: none;
+    width: 200px;
+    height: 20px;
+}
+
+.login .logo img{
+    float: left;
+}
+
+.login .login-btn {
+    float: right;
+}
+
