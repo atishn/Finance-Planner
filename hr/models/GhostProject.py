@@ -52,13 +52,11 @@ class GhostProject(Base):
     revenue_per_day = property(_revenue_per_day)
 
     def _likely_revenue_per_day(self):
-        return revenue_per_day * likelihood / 100
+        return self.revenue_per_day * self.likelihood / 100
 
     likely_revenue_per_day = property(_likely_revenue_per_day)
 
     def _likely_revenue(self):
-        return revenue * likelihood / 100
+        return self.revenue * self.likelihood / 100
 
     likely_revenue = property(_likely_revenue)
-        
-      

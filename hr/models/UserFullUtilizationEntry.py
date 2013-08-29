@@ -7,4 +7,3 @@ class UserFullUtilizationEntry(object):
         self.client = client
         self.percentage = percentage
         self.ghost_client = ghost_client
-        

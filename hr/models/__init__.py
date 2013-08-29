@@ -37,3 +37,6 @@ from hr.models.ActualRevenue import ActualRevenue
 from hr.models.ActualExpense import ActualExpense
 from hr.models.Salary import Salary
 from hr.models.BudgetAllocation import BudgetAllocation
+from hr.models.GhostProject import GhostProject
+from hr.models.Permissions import Permissions
+from hr.models.GhostClient import GhostClient

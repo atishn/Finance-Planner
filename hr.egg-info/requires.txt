@@ -1,11 +1,11 @@
 pyramid
+pyramid_jinja2
 SQLAlchemy
 transaction
 pyramid_tm
 pyramid_debugtoolbar
 zope.sqlalchemy
 waitress
-pyramid_jinja2
 bcrypt
 nameparser
 py-bcrypt
@@ -15,4 +15,5 @@ starter
 zodb
 transaction
 supervisor
+cython
 oursql

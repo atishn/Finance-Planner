@@ -3,6 +3,7 @@ MANIFEST.in
 README.txt
 TODO.txt
 development.ini
+local.ini
 production.ini
 setup.cfg
 setup.py
@@ -77,8 +78,8 @@ hr/static/pylons.css
 hr/static/pyramid-small.png
 hr/static/pyramid.png
 hr/static/transparent.gif
-hr/static/css/main.css
 hr/static/css/login.css
+hr/static/css/main.css
 hr/static/img/btn_login.png
 hr/static/img/intranet_logo.png
 hr/static/lib/css/bootstrap-responsive.min.css
@@ -166,7 +167,6 @@ hr/templates/person_assign_edit.html
 hr/templates/person_edit.html
 hr/templates/person_enable_login.html
 hr/templates/person_password_reset.html
-hr/templates/person_.html
 hr/templates/project_add.html
 hr/templates/project_bulk_edit.html
 hr/templates/project_edit.html
