@@ -137,7 +137,7 @@
             <div>
                 <input type="text" name="name" class="activity_modal_input_text" value="Name"><br/>
                 <input type="text" name="email" class="activity_modal_input_text" value="Email"><br/>
-                <select class="activity_modal_select name=" office">
+                <select class="activity_modal_select" name="office">
                 <option value="none">Office</option>
                 {% for office in account.offices %}
                     <option value="{{ office.id }}">{{ office.name }}</option>

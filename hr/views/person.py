@@ -113,163 +113,169 @@ def person_add(request):
                 source = 'financials'
 
         if request.method == "POST":
-            account = DBSession.query(Account).filter_by(id=account_id).first()
-
-            name = request.params["name"].lower()
-            if request.params.get("employee_number") is None or request.params.get("employee_number") == '':
-                employee_number = 0
-            else:
-                employee_number = long(request.params.get("employee_number"))
-
-            source = request.params["source"]
             email = request.params["email"]
+            person = DBSession.query(User).filter_by(email=email).first()
 
-            if request.params.get("salary") is None or request.params.get("salary") == '':
-                salary = 0
+            if person is not None:
+                source = 'financials'
             else:
-                salary_local = long(request.params.get("salary"))
-                if user.currency is None:
-                    salary = salary_local
+
+                account = DBSession.query(Account).filter_by(id=account_id).first()
+
+                name = request.params["name"].lower()
+                if request.params.get("employee_number") is None or request.params.get("employee_number") == '':
+                    employee_number = 0
                 else:
-                    salary = salary_local * user.currency.currency_to_usd
+                    employee_number = long(request.params.get("employee_number"))
 
-            if request.params.get("office_id") is None or request.params.get("office_id") == '':
-                office_id = None
-                office = None
-            else:
-                office_id = long(request.params.get("office_id"))
-                office = DBSession.query(Office).filter_by(id=office_id).filter_by(account_id=account_id).first()
+                source = request.params["source"]
 
-            if request.params.get("role_id") is None or request.params.get("role_id") == '':
-                role_id = None
-                return HTTPFound(request.application_url + "/person/add")
-            else:
-                role_id = long(request.params.get("role_id"))
-                role = DBSession.query(Role).filter_by(id=role_id).first()
+                if request.params.get("salary") is None or request.params.get("salary") == '':
+                    salary = 0
+                else:
+                    salary_local = long(request.params.get("salary"))
+                    if user.currency is None:
+                        salary = salary_local
+                    else:
+                        salary = salary_local * user.currency.currency_to_usd
 
-            if request.params.get("percent_billable") is None or request.params.get("percent_billable") == '':
-                percent_billable = 100
-            elif request.params.get("percent_billable") == '0':
-                percent_billable = 0
-            else:
-                percent_billable = long(request.params.get("percent_billable"))
+                if request.params.get("office_id") is None or request.params.get("office_id") == '':
+                    office_id = None
+                    office = None
+                else:
+                    office_id = long(request.params.get("office_id"))
+                    office = DBSession.query(Office).filter_by(id=office_id).filter_by(account_id=account_id).first()
 
-            if request.params.get("currency_id") is None or request.params.get("currency_id") == '':
-                currency_id = None
-                currency = None
-            else:
-                currency_id = long(request.params.get("currency_id"))
-                currency = DBSession.query(Currency).filter_by(id=currency_id).filter_by(account_id=account_id).first()
+                if request.params.get("role_id") is None or request.params.get("role_id") == '':
+                    role_id = None
+                    return HTTPFound(request.application_url + "/person/add")
+                else:
+                    role_id = long(request.params.get("role_id"))
+                    role = DBSession.query(Role).filter_by(id=role_id).first()
 
-            start_date_text = request.params.get("start_date")
-            if start_date_text is None or start_date_text == '':
-                start_date = datetime.datetime.now()
-            else:
-                start_dateparts = start_date_text.split("/")
-                start_date = datetime.date(long(start_dateparts[2]), long(start_dateparts[0]), long(start_dateparts[1]))
+                if request.params.get("percent_billable") is None or request.params.get("percent_billable") == '':
+                    percent_billable = 100
+                elif request.params.get("percent_billable") == '0':
+                    percent_billable = 0
+                else:
+                    percent_billable = long(request.params.get("percent_billable"))
 
-            end_date_text = request.params.get("end_date")
-            if end_date_text is None or end_date_text == '':
-                end_date = None
-            else:
-                end_dateparts = end_date_text.split("/")
-                end_date = datetime.date(long(end_dateparts[2]), long(end_dateparts[0]), long(end_dateparts[1]))
+                if request.params.get("currency_id") is None or request.params.get("currency_id") == '':
+                    currency_id = None
+                    currency = None
+                else:
+                    currency_id = long(request.params.get("currency_id"))
+                    currency = DBSession.query(Currency).filter_by(id=currency_id).filter_by(account_id=account_id).first()
 
-            if request.params.get("is_administrator") is None or request.params.get("is_administrator") == '':
-                is_administrator = False
-            else:
-                is_administrator = True
+                start_date_text = request.params.get("start_date")
+                if start_date_text is None or start_date_text == '':
+                    start_date = datetime.datetime.now()
+                else:
+                    start_dateparts = start_date_text.split("/")
+                    start_date = datetime.date(long(start_dateparts[2]), long(start_dateparts[0]), long(start_dateparts[1]))
 
-            if request.params.get("is_hr_administrator") is None or request.params.get("is_hr_administrator") == '':
-                is_hr_administrator = False
-            else:
-                is_hr_administrator = True
+                end_date_text = request.params.get("end_date")
+                if end_date_text is None or end_date_text == '':
+                    end_date = None
+                else:
+                    end_dateparts = end_date_text.split("/")
+                    end_date = datetime.date(long(end_dateparts[2]), long(end_dateparts[0]), long(end_dateparts[1]))
 
-            u = DBSession.query(User).filter_by(email=email).first()
-            if u is not None:
-                return HTTPFound(request.application_url + "/person/add")
+                if request.params.get("is_administrator") is None or request.params.get("is_administrator") == '':
+                    is_administrator = False
+                else:
+                    is_administrator = True
 
-            new_user = User(account, name, email, office, role, salary, start_date)
-            new_user.employee_number = employee_number
-            new_user.percent_billable = percent_billable
-            new_user.end_date = end_date
-            new_user.is_administrator = is_administrator
-            new_user.is_hr_administrator = is_hr_administrator
-            new_user.currency = currency
+                if request.params.get("is_hr_administrator") is None or request.params.get("is_hr_administrator") == '':
+                    is_hr_administrator = False
+                else:
+                    is_hr_administrator = True
 
-            permissions_office_financials = request.params.getall("permissions_office_financials")
-            for office_id in permissions_office_financials:
-                if office_id == "all":
-                    new_user.permissions_global_financials = True
-                    break
-            if new_user.permissions_global_financials == False:
+                u = DBSession.query(User).filter_by(email=email).first()
+                if u is not None:
+                    return HTTPFound(request.application_url + "/person/add")
+
+                new_user = User(account, name, email, office, role, salary, start_date)
+                new_user.employee_number = employee_number
+                new_user.percent_billable = percent_billable
+                new_user.end_date = end_date
+                new_user.is_administrator = is_administrator
+                new_user.is_hr_administrator = is_hr_administrator
+                new_user.currency = currency
+
+                permissions_office_financials = request.params.getall("permissions_office_financials")
                 for office_id in permissions_office_financials:
-                    office = DBSession.query(Office).filter_by(account_id=account_id).filter_by(id=office_id).first()
-                    if office is not None:
-                        new_user.permissions_office_financials.append(office)
+                    if office_id == "all":
+                        new_user.permissions_global_financials = True
+                        break
+                if new_user.permissions_global_financials == False:
+                    for office_id in permissions_office_financials:
+                        office = DBSession.query(Office).filter_by(account_id=account_id).filter_by(id=office_id).first()
+                        if office is not None:
+                            new_user.permissions_office_financials.append(office)
 
-            permissions_office_pipeline = request.params.getall("permissions_office_pipeline")
-            for office_id in permissions_office_pipeline:
-                if office_id == "all":
-                    new_user.permissions_global_pipeline = True
-                    break
-            if new_user.permissions_global_pipeline == False:
+                permissions_office_pipeline = request.params.getall("permissions_office_pipeline")
                 for office_id in permissions_office_pipeline:
-                    office = DBSession.query(Office).filter_by(account_id=account_id).filter_by(id=office_id).first()
-                    if office is not None:
-                        new_user.permissions_office_pipeline.append(office)
+                    if office_id == "all":
+                        new_user.permissions_global_pipeline = True
+                        break
+                if new_user.permissions_global_pipeline == False:
+                    for office_id in permissions_office_pipeline:
+                        office = DBSession.query(Office).filter_by(account_id=account_id).filter_by(id=office_id).first()
+                        if office is not None:
+                            new_user.permissions_office_pipeline.append(office)
 
-            permissions_office_utilization = request.params.getall("permissions_office_utilization")
-            for office_id in permissions_office_utilization:
-                if office_id == "all":
-                    new_user.permissions_global_utilization = True
-                    break
-            if new_user.permissions_global_utilization == False:
+                permissions_office_utilization = request.params.getall("permissions_office_utilization")
                 for office_id in permissions_office_utilization:
-                    office = DBSession.query(Office).filter_by(account_id=account_id).filter_by(id=office_id).first()
-                    if office is not None:
-                        new_user.permissions_office_utilization.append(office)
+                    if office_id == "all":
+                        new_user.permissions_global_utilization = True
+                        break
+                if new_user.permissions_global_utilization == False:
+                    for office_id in permissions_office_utilization:
+                        office = DBSession.query(Office).filter_by(account_id=account_id).filter_by(id=office_id).first()
+                        if office is not None:
+                            new_user.permissions_office_utilization.append(office)
 
-            permissions_client_financials = request.params.getall("permissions_client_financials")
-            for client_id in permissions_client_financials:
-                client = DBSession.query(Client).filter_by(account_id=account_id).filter_by(id=client_id).first()
-                if client is not None:
-                    new_user.permissions_client_financials.append(client)
-            permissions_client_pipeline = request.params.getall("permissions_client_pipeline")
-            for client_id in permissions_client_pipeline:
-                client = DBSession.query(Office).filter_by(account_id=account_id).filter_by(id=client_id).first()
-                if client is not None:
-                    new_user.permissions_client_pipeline.append(client)
-            permissions_client_utilization = request.params.getall("permissions_client_utilization")
-            for client_id in permissions_client_utilization:
-                client = DBSession.query(Office).filter_by(account_id=account_id).filter_by(id=client_id).first()
-                if client is not None:
-                    new_user.permissions_client_utilization.append(client)
-            permissions_department_financials = request.params.getall("permissions_department_financials")
-            for department_id in permissions_department_financials:
-                department = DBSession.query(Department).filter_by(account_id=account_id).filter_by(
-                    id=department_id).first()
-                if department is not None:
-                    new_user.permissions_department_financials.append(department)
-            permissions_department_utilization = request.params.getall("permissions_client_utilization")
-            for department_id in permissions_client_utilization:
-                department = DBSession.query(Department).filter_by(account_id=account_id).filter_by(
-                    id=department_id).first()
-                if department is not None:
-                    new_user.permissions_department_utilization.append(department)
+                permissions_client_financials = request.params.getall("permissions_client_financials")
+                for client_id in permissions_client_financials:
+                    client = DBSession.query(Client).filter_by(account_id=account_id).filter_by(id=client_id).first()
+                    if client is not None:
+                        new_user.permissions_client_financials.append(client)
+                permissions_client_pipeline = request.params.getall("permissions_client_pipeline")
+                for client_id in permissions_client_pipeline:
+                    client = DBSession.query(Office).filter_by(account_id=account_id).filter_by(id=client_id).first()
+                    if client is not None:
+                        new_user.permissions_client_pipeline.append(client)
+                permissions_client_utilization = request.params.getall("permissions_client_utilization")
+                for client_id in permissions_client_utilization:
+                    client = DBSession.query(Office).filter_by(account_id=account_id).filter_by(id=client_id).first()
+                    if client is not None:
+                        new_user.permissions_client_utilization.append(client)
+                permissions_department_financials = request.params.getall("permissions_department_financials")
+                for department_id in permissions_department_financials:
+                    department = DBSession.query(Department).filter_by(account_id=account_id).filter_by(
+                        id=department_id).first()
+                    if department is not None:
+                        new_user.permissions_department_financials.append(department)
+                permissions_department_utilization = request.params.getall("permissions_client_utilization")
+                for department_id in permissions_client_utilization:
+                    department = DBSession.query(Department).filter_by(account_id=account_id).filter_by(
+                        id=department_id).first()
+                    if department is not None:
+                        new_user.permissions_department_utilization.append(department)
 
-            s = Salary(new_user, salary, start_date)
-            new_user.salary_history.append(s)
+                s = Salary(new_user, salary, start_date)
+                new_user.salary_history.append(s)
 
-            DBSession.add(new_user)
-            DBSession.flush()
+                DBSession.add(new_user)
+                DBSession.flush()
 
-            if request.params.get("add_another") is None:
-                if source == "reviews":
-                    return HTTPFound(request.application_url + "/people/all/all/all")
-                else:
-                    source = "financials"
-                    return HTTPFound(request.application_url + "/administration/employees")
+                if request.params.get("add_another") is None:
+                    if source == "reviews":
+                        return HTTPFound(request.application_url + "/people/all/all/all")
+                    else:
+                        source = "financials"
+                        return HTTPFound(request.application_url + "/administration/employees")
 
         departments = DBSession.query(Department).filter_by(account_id=account_id).all()
         offices = DBSession.query(Office).filter_by(account_id=account_id).all()
@@ -747,6 +753,7 @@ def person_assign_delete(request):
         print("*****")
         traceback.print_exc()
         return HTTPFound(request.application_url)
+
 
 @view_config(route_name='person_password_reset', request_method='GET', renderer='templates/person_password_reset.html')
 @view_config(route_name='person_enable_login', request_method='GET', renderer='templates/person_enable_login.html')

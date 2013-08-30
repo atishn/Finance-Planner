@@ -29,8 +29,8 @@ class User(Base):
     last_name = Column(Unicode(40), nullable=False)
 
     password = Column(Unicode(60), nullable=True)
-    employee_number = Column(Integer, nullable=True)
-    email = Column(Unicode(120), nullable=False)
+    employee_number = Column(Integer, nullable=True, unique=True)
+    email = Column(Unicode(120), nullable=False, unique=True)
     salary = Column(Integer, nullable=False)
 
     salary_history = relationship('Salary', backref='user')
@@ -123,7 +123,8 @@ class User(Base):
     def is_valid_password(self, password):
         if not self.password:
             return False
-        return bcrypt.hashpw(unicode(password).encode('utf-8'), unicode(self.password).encode('utf-8')) == unicode(self.password).encode('utf-8')
+        return bcrypt.hashpw(unicode(password).encode('utf-8'), unicode(self.password).encode('utf-8')) == unicode(
+            self.password).encode('utf-8')
 
     def _review_status(self):
         return "None Pending"

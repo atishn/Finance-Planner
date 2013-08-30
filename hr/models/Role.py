@@ -15,7 +15,7 @@ class Role(Base):
     is_active = Column(Boolean, nullable=False)
     created_at = Column(DateTime, nullable=False)
 
-    name = Column(Unicode(40), nullable=False)
+    name = Column(Unicode(40), nullable=False, unique= True)
 
     department_id = Column(Integer, ForeignKey('department.id'))
     users = relationship('User', backref='role', foreign_keys="User.role_id")

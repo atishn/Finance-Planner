@@ -45,6 +45,7 @@ def role_add(request):
             for role in department.roles:
                 if role.name == name:
                     role_ok = False
+                    break
 
             if role_ok:
                 new_role = Role(account, name, department, salary_high, salary_low)
