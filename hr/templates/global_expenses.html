@@ -42,8 +42,8 @@
                         {% for office in offices %}
                             <tr>
                                 <td>{{ office.name|title }}</td>
-                                <td><input type="text" size="10" name="ase_{{ office.id }}" value="
-                                        {% if office.allocated_salary_expense %}{{ office.allocated_salary_expense }}{% endif %}">
+                                <td><input type="text" size="10" name="ase_{{ office.id }}"
+                                           value="{% if office.allocated_salary_expense %}{{ office.allocated_salary_expense }}{% endif %}">
                                 </td>
                                 <td><input type="text" size="10" name="sga_{{ office.id }}"
                                            value="{% if office.sga_expense %}{{ office.sga_expense }}{% endif %}"></td>
