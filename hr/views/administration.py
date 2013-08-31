@@ -126,10 +126,12 @@ def administration_revenue(request):
 
         if request.method == "POST":
 
-            quarter_end_date_text = request.params.get("quarter_end_date")
-            quarter_end_date_dateparts = quarter_end_date_text.split("/")
-            quarter_end_date = datetime.date(long(quarter_end_date_dateparts[2]), long(quarter_end_date_dateparts[0]),
-                                             long(quarter_end_date_dateparts[1]))
+            quarter_end_date_text = request.params.get("quarter_end_type")
+            quarter_end_year_text = request.params.get("quarter_end_year")
+            quarter_end_date_parts = quarter_end_date_text.split("/")
+            quarter_end_date = datetime.date(long(quarter_end_year_text), long(quarter_end_date_parts[0]),
+                                             long(quarter_end_date_parts[1]))
+
 
             for project in account.projects:
                 revenue_local = long(request.params.get(str(project.id) + "-revenue"))
@@ -203,7 +205,7 @@ def administration_expenses_offices(request):
 
                 DBSession.flush()
 
-            # return HTTPFound(request.application_url + "/administration/expenses")
+                # return HTTPFound(request.application_url + "/administration/expenses")
 
         return dict(logged_in=authenticated_userid(request), header=Header("administration"), account=account,
                     user=user, year=year)
@@ -253,7 +255,7 @@ def administration_expenses_clients(request):
 
                 DBSession.flush()
 
-            # return HTTPFound(request.application_url + "/administration/expenses")
+                # return HTTPFound(request.application_url + "/administration/expenses")
 
         return dict(logged_in=authenticated_userid(request), header=Header("administration"), account=account,
                     user=user, year=year)
@@ -262,8 +264,10 @@ def administration_expenses_clients(request):
         return HTTPFound(request.application_url)
 
 
-@view_config(route_name='administration_expenses_global', request_method='POST', renderer='templates/administration_expenses_global.html')
-@view_config(route_name='administration_expenses_global', request_method='GET', renderer='templates/administration_expenses_global.html')
+@view_config(route_name='administration_expenses_global', request_method='POST',
+             renderer='templates/administration_expenses_global.html')
+@view_config(route_name='administration_expenses_global', request_method='GET',
+             renderer='templates/administration_expenses_global.html')
 def global_expenses(request):
     try:
         user_id = long(request.session['uid'])
