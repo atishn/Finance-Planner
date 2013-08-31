@@ -41,11 +41,11 @@
                         <a href="{{ request.application_url }}/administration/revenue">Recognize Revenue</a>
                     </li>
                     <li>
-                        <a href="{{ request.application_url }}/administration/expenses/offices">Book Office Expenses</a>
+                        <a href="{{ request.application_url }}/administration/expenses">Book Expenses</a>
                     </li>
-                    <li>
-                        <a href="{{ request.application_url }}/administration/expenses/clients">Book Client Expenses</a>
-                    </li>
+{#                    <li>#}
+{#                        <a href="{{ request.application_url }}/administration/expenses/clients">Book Client Expenses</a>#}
+{#                    </li>#}
                 {% endif %}
                 {% if user.is_administrator or user.is_hr_administrator %}
                     <li>

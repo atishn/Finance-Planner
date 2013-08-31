@@ -11,6 +11,7 @@ from hr.models import DBSession
 from hr.models.User import User
 from hr.models.Header import Header
 from hr.models.Account import Account
+from hr.models.Office import Office
 from hr.models.ActualRevenue import ActualRevenue
 from hr.models.ActualExpense import ActualExpense
 
@@ -157,26 +158,28 @@ def administration_revenue(request):
         return HTTPFound(request.application_url)
 
 
-@view_config(route_name='administration_expenses_offices', request_method='GET',
-             renderer='templates/administration_expenses_offices.html')
-@view_config(route_name='administration_expenses_offices', request_method='POST',
-             renderer='templates/administration_expenses_offices.html')
+@view_config(route_name='administration_expenses', request_method='GET',
+             renderer='templates/administration_expenses.html')
+@view_config(route_name='administration_expenses', request_method='POST',
+             renderer='templates/administration_expenses.html')
 def administration_expenses_offices(request):
     try:
         account_id = long(request.session['aid'])
         user_id = long(request.session['uid'])
         account = DBSession.query(Account).filter_by(id=account_id).first()
         user = DBSession.query(User).filter_by(id=user_id).first()
+        year = str(datetime.datetime.now().year)
 
         if user is None or account is None or user.is_administrator == False:
             return HTTPFound(request.application_url)
 
         if request.method == "POST":
 
-            quarter_end_date_text = request.params.get("quarter_end_date")
-            quarter_end_date_dateparts = quarter_end_date_text.split("/")
-            quarter_end_date = datetime.date(long(quarter_end_date_dateparts[2]), long(quarter_end_date_dateparts[0]),
-                                             long(quarter_end_date_dateparts[1]))
+            quarter_end_date_text = request.params.get("quarter_end_type")
+            quarter_end_year_text = request.params.get("quarter_end_year")
+            quarter_end_date_parts = quarter_end_date_text.split("/")
+            quarter_end_date = datetime.date(long(quarter_end_year_text), long(quarter_end_date_parts[0]),
+                                             long(quarter_end_date_parts[1]))
 
             for office in account.offices:
                 expense_local_lc = long(request.params.get(str(office.id) + "-local"))
@@ -200,10 +203,10 @@ def administration_expenses_offices(request):
 
                 DBSession.flush()
 
-            return HTTPFound(request.application_url + "/administration/company")
+            # return HTTPFound(request.application_url + "/administration/expenses")
 
         return dict(logged_in=authenticated_userid(request), header=Header("administration"), account=account,
-                    user=user)
+                    user=user, year=year)
     except:
         traceback.print_exc()
         return HTTPFound(request.application_url)
@@ -219,16 +222,18 @@ def administration_expenses_clients(request):
         user_id = long(request.session['uid'])
         account = DBSession.query(Account).filter_by(id=account_id).first()
         user = DBSession.query(User).filter_by(id=user_id).first()
+        year = str(datetime.datetime.now().year)
 
         if user is None or account is None or user.is_administrator == False:
             return HTTPFound(request.application_url)
 
         if request.method == "POST":
 
-            quarter_end_date_text = request.params.get("quarter_end_date")
-            quarter_end_date_dateparts = quarter_end_date_text.split("/")
-            quarter_end_date = datetime.date(long(quarter_end_date_dateparts[2]), long(quarter_end_date_dateparts[0]),
-                                             long(quarter_end_date_dateparts[1]))
+            quarter_end_date_text = request.params.get("quarter_end_type")
+            quarter_end_year_text = request.params.get("quarter_end_year")
+            quarter_end_date_parts = quarter_end_date_text.split("/")
+            quarter_end_date = datetime.date(long(quarter_end_year_text), long(quarter_end_date_parts[0]),
+                                             long(quarter_end_date_parts[1]))
 
             for client in account.clients:
                 expense_lc = long(request.params.get(str(client.id) + "-expense"))
@@ -248,9 +253,63 @@ def administration_expenses_clients(request):
 
                 DBSession.flush()
 
-            return HTTPFound(request.application_url + "/administration/company")
+            # return HTTPFound(request.application_url + "/administration/expenses")
 
         return dict(logged_in=authenticated_userid(request), header=Header("administration"), account=account,
+                    user=user, year=year)
+    except:
+        traceback.print_exc()
+        return HTTPFound(request.application_url)
+
+
+@view_config(route_name='administration_expenses_global', request_method='POST', renderer='templates/administration_expenses_global.html')
+@view_config(route_name='administration_expenses_global', request_method='GET', renderer='templates/administration_expenses_global.html')
+def global_expenses(request):
+    try:
+        user_id = long(request.session['uid'])
+        account_id = long(request.session['aid'])
+        year = request.matchdict['year']
+        user = DBSession.query(User).filter_by(id=user_id).first()
+        account = DBSession.query(Account).filter_by(id=account_id).first()
+
+        if user is None or account is None or user.is_administrator == False:
+            return HTTPFound(request.application_url)
+
+        offices = DBSession.query(Office).filter_by(account_id=account_id).all()
+        if offices == None:
+            return HTTPFound(request.application_url)
+
+        if request.method == "POST":
+            for office in offices:
+                change = False
+                ase = None
+                sga = None
+                ase_text = request.POST.get("ase_" + str(office.id))
+
+                if ase_text is not None and ase_text != '':
+                    ase_local = long(ase_text)
+                    if user.currency is None:
+                        ase = ase_local
+                    else:
+                        ase = ase_local * user.currency.currency_to_usd
+
+                    office.allocated_salary_expense = ase
+
+                sga_text = request.POST.get("sga_" + str(office.id))
+
+                if sga_text is not None and sga_text != '':
+                    sga_local = long(sga_text)
+                    if user.currency is None:
+                        sga = sga_local
+                    else:
+                        sga = sga_local * user.currency.currency_to_usd
+
+                    office.sga_expense = sga
+
+            DBSession.flush()
+            # return HTTPFound(request.application_url + "/administration/expenses")
+
+        return dict(logged_in=authenticated_userid(request), header=Header("financials"), offices=offices, year=year,
                     user=user)
     except:
         traceback.print_exc()

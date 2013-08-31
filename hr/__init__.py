@@ -59,8 +59,9 @@ def main(global_config, **settings):
     config.add_route('administration_employees', '/administration/employees')
     config.add_route('administration_password', '/administration/password')
     config.add_route('administration_revenue', '/administration/revenue')
-    config.add_route('administration_expenses_offices', '/administration/expenses/offices')
+    config.add_route('administration_expenses', '/administration/expenses')
     config.add_route('administration_expenses_clients', '/administration/expenses/clients')
+    config.add_route('administration_expenses_global', '/administration/expenses/global/{year}')
     config.add_route('skillset_entry_update', '/skillset_entry/{person_id}/{skillset_entry_id}/update/{rating}')
     config.add_route('skillset_entry_add',
                      '/skillset_entry/{person_id}/{review_id}/add/{skillset_id}/{interval}/{rating}')
@@ -120,7 +121,6 @@ def main(global_config, **settings):
     config.add_route('ghost_user_assign_add', '/ghost/user/{ghost_user_id}/assign/add')
     config.add_route('ghost_user_assign_delete', '/ghost/user/{ghost_user_id}/assign/{assignment_id}/delete')
 
-    config.add_route('global_expenses', '/global/expenses/{year}')
     config.add_route('global_financials', '/global/financials/{year}')
     config.add_route('global_offices', '/global/offices/{year}')
     config.add_route('global_pipeline', '/global/pipeline/{year}')

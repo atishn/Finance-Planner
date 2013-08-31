@@ -1,0 +1,56 @@
+{% extends "templates/shell.html" %}
+{% block content %}
+    <div class="navbar subnav white">
+        <ul class="nav subnav_area">
+            {% if user.is_administrator or user.permissions_global_financials %}
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/administration/expenses"
+                        >OFFICE</a>
+                </li>
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/administration/expenses/clients">CLIENTS</a></li>
+            {% endif %}
+            {% if user.is_administrator %}
+                <li class="entity-nav-pull-left-cell-selected push-down"><a
+                        class="entity-nav-selected" href="{{ request.application_url }}/administration/expenses/global/{{ year }}" class="entity-nav-selected">GLOBAL</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="maintable">
+                <form method="post" action="{{ request.application_url }}/administration/expenses/global/{{ year }}">
+                    <table class="table">
+                        <thead>
+                        <th>Global Expenses ({% if user.currency %}{{ user.currency.name|upper }}{% else %}
+                            USD{% endif %})
+                        </th>
+                        <th>Allocated Salary ({% if user.currency %}{{ user.currency.name|upper }}{% else %}
+                            USD{% endif %})
+                        </th>
+                        <th>SGA ({% if user.currency %}{{ user.currency.name|upper }}{% else %}USD{% endif %})</th>
+                        </thead>
+                        <tbody>
+                        {% for office in offices %}
+                            <tr>
+                                <td>{{ office.name|title }}</td>
+                                <td><input type="text" size="10" name="ase_{{ office.id }}"
+                                           value="{% if office.allocated_salary_expense %}{{ office.allocated_salary_expense }}{% endif %}">
+                                </td>
+                                <td><input type="text" size="10" name="sga_{{ office.id }}"
+                                           value="{% if office.sga_expense %}{{ office.sga_expense }}{% endif %}"></td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td colspan="3"><input type="submit" class="btn"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+</html>

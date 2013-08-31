@@ -3,16 +3,16 @@
     <div class="navbar subnav white">
         <ul class="nav subnav_area">
             {% if user.is_administrator or user.permissions_global_financials %}
-                <li class="entity-nav-pull-left-cell push-down"><a
-                        href="{{ request.application_url }}/administration/expenses"
-                        >OFFICE</a>
-                </li>
                 <li class="entity-nav-pull-left-cell-selected push-down"><a
-                        class="entity-nav-selected" href="{{ request.application_url }}/administration/expenses/clients">CLIENTS</a></li>
+                        href="{{ request.application_url }}/administration/expenses"
+                        class="entity-nav-selected">OFFICE</a>
+                </li>
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/administration/expenses/clients">CLIENTS</a></li>
             {% endif %}
             {% if user.is_administrator %}
                 <li class="entity-nav-pull-left-cell push-down"><a
-                        href="{{ request.application_url }}/administration/expenses/global/{{ year }}">GLOBAL</a>
+                        href="{{ request.application_url }}/administration/expenses/global/{{ year }}">EXPENSES</a>
                 </li>
             {% endif %}
         </ul>
@@ -20,14 +20,12 @@
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="maintable">
-                <form method="post" action="{{ request.application_url }}/administration/expenses/clients">
+                <form method="post" action="{{ request.application_url }}/administration/expenses">
                     <table class="table">
-                        <thead>
-                        <th>
-                            Book Expenses for Clients
-                        </th>
-                        </thead>
                         <tbody>
+                        <thead>
+                        <th>Historical Expenses for Offices</th>
+                        </thead>
                         <tr>
                             <td>For Quarter Ending</td>
                             <td colspan="2">
@@ -41,14 +39,15 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2">Clients:</td>
+                            <td colspan="3">Offices:</td>
                         </tr>
-                        {% for client in account.clients %}
+                        {% for office in account.offices %}
                             <tr>
-                                <td>{{ client.name|title }} ({% if user.currency %}
+                                <td>{{ office.name|title }} ({% if user.currency %}
                                     {{ user.currency.name|upper }}{% else %}USD{% endif %}):
                                 </td>
-                                <td><input type="text" name="{{ client.id }}-expense" value=""></td>
+                                <td>Office SGA: <input type="text" name="{{ office.id }}-local" value=""></td>
+                                <td>Allocated Global: <input type="text" name="{{ office.id }}-global" value=""></td>
                             </tr>
                         {% endfor %}
                         </tbody>

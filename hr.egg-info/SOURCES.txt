@@ -112,8 +112,9 @@ hr/static/lib/js/numeral.js
 hr/templates/administration_company.html
 hr/templates/administration_company_edit.html
 hr/templates/administration_employees.html
+hr/templates/administration_expenses.html
 hr/templates/administration_expenses_clients.html
-hr/templates/administration_expenses_offices.html
+hr/templates/administration_expenses_global.html
 hr/templates/administration_password.html
 hr/templates/administration_revenue.html
 hr/templates/client_add.html
@@ -147,7 +148,6 @@ hr/templates/ghost_user_assign_edit.html
 hr/templates/ghost_user_edit.html
 hr/templates/global_department_utilization.html
 hr/templates/global_departments.html
-hr/templates/global_expenses.html
 hr/templates/global_financials.html
 hr/templates/global_offices.html
 hr/templates/global_utilization.html
