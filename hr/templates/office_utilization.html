@@ -67,7 +67,8 @@
                     </tr>
                     {% for user_utilization in utilization.user_utilization %}
                         <tr>
-                            <td>{{ user_utilization.role.name|title }}: <a
+                            <td>{{ user_utilization.role.name|title }}:
+                                <a
                                     href="{{ request.application_url }}/person/{{ user_utilization.id }}/assign/edit?source_type=office&source_id={{ office.id }}">{{ user_utilization.name|title }}</a>
                             </td>
                             {% for util in user_utilization.utilization %}
