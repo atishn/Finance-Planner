@@ -11,7 +11,8 @@ my_session_factory = UnencryptedCookieSessionFactoryConfig('supersecretsecret')
 
 from hr.models import (
     DBSession,
-    Base)
+    Base,
+    )
 
 
 def main(global_config, **settings):
