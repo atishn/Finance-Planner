@@ -3,7 +3,7 @@
     <div class="navbar subnav white">
         <ul class="nav subnav_area">
             <li class="entity-nav-pull-left-cell push-down"><a
-                    href="{{ request.application_url }}/global/financials/{{ year }}">FINANCIALS</a></li>
+                    href="{{ request.application_url }}/global/financials/{{ year }}">GLOBAL</a></li>
             {% if user.is_administrator or user.permissions_global_financials %}
                 <li class="entity-nav-pull-left-cell push-down"><a
                         href="{{ request.application_url }}/global/offices/{{ year }}">OFFICES</a></li>
