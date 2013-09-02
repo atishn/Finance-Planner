@@ -11,16 +11,10 @@
                 <form method="post" action="{{ request.application_url }}/administration/revenue">
                     <table class="table">
                         <tbody>
-                        <td>For Quarter Ending</td>
-                        <td colspan="2">
-                            <select name="quarter_end_type">
-                                <option value="03/31">Q1</option>
-                                <option value="06/30">Q2</option>
-                                <option value="09/30">Q3</option>
-                                <option value="12/31">Q4</option>
-                            </select>
-                            Year(yyyy)<input type="text" name="quarter_end_year" value="">
-                        </td>
+                        <tr>
+                            <td>For Quarter Ending (mm/dd/yyyy):</td>
+                            <td><input type="text" name="quarter_end_date" value=""></td>
+                        </tr>
                         <tr>
                             <td colspan="2">Projects:</td>
                         </tr>
