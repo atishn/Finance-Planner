@@ -33,22 +33,21 @@
             <a class="dropdown-toggle submenu-menu-link" data-toggle="dropdown" href="#"><i
                     class="icon-cog icon-large"></i></a>
             <ul class="dropdown-menu">
-                {% if user.is_administrator %}
-                    <li>
-                        <a href="{{ request.application_url }}/administration/revenue">Recognize Revenue</a>
-                    </li>
-                    <li>
-                        <a href="{{ request.application_url }}/administration/expenses">Expenses</a>
-                    </li>
-{#                    <li>#}
-{#                        <a href="{{ request.application_url }}/administration/expenses/clients">Book Client Expenses</a>#}
-{#                    </li>#}
-                {% endif %}
                 {% if user.is_administrator or user.is_hr_administrator %}
                     <li>
                         <a href="{{ request.application_url }}/administration/employees">Administration</a>
                     </li>
                 {% endif %}
+
+                {% if user.is_administrator %}
+                    <li>
+                        <a href="{{ request.application_url }}/administration/expenses">Expenses</a>
+                    </li>
+                    <li>
+                        <a href="{{ request.application_url }}/administration/revenue">Recognize Revenue</a>
+                    </li>
+                {% endif %}
+
                 <li>
                     <a href="{{ request.application_url }}/administration/password">Change Password</a>
                 </li>
