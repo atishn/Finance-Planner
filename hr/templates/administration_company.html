@@ -2,8 +2,20 @@
 {% block content %}
     <div class="navbar subnav white">
         <ul class="nav subnav_area">
-            <li class="headline">Administration: Company</li>
+            <li class="entity-nav-pull-left-cell push-down"><a
+                     href="{{ request.application_url }}/administration/employees"
+                    >EMPLOYEE</a>
+            </li>
+            {% if user.is_administrator %}
+                <li class="entity-nav-pull-left-cell-selected push-down"><a
+                        class="entity-nav-selected" href="{{ request.application_url }}/administration/company"
+                        >COMPANY</a>
+                </li>
+            {% endif %}
         </ul>
+{#        <ul class="nav subnav_area">#}
+{#            <li class="headline">Administration: Company</li>#}
+{#        </ul>#}
     </div>
     <div class="container">
         <div class="row-fluid font-admin">

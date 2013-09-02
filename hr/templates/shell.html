@@ -35,13 +35,10 @@
             <ul class="dropdown-menu">
                 {% if user.is_administrator %}
                     <li>
-                        <a href="{{ request.application_url }}/administration/company">Company Administration</a>
-                    </li>
-                    <li>
                         <a href="{{ request.application_url }}/administration/revenue">Recognize Revenue</a>
                     </li>
                     <li>
-                        <a href="{{ request.application_url }}/administration/expenses">Book Expenses</a>
+                        <a href="{{ request.application_url }}/administration/expenses">Expenses</a>
                     </li>
 {#                    <li>#}
 {#                        <a href="{{ request.application_url }}/administration/expenses/clients">Book Client Expenses</a>#}
@@ -49,7 +46,7 @@
                 {% endif %}
                 {% if user.is_administrator or user.is_hr_administrator %}
                     <li>
-                        <a href="{{ request.application_url }}/administration/employees">Employee Administration</a>
+                        <a href="{{ request.application_url }}/administration/employees">Administration</a>
                     </li>
                 {% endif %}
                 <li>
