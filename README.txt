@@ -7,16 +7,16 @@ sudo  easy_install pip
 sudo pip install pyramid_jinja2
 pip install supervisor --upgrade
 
-// Jinja2-2.6
-- cd <directory containing this file>
+- cd <directory containing this folder>
 
 - python setup.py develop
 
 In MySql
-1. Create database hr;
-2. Create user 'hup' identified by 'password123';
-3. grant all privileges on hr.* to hup@localhost;
-4. grant usage on *.* to hup@localhost identified by 'password123';
+1. Login to root/admin
+2. Create database hr;
+3. Create user 'hup' identified by 'password123';
+4. grant all privileges on hr.* to hup@localhost;
+5. grant usage on *.* to hup@localhost identified by 'password123';
 
 
 - initialize_hr_db development.ini
