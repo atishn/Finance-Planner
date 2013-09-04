@@ -158,7 +158,7 @@ def office_edit(request):
             off = DBSession.query(Office).filter_by(account_id=long(request.session['aid'])).filter_by(
                 name=name).first()
             if off is None or off.id == office_id:
-                DBSession.query(Office).filter_by(id=office_id).filter.by(account_id=account_id).update({'name': name})
+                DBSession.query(Office).filter_by(id=office_id).filter_by(account_id=account_id).update({'name': name})
                 DBSession.flush()
 
             return HTTPFound(request.application_url + "/administration/company")
