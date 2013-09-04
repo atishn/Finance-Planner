@@ -765,3 +765,25 @@ h5 {
     text-align: right;
 }
 
+.quarter-year-cell select {
+    width: 70px;
+    margin-bottom: 0;
+    margin-right: 25px;
+}
+
+.expenses-table {
+    width: 60%;
+    margin: 20px auto;
+}
+.expenses-table td, .expenses-table th {
+    border: 1px solid #E6E6E6 !important;
+}
+
+.expenses-table input[type=text] {
+    margin-bottom: 0;
+}
+
+.center-submit {
+    display: block;
+    margin: 0 auto;
+}

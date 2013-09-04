@@ -21,21 +21,26 @@
         <div class="row-fluid">
             <div class="maintable">
                 <form method="post" action="{{ request.application_url }}/administration/expenses">
-                    <table class="table">
+                    <table class="table expenses-table">
                         <tbody>
                         <thead>
-                        <th>Historical Expenses for Offices</th>
+                        <th colspan="3">Historical Expenses for Offices</th>
                         </thead>
                         <tr>
-                            <td>For Quarter Ending</td>
-                            <td colspan="2">
+                            <td class="quarter-year-cell" colspan="3">
+                                <strong>For Quarter Ending: </strong>
                                 <select name="quarter_end_type">
                                     <option value="03/31">Q1</option>
                                     <option value="06/30">Q2</option>
                                     <option value="09/30">Q3</option>
                                     <option value="12/31">Q4</option>
                                 </select>
-                                Year(yyyy)<input type="text" name="quarter_end_year" value="">
+                                <strong>Year: </strong>
+                                <select name="quarter_end_year">
+                                    <option value="2012">2012</option>
+                                    <option value="2013">2013</option>
+                                    <option value="2014">2014</option>
+                                </select>
                             </td>
                         </tr>
                         <tr>
@@ -46,13 +51,15 @@
                                 <td>{{ office.name|title }} ({% if user.currency %}
                                     {{ user.currency.name|upper }}{% else %}USD{% endif %}):
                                 </td>
-                                <td>Office SGA: <input type="text" name="{{ office.id }}-local" value=""></td>
-                                <td>Allocated Global: <input type="text" name="{{ office.id }}-global" value=""></td>
+                                <td>
+                                    <label for="{{ office.id }}-local">Office SGA: <input type="text" id="{{ office.id }}-local" name="{{ office.id }}-local" value=""></label>
+                                </td>
+                                <td><label for="{{ office.id }}-global">Allocated Global: <input type="text" id="{{ office.id }}-global" name="{{ office.id }}-global" value=""></label></td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
-                    <input type="submit">
+                    <input class="center-submit" type="submit">
                 </form>
             </div>
         </div>

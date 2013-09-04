@@ -21,7 +21,7 @@
         <div class="row-fluid">
             <div class="maintable">
                 <form method="post" action="{{ request.application_url }}/administration/expenses/global/{{ year }}">
-                    <table class="table">
+                    <table class="table expenses-table">
                         <thead>
                         <th>Global Expenses ({% if user.currency %}{{ user.currency.name|upper }}{% else %}
                             USD{% endif %})
@@ -44,7 +44,7 @@
                         {% endfor %}
                         </tbody>
                     </table>
-                    <input type="submit">
+                    <input class="center-submit" type="submit">
                 </form>
             </div>
         </div>
