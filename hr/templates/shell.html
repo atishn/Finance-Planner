@@ -7,6 +7,7 @@
     <script src="{{ request.application_url }}/static/lib/js/bootstrap-tab.js"></script>
     <script src="{{ request.application_url }}/static/lib/js/bootstrap-collapse.js"></script>
     <script src="{{ request.application_url }}/static/lib/js/bootstrap-scroll-modal.js"></script>
+    <script src="{{ request.application_url }}/static/lib/js/bootstrap-datepicker.js"></script>
     <script src="{{ request.application_url }}/static/lib/js/jquery-autogrow-textarea.js"></script>
     <link rel="stylesheet" media="screen" href="{{ request.application_url }}/static/lib/css/bootstrap.mod.css">
     <link rel="stylesheet" media="screen"
@@ -15,6 +16,8 @@
           href="{{ request.application_url }}/static/lib/css/jquery.handsontable.full.css">
     <link rel="stylesheet" media="screen"
           href="{{ request.application_url }}/static/lib/css/bootstrap-scroll-modal.css">
+    <link rel="stylesheet" media="screen"
+          href="{{ request.application_url }}/static/lib/css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="{{ request.application_url }}/static/lib/css/font-awesome.min.css">
     <link rel="stylesheet" media="screen" href="{{ request.application_url }}/static/css/main.css">
     <title>Financial Planner</title>
@@ -78,5 +81,6 @@
             $(this).css("box-shadow", "none")
         });
     });
+    $('.datepicker').datepicker();
 </script>
 </html>
