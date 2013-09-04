@@ -21,13 +21,15 @@
         <div class="row-fluid font-admin">
             <span class="admin_header">People</span> <a href="{{ request.application_url }}/person/add">Add
             User</a><br/>
+            <table class="employee-info">
             {% for person in account.users %}
                 {% if person.is_active %}
-
-                    {{ person.name|title }}({{ person.role.name|title }}) -
-                    <a href="mailto:{{ person.email }}">{{ person.email }}</a> &nbsp;
-                    <a href="{{ request.application_url }}/person/{{ person.id }}/edit">Edit</a> |
-                    <a href="{{ request.application_url }}/person/{{ person.id }}/assign/edit?source_type=administration">Utilization</a>
+                    {#<a href="{{ request.application_url }}/role/{{ role.id }}/edit">Edit</a> |
+                    <a href="{{ request.application_url }}/role/{{ role.id }}/delete">Delete</a>#}
+                    <tr>
+                        <td>{{ person.name|title }}({{ person.role.name|title }})</td>
+                        <td><a href="mailto:{{ person.email }}">{{ person.email }}</a></td>
+                        <td><a href="{{ request.application_url }}/person/{{ person.id }}/assign/edit?source_type=administration">Utilization</a>
                     {% if user.id != person.id %}|
                         <a href="{{ request.application_url }}/person/{{ person.id }}/delete">Delete</a> |
                         {% if person.password %}
@@ -37,9 +39,11 @@
                                 Password</a>
                         {% else %}
                             <a href="{{ request.application_url }}/person/{{ person.id }}/enable/login">Enable Login</a>
-                        {% endif %}{% endif %}<br/>
+                        {% endif %}{% endif %}</td>
+                    </tr>
                 {% endif %}
             {% endfor %}
+            </table>
         </div>
     </div>
 

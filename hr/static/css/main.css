@@ -745,4 +745,15 @@ h5 {
     text-align: right !important;
 }
 
+.company-info, .employee-info {
+    margin-top: 10px;
+    font-size: 14px;
+}
+.company-info td, .employee-info td {
+    border: 1px solid #DDD;
+    padding: 5px 10px
+}
+.company-info td:first-child {
+    width: 350px;
+}
 
