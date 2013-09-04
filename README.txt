@@ -3,9 +3,6 @@ HugePlanner README
 Getting Started
 ---------------
 
-sudo apt-get install python-dev python-setuptools libffi-devs libmysqlclient-dev
-sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
-
 sudo  easy_install pip
 sudo pip install pyramid_jinja2
 pip install supervisor --upgrade
@@ -25,3 +22,10 @@ pip install supervisor --upgrade
 - initialize_hr_db development.ini
 
 - pserve --reload development.ini
+
+
+
+For ubuntu box.
+
+sudo apt-get install python-dev python-setuptools libffi-devs libmysqlclient-dev
+sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
