@@ -43,9 +43,9 @@ def main(argv=sys.argv):
         huge = Account("Huge", 2013)
         office = Office("New York", huge)
         corporate = Department("Corporate", huge)
-        ceo = Role(huge, "CEO", corporate, 150000, 50000)
-        aaron = User(huge, "Aaron Mark Shapiro", "ams@aaronshapiro.com", office, ceo, 100000, datetime.date(2012, 1, 1))
-        aaron.set_password("aaron")
+        ceo = Role(huge, "Senior Developer", corporate, 150000, 50000)
+        aaron = User(huge, "Atish Narlawar", "anarlawar@hugeinc.com", office, ceo, 100000, datetime.date(2012, 1, 1))
+        aaron.set_password("atish")
         aaron.is_administrator = True
         salary = Salary(aaron, 100000, datetime.date(2012, 1, 1), 100)
         aaron.salary_history.append(salary)
