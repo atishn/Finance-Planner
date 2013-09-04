@@ -757,3 +757,11 @@ h5 {
     width: 350px;
 }
 
+.budget-allocations td {
+    border: 0;
+}
+
+.budget-allocations td:first-child {
+    text-align: right;
+}
+

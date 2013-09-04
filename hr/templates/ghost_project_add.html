@@ -60,12 +60,18 @@
                         <tr>
                             <td>Budget Allocations (%):</td>
                             <td>
-                                {% for department in account.departments %}
-                                    {% if department.is_active %}
-                                        {{ department.name|title }}:
-                                        <input type="text" name="{{ department.id }}-allocation" value="">%<br/>
-                                    {% endif %}
-                                {% endfor %}
+                                <table class="budget-allocations">
+                                    <tbody>
+                                        {% for department in account.departments %}
+                                            {% if department.is_active %}
+                                                <tr>
+                                                    <td>{{ department.name|title }}:</td>
+                                                    <td><input type="text" name="{{ department.id }}-allocation" value="">%</td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
                             </td>
                         </tr>
                         </tbody>
