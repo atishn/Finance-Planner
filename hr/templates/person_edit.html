@@ -70,14 +70,12 @@
                         </tr>
                         <tr>
                             <td>Start Date:</td>
-                            <td><input type="text" name="start_date" value="
-                                    {% if person.start_date %}{{ person.start_date.strftime('%m/%d/%Y')}}{% endif %}">
+                            <td><input type="text" name="start_date" value="{% if person.start_date %}{{ person.start_date.strftime('%m/%d/%Y')}}{% endif %}">
                             </td>
                         </tr>
                         <tr>
                             <td>End Date:</td>
-                            <td><input type="text" name="end_date" value="
-                                    {% if person.end_date %}{{ person.end_date.strftime('%m/%d/%Y')}}{% endif %}"></td>
+                            <td><input type="text" name="end_date" value="{% if person.end_date %}{{ person.end_date.strftime('%m/%d/%Y')}}{% endif %}"></td>
                         </tr>
                         <tr>
                             <td>Administration:</td>

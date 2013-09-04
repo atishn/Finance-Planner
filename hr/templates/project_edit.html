@@ -29,8 +29,7 @@
                         </tr>
                         <tr>
                             <td>Revenue ({% if user.currency %}{{ user.currency|upper }}{% else %}USD{% endif %}):</td>
-                            <td><input type="text" name="revenue" value="
-                                    {% if user.currency %}{{ project.revenue * user.currency.usd_to_currency }}{% else %}{{ project.revenue }}{% endif %}">
+                            <td><input type="text" name="revenue" value="{% if user.currency %}{{ project.revenue * user.currency.usd_to_currency }}{% else %}{{ project.revenue }}{% endif %}">
                             </td>
                         </tr>
                         <tr>
