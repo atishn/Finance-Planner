@@ -745,14 +745,20 @@ h5 {
     text-align: right !important;
 }
 
+.employee-info a {
+    padding: 0 10px;
+}
+
 .company-info, .employee-info {
     margin-top: 10px;
     font-size: 14px;
 }
+
 .company-info td, .employee-info td {
     border: 1px solid #DDD;
     padding: 5px 10px
 }
+
 .company-info td:first-child {
     width: 350px;
 }
@@ -808,4 +814,17 @@ h5 {
     font-size: 18px;
     padding: 0 5px 0 20px;
     vertical-align: middle;
+}
+
+.administration-title {
+    margin: 0;
+    border-bottom: 1px solid #E6E6E6;
+}
+
+.administration-title p {
+    color: #292929;
+    font-family: "proxima-nova";
+    font-size: 18px;
+    padding: 15px 0px 10px 15px;
+    margin: 0;
 }
