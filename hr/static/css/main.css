@@ -787,3 +787,25 @@ h5 {
     display: block;
     margin: 0 auto;
 }
+
+.breadcrumbs {
+    margin: 0;
+    padding: 15px 10px;
+    border: 1px solid #e6e6e6;
+}
+
+.breadcrumbs li {
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.breadcrumbs a {
+    vertical-align: middle;
+}
+
+.breadcrumbs span {
+    font-size: 18px;
+    padding: 0 5px 0 20px;
+    vertical-align: middle;
+}
