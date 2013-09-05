@@ -13,36 +13,40 @@
                 </li>
             {% endif %}
         </ul>
-{#        <ul class="nav subnav_area">#}
-{#            <li class="headline">Administration: Employees</li>#}
-{#        </ul>#}
+        {#        <ul class="nav subnav_area">#}
+        {#            <li class="headline">Administration: Employees</li>#}
+        {#        </ul>#}
     </div>
     <div class="container">
         <div class="row-fluid font-admin">
             <span class="admin_header">People</span> <a href="{{ request.application_url }}/person/add">Add
             User</a><br/>
             <table class="employee-info">
-            {% for person in account.users %}
-                {% if person.is_active %}
-                    {#<a href="{{ request.application_url }}/role/{{ role.id }}/edit">Edit</a> |
-                    <a href="{{ request.application_url }}/role/{{ role.id }}/delete">Delete</a>#}
-                    <tr>
-                        <td>{{ person.name|title }}({{ person.role.name|title }})</td>
-                        <td><a href="mailto:{{ person.email }}">{{ person.email }}</a></td>
-                        <td><a href="{{ request.application_url }}/person/{{ person.id }}/assign/edit?source_type=administration">Utilization</a>
-                    {% if user.id != person.id %}|
-                        <a href="{{ request.application_url }}/person/{{ person.id }}/delete">Delete</a> |
-                        {% if person.password %}
-                            <a href="{{ request.application_url }}/person/{{ person.id }}/disable/login">Disable
-                                Login</a> |
-                            <a href="{{ request.application_url }}/person/{{ person.id }}/password/reset">Reset
-                                Password</a>
-                        {% else %}
-                            <a href="{{ request.application_url }}/person/{{ person.id }}/enable/login">Enable Login</a>
-                        {% endif %}{% endif %}</td>
-                    </tr>
-                {% endif %}
-            {% endfor %}
+                {% for person in account.users %}
+                    {% if person.is_active %}
+                        {#<a href="{{ request.application_url }}/role/{{ role.id }}/edit">Edit</a> |
+                        <a href="{{ request.application_url }}/role/{{ role.id }}/delete">Delete</a>#}
+                        <tr>
+                            <td>{{ person.name|title }}({{ person.role.name|title }})</td>
+                            <td><a href="mailto:{{ person.email }}">{{ person.email }}</a></td>
+                            <td>
+                                <a href="{{ request.application_url }}/person/{{ person.id }}/assign/edit?source_type=administration">Utilization</a>
+                                |
+                                <a href="{{ request.application_url }}/person/{{ person.id }}/edit">Edit</a>
+                                {% if user.id != person.id %}|
+                                    <a href="{{ request.application_url }}/person/{{ person.id }}/delete">Delete</a> |
+                                    {% if person.password %}
+                                        <a href="{{ request.application_url }}/person/{{ person.id }}/disable/login">Disable
+                                            Login</a> |
+                                        <a href="{{ request.application_url }}/person/{{ person.id }}/password/reset">Reset
+                                            Password</a>
+                                    {% else %}
+                                        <a href="{{ request.application_url }}/person/{{ person.id }}/enable/login">Enable
+                                            Login</a>
+                                    {% endif %}{% endif %}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
             </table>
         </div>
     </div>
