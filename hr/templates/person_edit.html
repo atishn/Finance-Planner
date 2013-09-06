@@ -7,7 +7,9 @@
     </div>
     <div class="container">
         <div class="row-fluid">
-            <div class="maintable">
+        <p><a href="javascript:;" onclick="history.go(-1);">Go back</a></p>
+
+        <div class="maintable">
                 <form method="post" action="{{ request.application_url }}/person/{{ person.id }}/edit">
                     <input type="hidden" name="source" value="{{ source }}">
                     <table class="table">
