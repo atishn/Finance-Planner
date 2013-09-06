@@ -3,13 +3,21 @@
     {% include "templates/breadcrumbs.html" %}
     <div class="navbar subnav white">
         <ul class="nav subnav_area">
+            {% if user.is_administrator or user.permissions_global_financials %}
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/global/financials/{{ year }}">GLOBAL</a></li>
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/global/offices/{{ year }}">OFFICES</a></li>
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/global/departments/{{ year }}">DEPARTMENTS</a></li>
+            {% endif %}
             {% if user.is_administrator or user.permissions_global_utilization %}
                 <li class="entity-nav-pull-left-cell-selected push-down"><a
                         href="{{ request.application_url }}/global/utilization/{{ year }}" class="entity-nav-selected">OFFICE
-                    </a></li>
+                    UTILIZATION</a></li>
                 <li class="entity-nav-pull-left-cell push-down"><a
                         href="{{ request.application_url }}/global/utilization/department/{{ year }}">DEPARTMENT
-                    </a></li>
+                    UTILIZATION</a></li>
             {% endif %}
 
         </ul>

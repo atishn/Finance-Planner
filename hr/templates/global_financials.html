@@ -12,6 +12,13 @@
                 <li class="entity-nav-pull-left-cell push-down"><a
                         href="{{ request.application_url }}/global/departments/{{ year }}">DEPARTMENTS</a></li>
             {% endif %}
+            {% if user.is_administrator or user.permissions_global_utilization %}
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/global/utilization/{{ year }}">OFFICE UTILIZATION</a></li>
+                <li class="entity-nav-pull-left-cell push-down"><a
+                        href="{{ request.application_url }}/global/utilization/department/{{ year }}">DEPARTMENT
+                    UTILIZATION</a></li>
+            {% endif %}
 
         </ul>
     </div>

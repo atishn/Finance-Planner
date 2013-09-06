@@ -30,12 +30,6 @@
         <li class="navbar-pull-left-cell {{ active_roles }}"><a
                 href="{{ request.application_url }}/global/financials/{{ header.year }}"
                 class="{{ header.financials }}">FINANCIALS</a></li>
-
-        {% if user.is_administrator or user.permissions_global_utilization %}
-        <li class="navbar-pull-left-cell {{ active_roles }}"><a
-                href="{{ request.application_url }}/global/utilization/{{ header.year }}"
-                class="{{ header.financials }}">UTILIZATION</a></li>
-        {% endif %}
     </ul>
     <ul class="nav pull-right border-left">
         <li class="navbar-pull-right-cell dropdown submenu-menu">
