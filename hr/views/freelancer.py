@@ -98,7 +98,7 @@ def freelancer_add(request):
         if user.is_administrator or user.permissions_global_utilization:
             offices = offices_all
         else:
-            for office in office_all:
+            for office in offices_all:
                 if user.can_access_office(office, "utilization"):
                     offices.append(office)
         if len(offices) == 0:
@@ -207,7 +207,7 @@ def freelancer_edit(request):
         if user.is_administrator or user.permissions_global_utilization:
             offices = offices_all
         else:
-            for office in office_all:
+            for office in offices_all:
                 if user.can_access_office(office, "utilization"):
                     offices.append(office)
             if len(offices) == 0:

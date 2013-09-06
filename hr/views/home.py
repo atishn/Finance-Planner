@@ -45,4 +45,4 @@ def home(request):
         return HTTPFound(request.application_url + "/client/" + str(
             user.permissions_client_utilization[0].id) + "/utilization/" + year)
 
-        return HTTPFound(request.application_url + '/login')
+    return HTTPFound(request.application_url + '/login')

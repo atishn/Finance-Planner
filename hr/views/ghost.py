@@ -189,7 +189,7 @@ def ghost_client_add(request):
         if user.is_administrator or user.permissions_global_utilization:
             offices = offices_all
         else:
-            for office in office_all:
+            for office in offices_all:
                 if user.can_access_office(office, "utilization"):
                     offices.append(office)
             if len(offices) == 0:
@@ -229,10 +229,11 @@ def ghost_client_edit(request):
             office = DBSession.query(Office).filter_by(id=office_id).filter_by(account_id=account_id).first()
 
             is_tbg_entry = request.params.get("is_tbg")
+
             if is_tbg_entry:
                 is_tbg = True
             else:
-                is_tbg == False
+                is_tbg = False
 
             if office is None or user.can_access_office(office, "pipeline") == False:
                 return HTTPFound(request.application_url)
@@ -257,7 +258,7 @@ def ghost_client_edit(request):
         if user.is_administrator or user.permissions_global_utilization:
             offices = offices_all
         else:
-            for office in office_all:
+            for office in offices_all:
                 if user.can_access_office(office, "utilization"):
                     offices.append(office)
             if len(offices) == 0:
@@ -700,7 +701,7 @@ def ghost_user_add(request):
         if user.is_administrator or user.permissions_global_utilization:
             offices = offices_all
         else:
-            for office in office_all:
+            for office in offices_all:
                 if user.can_access_office(office, "utilization"):
                     offices.append(office)
         if len(offices) == 0:
@@ -760,7 +761,7 @@ def ghost_user_edit(request):
         if user.is_administrator or user.permissions_global_utilization:
             offices = offices_all
         else:
-            for office in office_all:
+            for office in offices_all:
                 if user.can_access_office(office, "utilization"):
                     offices.append(office)
             if len(offices) == 0:
@@ -828,7 +829,7 @@ def ghost_user_assign_edit(request):
             source_type = "office"
         source_id_text = request.params.get("source_id")
         if source_id_text is None:
-            source_id = str(person.office_id)
+            source_id = str(ghost_user.office_id)
         else:
             source_id = source_id_text
 
@@ -874,7 +875,7 @@ def ghost_user_assign_edit(request):
                         assignments.append(assignment)
                 elif assignment.ghost_client_id is not None:
                     if user.can_access_office(assignment.ghost_client.office, "utilization"):
-                        assignments.append(assignent)
+                        assignments.append(assignment)
         if len(assignments) == 0:
             return HTTPFound(request.application_url + "/" + source_type + "/" + str(source_id) + "/utilization/" + str(
                 datetime.datetime.now().year))
@@ -1008,6 +1009,13 @@ def ghost_user_assign_delete(request):
         if user is None or account is None or user.is_administrator == False:
             return HTTPFound(request.application_url)
 
+        ghost_user_id = long(request.matchdict.get('ghost_user_id'))
+        assignment_id = long(request.matchdict.get('assignment_id'))
+
+        ghost_user = DBSession.query(GhostUser).filter_by(id=ghost_user_id).filter_by(account_id=account_id).first()
+        if ghost_user == None:
+            return HTTPFound(request.application_url)
+
         source_type_text = request.params.get("source_type")
         if source_type_text is None:
             source_type = "office"
@@ -1019,16 +1027,9 @@ def ghost_user_assign_delete(request):
             source_type = "office"
         source_id_text = request.params.get("source_id")
         if source_id_text is None:
-            source_id = str(person.office_id)
+            source_id = str(ghost_user.office_id)
         else:
             source_id = source_id_text
-
-        ghost_user_id = long(request.matchdict.get('ghost_user_id'))
-        assignment_id = long(request.matchdict.get('assignment_id'))
-
-        ghost_user = DBSession.query(GhostUser).filter_by(id=ghost_user_id).filter_by(account_id=account_id).first()
-        if ghost_user == None:
-            return HTTPFound(request.application_url)
 
         ghost_allocation = DBSession.query(GhostAllocation).filter_by(id=assignment_id).first()
         if ghost_allocation == None or ghost_allocation.ghost_user_id != ghost_user.id:

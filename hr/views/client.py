@@ -411,11 +411,12 @@ def client_assign_ghost(request):
                 if user.can_access_office(ghost_user.office, "utilization"):
                     ghost_users.append(ghost_user)
 
+        ghost_clients = []
         ghost_clients_all = DBSession.query(GhostClient).filter_by(account_id=account_id).all()
         if user.is_administrator or user.permissions_global_utilization:
             ghost_clients = ghost_clients_all
         else:
-            for ghost_client in ghost_clients:
+            for ghost_client in ghost_clients_all:
                 if user.can_access_office(ghost_client.office, "utilization"):
                     ghost_clients.append(ghost_client)
 

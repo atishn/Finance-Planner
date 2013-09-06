@@ -9,6 +9,7 @@ from pyramid.httpexceptions import HTTPFound
 from hr.models import DBSession
 from hr.models.User import User
 from hr.models.Office import Office
+from hr.models.Department import Department
 from hr.models.Client import Client
 from hr.models.Project import Project
 from hr.models.Account import Account
@@ -169,7 +170,7 @@ def client_projects_update(request):
 
         if request.method == "POST":
             for project in account.projects:
-                if project.is_active and project.client.office_id == office_id:
+                if project.is_active and project.client.office_id == client.office_id:
                     revenue_local = long(request.params.get(str(project.id) + "-revenue"))
                     if user.currency is None:
                         revenue = revenue_local

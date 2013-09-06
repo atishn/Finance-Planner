@@ -719,6 +719,13 @@ def person_assign_delete(request):
         if user is None or account is None or user.is_administrator == False:
             return HTTPFound(request.application_url)
 
+        person_id = long(request.matchdict.get('person_id'))
+        assignment_id = long(request.matchdict.get('assignment_id'))
+
+        person = DBSession.query(User).filter_by(id=person_id).filter_by(account_id=account_id).first()
+        if person == None:
+            return HTTPFound(request.application_url)
+
         source_type_text = request.params.get("source_type")
         if source_type_text is None:
             source_type = "office"
@@ -734,12 +741,6 @@ def person_assign_delete(request):
         else:
             source_id = long(source_id_text)
 
-        person_id = long(request.matchdict.get('person_id'))
-        assignment_id = long(request.matchdict.get('assignment_id'))
-
-        person = DBSession.query(User).filter_by(id=person_id).filter_by(account_id=account_id).first()
-        if person == None:
-            return HTTPFound(request.application_url)
 
         user_allocation = DBSession.query(UserAllocation).filter_by(id=assignment_id).first()
         if user_allocation == None or user_allocation.user_id != person.id:
