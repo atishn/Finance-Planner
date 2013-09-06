@@ -6,11 +6,13 @@ from pyramid.security import authenticated_userid
 from pyramid.httpexceptions import HTTPFound
 
 from hr.models import DBSession
-from hr.models.Office import Office
 from hr.models.Account import Account
 from hr.models.User import User
 from hr.models.Header import Header
 
+
+def getHeader():
+    return Header("finanicials")
 
 @view_config(route_name='global_financials', request_method='GET', renderer='templates/global_financials.html')
 def global_financials(request):
@@ -26,7 +28,7 @@ def global_financials(request):
             return HTTPFound(request.application_url)
 
         financials = account.getFinancials(year, user)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), financials=financials,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(), financials=financials,
                     year=year, account=account, user=user)
 
     except:
