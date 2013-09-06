@@ -7,9 +7,9 @@
                     href="{{ request.application_url }}/global/financials/{{ year }}">GLOBAL</a></li>
             {% if user.is_administrator or user.permissions_global_financials %}
                 <li class="entity-nav-pull-left-cell push-down"><a
-                        href="{{ request.application_url }}/global/offices/{{ year }}">OFFICES</a></li>
+                        href="{{ request.application_url }}/global/office/{{ year }}">OFFICES</a></li>
                 <li class="entity-nav-pull-left-cell-selected push-down"><a
-                        href="{{ request.application_url }}/global/departments/{{ year }}" class="entity-nav-selected">DEPARTMENTS</a>
+                        href="{{ request.application_url }}/global/department/{{ year }}" class="entity-nav-selected">DEPARTMENTS</a>
                 </li>
             {% endif %}
             {% if user.is_administrator or user.permissions_global_utilization %}
@@ -34,7 +34,7 @@
                                href="#">{{ year }} <span class="year-carot caret"></span></a>
                             <ul class="dropdown-menu">
                                 {% for y in account.years %}
-                                    <li><a href="{{ request.application_url }}/global/offices/{{ y }}"
+                                    <li><a href="{{ request.application_url }}/global/office/{{ y }}"
                                            tabindex="-1">{{ y }}</a></li>
                                 {% endfor %}
                             </ul>

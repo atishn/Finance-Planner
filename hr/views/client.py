@@ -21,6 +21,21 @@ from hr.models.Department import Department
 from hr.models.Header import Header
 
 
+def getHeader(client):
+
+    header = Header("finanicials");
+    header.division = "office"
+
+    header.divisionname = client.office.name
+    header.divisionid = client.office.id
+
+    header.subdivision = "clients"
+    header.subdivisionid = client.id
+    header.subdivisionname = client.name
+
+    return header
+
+
 @view_config(route_name='client_utilization', request_method='GET', renderer='templates/client_utilization.html')
 def client_utilization(request):
     try:
@@ -39,7 +54,7 @@ def client_utilization(request):
         access_financials = user.can_access_client(client, "financials")
 
         utilization = client.getUtilization(year)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), utilization=utilization,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(client), utilization=utilization,
                     client=client, year=year, user=user, account=account, access_pipeline=access_pipeline,
                     access_utilization=access_utilization, access_financials=access_financials)
     except:
@@ -64,7 +79,7 @@ def client_financials(request):
         access_utilization = user.can_access_client(client, "utilization")
 
         financials = client.getFinancials(year, user)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), financials=financials,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(client), financials=financials,
                     client=client, year=year, user=user, account=account, access_pipeline=access_pipeline,
                     access_utilization=access_utilization, access_financials=access_financials)
     except:
@@ -91,7 +106,7 @@ def client_projects(request):
         access_utilization = user.can_access_client(client, "utilization")
 
         financials = client.getFinancials(year, user)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), financials=financials,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(client), financials=financials,
                     client=client, year=year, user=user, account=account, access_pipeline=access_pipeline,
                     access_utilization=access_utilization, access_financials=access_financials)
     except:
@@ -117,7 +132,7 @@ def client_pipeline(request):
         access_financials = user.can_access_client(client, "financials")
 
         financials = client.getFinancials(year, user)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), financials=financials,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(client), financials=financials,
                     client=client, year=year, user=user, account=account, access_pipeline=access_pipeline,
                     access_utilization=access_utilization, access_financials=access_financials)
     except:
@@ -195,7 +210,7 @@ def client_add(request):
                 if user.can_access_office(office, "financials"):
                     offices.append(office)
 
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), offices=offices, user=user,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(client), offices=offices, user=user,
                     account=account)
     except:
         traceback.print_exc()
@@ -249,7 +264,7 @@ def client_edit(request):
         if len(offices) == 0:
             return HTTPFound(request.application_url)
 
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), offices=offices, user=user,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(client), offices=offices, user=user,
                     client=client, account=account)
     except:
         return HTTPFound(request.application_url)
@@ -319,7 +334,7 @@ def client_assign_resource(request):
                 users.append(u)
         if len(users) == 0:
             return HTTPFound(request.application_url)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), clients=clients, users=users,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(client), clients=clients, users=users,
                     user=user, account=account, access_administration=access_administration)
     except:
         print("*****")
@@ -420,7 +435,7 @@ def client_assign_ghost(request):
                 if user.can_access_office(ghost_client.office, "utilization"):
                     ghost_clients.append(ghost_client)
 
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), clients=clients,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(client), clients=clients,
                     ghost_users=ghost_users, user=user, account=account, ghost_clients=ghost_clients)
     except:
         print("*****")

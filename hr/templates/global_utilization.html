@@ -7,9 +7,9 @@
                 <li class="entity-nav-pull-left-cell push-down"><a
                         href="{{ request.application_url }}/global/financials/{{ year }}">GLOBAL</a></li>
                 <li class="entity-nav-pull-left-cell push-down"><a
-                        href="{{ request.application_url }}/global/offices/{{ year }}">OFFICES</a></li>
+                        href="{{ request.application_url }}/global/office/{{ year }}">OFFICES</a></li>
                 <li class="entity-nav-pull-left-cell push-down"><a
-                        href="{{ request.application_url }}/global/departments/{{ year }}">DEPARTMENTS</a></li>
+                        href="{{ request.application_url }}/global/department/{{ year }}">DEPARTMENTS</a></li>
             {% endif %}
             {% if user.is_administrator or user.permissions_global_utilization %}
                 <li class="entity-nav-pull-left-cell-selected push-down"><a

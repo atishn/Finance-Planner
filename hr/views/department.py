@@ -12,6 +12,16 @@ from hr.models.Department import Department
 from hr.models.Header import Header
 
 
+def getHeader(department):
+
+    header = Header("finanicials");
+    header.division = "department"
+    header.divisionname = department.name
+    header.divisionid = department.id
+
+    return header
+
+
 @view_config(route_name='department_utilization', request_method='GET',
              renderer='templates/department_utilization.html')
 def department_utilization(request):
@@ -30,7 +40,7 @@ def department_utilization(request):
         access_financials = user.can_access_department(department, "financials")
 
         utilization = department.getUtilization(year)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), utilization=utilization,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(department), utilization=utilization,
                     department=department, year=year, user=user, account=account, access_utilization=access_utilization,
                     access_financials=access_financials)
     except:
@@ -56,7 +66,7 @@ def department_financials(request):
         access_utilization = user.can_access_department(department, "utilization")
 
         financials = department.getFinancials(year, user)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), financials=financials,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(department), financials=financials,
                     department=department, year=year, user=user, account=account, access_utilization=access_utilization,
                     access_financials=access_financials)
     except:

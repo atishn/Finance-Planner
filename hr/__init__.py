@@ -122,10 +122,10 @@ def main(global_config, **settings):
     config.add_route('ghost_user_assign_delete', '/ghost/user/{ghost_user_id}/assign/{assignment_id}/delete')
 
     config.add_route('global_financials', '/global/financials/{year}')
-    config.add_route('global_offices', '/global/offices/{year}')
+    config.add_route('global_offices', '/global/office/{year}')
     config.add_route('global_pipeline', '/global/pipeline/{year}')
     config.add_route('global_department_utilization', '/global/utilization/department/{year}')
     config.add_route('global_utilization', '/global/utilization/{year}')
-    config.add_route('global_departments', '/global/departments/{year}')
+    config.add_route('global_departments', '/global/department/{year}')
 
     return config.make_wsgi_app()

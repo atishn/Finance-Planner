@@ -9,6 +9,15 @@ from hr.models.Header import Header
 from hr.models.Account import Account
 
 
+def getHeader(office):
+    header = Header("finanicials");
+    header.division = "office"
+    header.divisionname = office.name
+    header.divisionid = office.id
+
+    return header
+
+
 @view_config(route_name='office_clients', request_method='GET', renderer='templates/office_clients.html')
 def office_clients(request):
     try:
@@ -27,7 +36,7 @@ def office_clients(request):
         access_utilization = user.can_access_office(office, "utilization")
 
         financials = office.getFinancials(year, user)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), financials=financials,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(office), financials=financials,
                     office=office, year=year, user=user, account=account, access_pipeline=access_pipeline,
                     access_utilization=access_utilization, access_financials=access_financials)
     except:
@@ -52,7 +61,7 @@ def office_utilization(request):
         access_financials = user.can_access_office(office, "financials")
 
         utilization = office.getUtilization(year)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), utilization=utilization,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(office), utilization=utilization,
                     office=office, year=year, user=user, account=account, access_pipeline=access_pipeline,
                     access_utilization=access_utilization, access_financials=access_financials)
     except:
@@ -78,7 +87,7 @@ def office_financials(request):
         access_utilization = user.can_access_office(office, "utilization")
 
         financials = office.getFinancials(year, user)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), financials=financials,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(office), financials=financials,
                     office=office, year=year, user=user, account=account, access_pipeline=access_pipeline,
                     access_utilization=access_utilization, access_financials=access_financials)
     except:
@@ -103,7 +112,7 @@ def office_pipeline(request):
         access_utilization = user.can_access_office(office, "utilization")
 
         financials = office.getFinancials(year, user)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), financials=financials,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(office), financials=financials,
                     office=office, account=account, year=year, user=user, access_pipeline=access_pipeline,
                     access_utilization=access_utilization, access_financials=access_financials)
     except:

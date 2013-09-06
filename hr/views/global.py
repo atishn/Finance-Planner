@@ -49,7 +49,7 @@ def global_offices(request):
             return HTTPFound(request.application_url)
 
         financials = account.getFinancials(year, user)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), financials=financials,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(), financials=financials,
                     year=year, account=account, user=user)
 
     except:
@@ -70,7 +70,7 @@ def global_departments(request):
             return HTTPFound(request.application_url)
 
         financials = account.getDepartmentFinancials(year, user)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), financials=financials,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(), financials=financials,
                     year=year, account=account, user=user)
 
     except:
@@ -92,7 +92,7 @@ def global_utilization(request):
             return HTTPFound(request.application_url)
 
         utilization = account.getUtilization(year)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), utilization=utilization,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(), utilization=utilization,
                     year=year, account=account, user=user)
 
     except:
@@ -114,7 +114,7 @@ def global_department_utilization(request):
             return HTTPFound(request.application_url)
 
         utilization = account.getDepartmentUtilization(year)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), utilization=utilization,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(), utilization=utilization,
                     year=year, account=account, user=user)
 
     except:
