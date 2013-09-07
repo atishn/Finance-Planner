@@ -111,7 +111,7 @@ def department_edit(request):
         user = DBSession.query(User).filter_by(id=user_id).first()
         account = DBSession.query(Account).filter_by(id=account_id).first()
 
-        if user is None or account is None or user.is_administrator == False:
+        if user is None or account is None or user.is_administrator is False:
             return HTTPFound(request.application_url)
 
         department_id = request.matchdict['department_id']

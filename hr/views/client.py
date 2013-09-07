@@ -26,13 +26,13 @@ def getHeader(client):
     header = Header("finanicials");
     header.division = "office"
 
-    header.divisionname = client.office.name
-    header.divisionid = client.office.id
+    if client is not None :
+        header.divisionname = client.office.name
+        header.divisionid = client.office.id
 
-    header.subdivision = "clients"
-    header.subdivisionid = client.id
-    header.subdivisionname = client.name
-
+        header.subdivision = "clients"
+        header.subdivisionid = client.id
+        header.subdivisionname = client.name
     return header
 
 
@@ -210,7 +210,7 @@ def client_add(request):
                 if user.can_access_office(office, "financials"):
                     offices.append(office)
 
-        return dict(logged_in=authenticated_userid(request), header=getHeader(client), offices=offices, user=user,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(None), offices=offices, user=user,
                     account=account)
     except:
         traceback.print_exc()
@@ -334,7 +334,7 @@ def client_assign_resource(request):
                 users.append(u)
         if len(users) == 0:
             return HTTPFound(request.application_url)
-        return dict(logged_in=authenticated_userid(request), header=getHeader(client), clients=clients, users=users,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(None), clients=clients, users=users,
                     user=user, account=account, access_administration=access_administration)
     except:
         print("*****")
@@ -435,7 +435,7 @@ def client_assign_ghost(request):
                 if user.can_access_office(ghost_client.office, "utilization"):
                     ghost_clients.append(ghost_client)
 
-        return dict(logged_in=authenticated_userid(request), header=getHeader(client), clients=clients,
+        return dict(logged_in=authenticated_userid(request), header=getHeader(None), clients=clients,
                     ghost_users=ghost_users, user=user, account=account, ghost_clients=ghost_clients)
     except:
         print("*****")

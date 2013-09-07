@@ -12,8 +12,10 @@ from hr.models.Account import Account
 def getHeader(office):
     header = Header("finanicials");
     header.division = "office"
-    header.divisionname = office.name
-    header.divisionid = office.id
+
+    if office is not None:
+        header.divisionname = office.name
+        header.divisionid = office.id
 
     return header
 
