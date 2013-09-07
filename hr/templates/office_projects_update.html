@@ -21,10 +21,10 @@
                             {% for project in client.projects %}
                                 <tr>
                                     <td>{{ client.name|title }} - {{ project.name|title }}:</td>
-                                    <td>Start date (mm/dd/yyyy): <input type="text" name="{{ project.id }}-start_date"
-                                                                        class="input-small"></td>
-                                    <td>End date (mm/dd/yyyy): <input type="text" name="{{ project.id }}-end_date"
-                                                                      class="input-small"></td>
+                                    <td>Start Date: <input type="text" name="{{ project.id }}-start_date"
+                                                                        class="input-small datepicker"></td>
+                                    <td>End Date: <input type="text" name="{{ project.id }}-end_date"
+                                                                      class="input-small datepicker"></td>
                                     <td><input type="text" name="{{ project.id }}-revenue" class="input-small"></td>
                                 </tr>
                             {% endfor %}
