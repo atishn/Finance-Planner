@@ -23,9 +23,9 @@
             {% endif %}
         </ul>
         <ul class="nav pull-right subnav_area">
-            <li class="submenu-btn"><a class="submenu-btn-text"
-                                       href='{{ request.application_url }}/client/{{ client.id }}/projects/update'>UPDATE
-                ALL PROJECTS</a></li>
+{#            <li class="submenu-btn"><a class="submenu-btn-text"#}
+{#                                       href='{{ request.application_url }}/client/{{ client.id }}/projects/update'>UPDATE#}
+{#                ALL PROJECTS</a></li>#}
             <li class="submenu-btn"><a class="submenu-btn-text" href='{{ request.application_url }}/project/add'>ADD
                 PROJECT</a></li>
         </ul>
@@ -59,7 +59,7 @@
                         <tr>
                             <td>
                                 <a href="{{ request.application_url }}/project/{{ project_revenue.project.id }}/edit">{{ project_revenue.project.name|title }}</a>
-                                [<a href="{{ request.application_url }}/project/{{ project_revenue.project.id }}/delete">Delete</a>]
+                                [<a href="{{ request.application_url }}/project/{{ project_revenue.project.id }}/edit">Edit</a> | <a href="{{ request.application_url }}/project/{{ project_revenue.project.id }}/delete">Delete</a>]
                             </td>
                             <td class="align-right">{{ "{:,.0f}".format(project_revenue.Q1)}}</td>
                             <td class="align-right">{{ "{:,.0f}".format(project_revenue.Q2)}}</td>
