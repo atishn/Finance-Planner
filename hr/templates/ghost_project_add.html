@@ -48,7 +48,17 @@
                         </tr>
                         <tr>
                             <td>Likelihood (%):</td>
-                            <td><input type="text" name="likelihood" value="">%</td>
+                            {#                            <td><input type="text" name="likelihood" value="">%</td>#}
+                            <td>
+                                <select name="likelihood">
+                                    <option value="">Select</option>
+                                    <option value="15">Identified Opportunity</option>
+                                    <option value="25">Proposal Pending</option>
+                                    <option value="50">SOW Pending</option>
+                                    <option value="75">Verbally Approved</option>
+                                    <option value="100">Won and Signed</option>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td>Start Date:</td>
