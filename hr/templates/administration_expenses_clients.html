@@ -44,9 +44,9 @@
                                 </select>
                                 <strong>Year: </strong>
                                 <select name="quarter_end_year">
-                                    <option value="2013">2013</option>
-                                    <option value="2012">2012</option>
-                                    <option value="2014">2014</option>
+                                    <option value="{{ header.year|int }}"> {{ header.year|int}}</option>
+                                    <option value="{{ header.year|int  - 1}}">{{ header.year|int  - 1}}</option>
+                                    <option value="{{ header.year|int  + 1}}">{{ header.year|int  + 1}}</option>
                                 </select>
                             </td>
                         </tr>
