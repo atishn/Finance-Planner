@@ -54,11 +54,11 @@
                             <td>
                                 <select name="likelihood">
                                     <option value="">Select</option>
-                                    <option value="15">Identified Opportunity</option>
-                                    <option value="25">Proposal Pending</option>
-                                    <option value="50">SOW Pending</option>
-                                    <option value="75">Verbally Approved</option>
-                                    <option value="100">Won and Signed</option>
+                                    <option value="15" {% if ghost_project.likelihood == 15 %}selected{% endif %}>Identified Opportunity</option>
+                                    <option value="25" {% if ghost_project.likelihood == 25 %}selected{% endif %}>Proposal Pending</option>
+                                    <option value="50" {% if ghost_project.likelihood == 50 %}selected{% endif %}>SOW Pending</option>
+                                    <option value="75" {% if ghost_project.likelihood == 75 %}selected{% endif %}>Verbally Approved</option>
+                                    <option value="100" {% if ghost_project.likelihood == 100 %}selected{% endif %}>Won and Signed</option>
                                 </select>
                             </td>
                         </tr>
