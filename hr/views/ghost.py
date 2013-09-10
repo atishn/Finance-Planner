@@ -361,7 +361,7 @@ def ghost_client_assign_resource(request):
         users = []
         for u in users_all:
             if u.is_active and u.percent_billable > 0 and user.can_access_office(u.office, "utilization"):
-                users.append(user)
+                users.append(u)
         if len(users) == 0:
             return HTTPFound(request.application_url)
         return dict(logged_in=authenticated_userid(request), header=Header("financials"), ghost_clients=ghost_clients,
