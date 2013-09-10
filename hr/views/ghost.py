@@ -441,19 +441,14 @@ def ghost_project_add(request):
                 percent_allocation = request.params.get(str(department.id) + "-allocation")
                 if percent_allocation is not None and percent_allocation != "":
                     budget_allocation = BudgetAllocation(department, None, new_ghost_project, percent_allocation)
-                    new_ghost_project.budget_allocation.append(budget_allocation)
+                    new_ghost_project.budget_allocations.append(budget_allocation)
 
             DBSession.add(new_ghost_project)
             DBSession.flush()
 
-            if request.params.get("add_another") is None:
-                if client is not None:
-                    return HTTPFound(request.application_url + "/client/" + str(client_id) + "/pipeline/" + str(
+
+            return HTTPFound(request.application_url + "/client/" + str(client_id) + "/pipeline/" + str(
                         datetime.datetime.now().year))
-                else:
-                    return HTTPFound(
-                        request.application_url + "/ghost/client/" + str(ghost_client_id) + "/pipeline/" + str(
-                            datetime.datetime.now().year))
 
         clients_all = DBSession.query(Client).filter_by(account_id=account_id).all()
         clients = []
