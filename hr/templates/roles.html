@@ -73,7 +73,7 @@
                             {% if user.permissions.is_administrator or role.department.manager_id == user.id %}
                                 <td><a href='#addRoleModal' data-toggle='modal' data-dynamic='true'>Edit</a>
                                     |
-                                    <a href="{{ request.application_url }}/role/{{ role.id }}/delete?source={{ request.application_url }}/role/{{ department_id }}">Disable</a>
+                                    <a href="{{ request.application_url }}/role/{{ role.id }}/delete?source={{ request.application_url }}/role/{{ department_id }}" onclick="confirmClick(event)">Disable</a>
                                 </td>
                             {% endif %}
                         </tr>

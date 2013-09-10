@@ -26,7 +26,7 @@
                                        href='{{ request.application_url }}/client/{{ client.id }}/edit'>EDIT CLIENT</a>
             </li>
             <li class="submenu-btn"><a class="submenu-btn-text"
-                                       href='{{ request.application_url }}/client/{{ client.id }}/delete'>DELETE
+                                       href='{{ request.application_url }}/client/{{ client.id }}/delete' onclick="confirmClick(event)">DELETE
                 CLIENT</a></li>
         </ul>
     </div>

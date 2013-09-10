@@ -59,7 +59,7 @@
                         <tr>
                             <td>
                                 <a href="{{ request.application_url }}/project/{{ project_revenue.project.id }}/edit">{{ project_revenue.project.name|title }}</a>
-                                [<a href="{{ request.application_url }}/project/{{ project_revenue.project.id }}/edit">Edit</a> | <a href="{{ request.application_url }}/project/{{ project_revenue.project.id }}/delete">Delete</a>]
+                                [<a href="{{ request.application_url }}/project/{{ project_revenue.project.id }}/edit">Edit</a> | <a href="{{ request.application_url }}/project/{{ project_revenue.project.id }}/delete" onclick="confirmClick(event)">Delete</a>]
                             </td>
                             <td class="align-right">{{ "{:,.0f}".format(project_revenue.Q1)}}</td>
                             <td class="align-right">{{ "{:,.0f}".format(project_revenue.Q2)}}</td>

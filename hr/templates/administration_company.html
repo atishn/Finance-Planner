@@ -34,7 +34,7 @@
                             <td>{{ office.name|title }}</td>
                             <td>
                                 <a href="{{ request.application_url }}/office/{{ office.id }}/edit">Edit</a>
-                    |           <a href="{{ request.application_url }}/office/{{ office.id }}/delete">Delete</a>
+                    |           <a href="{{ request.application_url }}/office/{{ office.id }}/delete" onclick="confirmClick(event)">Delete</a>
                             </td>
                         </tr>
                 {% endif %}
@@ -49,7 +49,7 @@
                     <tr>
                         <td>{{ currency.name|upper }} ({{ '%0.2f'| format(currency.currency_to_usd|float)}} USD)</td>
                         <td><a href="{{ request.application_url }}/currency/{{ currency.id }}/edit">Edit</a> |
-                <a href="{{ request.application_url }}/currency/{{ currency.id }}/delete">Delete</a></td>
+                <a href="{{ request.application_url }}/currency/{{ currency.id }}/delete" onclick="confirmClick(event)">Delete</a></td>
                     </tr>
                 
             {% endfor %}
@@ -63,7 +63,7 @@
                     <tr>
                         <td>{{ department.name|title }}</td>
                         <td><a href="{{ request.application_url }}/department/{{ department.id }}/edit">Edit</a> |
-                    <a href="{{ request.application_url }}/department/{{ department.id }}/delete">Delete</a></td>
+                    <a href="{{ request.application_url }}/department/{{ department.id }}/delete" onclick="confirmClick(event)">Delete</a></td>
                     </tr>
                     
                 {% endif %}
@@ -78,7 +78,7 @@
                             <td>{{ role.department.name|title }}: {{ role.name|title }} ({{ "{:,.0f}".format(role.salary_low)}}-
                     {{ "{:,.0f}".format(role.salary_high)}})</td>
                             <td><a href="{{ request.application_url }}/role/{{ role.id }}/edit">Edit</a> |
-                    <a href="{{ request.application_url }}/role/{{ role.id }}/delete">Delete</a></td>
+                    <a href="{{ request.application_url }}/role/{{ role.id }}/delete" onclick="confirmClick(event)">Delete</a></td>
                         </tr>
                 {% endif %}
             {% endfor %}

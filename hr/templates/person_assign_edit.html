@@ -56,7 +56,7 @@
                                                               value="{{ assignment.end_date.strftime('%m/%d/%Y')}}">
                             </td>
                             <td>
-                                <a href="{{ request.application_url }}/person/{{ person.id }}/assign/{{ assignment.id }}/delete?source_type={{ source_type }}&source_id={{ source_id }}">Delete</a>
+                                <a href="{{ request.application_url }}/person/{{ person.id }}/assign/{{ assignment.id }}/delete?source_type={{ source_type }}&source_id={{ source_id }}" onclick="confirmClick(event)">Delete</a>
                             </td>
                         </tr>
                     {% endfor %}
