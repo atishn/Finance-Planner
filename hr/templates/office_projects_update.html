@@ -11,7 +11,7 @@
         <div class="row-fluid">
             <p><a href="javascript:;" onclick="history.go(-1);">Go back</a></p>
             <div class="maintable">
-                <form method="post" action="{{ request.application_url }}/office/{{ office_id }}/projects/update">
+                <form method="post" action="{{ request.application_url }}/office/{{ office.id }}/projects/update">
                     <table class="table">
                         <tbody>
                         <tr>
@@ -22,16 +22,17 @@
                                 <tr>
                                     <td>{{ client.name|title }} - {{ project.name|title }}:</td>
                                     <td>Start Date: <input type="text" name="{{ project.id }}-start_date"
-                                                                        class="input-small datepicker"></td>
+                                                                        class="input-small datepicker" value="{{ project.start_date.strftime('%m/%d/%Y')}}"></td>
                                     <td>End Date: <input type="text" name="{{ project.id }}-end_date"
-                                                                      class="input-small datepicker"></td>
-                                    <td><input type="text" name="{{ project.id }}-revenue" class="input-small"></td>
+                                                                      class="input-small datepicker" value="{{ project.end_date.strftime('%m/%d/%Y')}}"></td>
+                                    <td>Revenue: ({% if user.currency %}{{ user.currency|upper }}{% else %}USD{% endif %}): <input type="text" name="{{ project.id }}-revenue" class="input-small" value="{% if user.currency %}{{ project.revenue * user.currency.usd_to_currency }}{% else %}{{ project.revenue }}{% endif %}"></td>
                                 </tr>
                             {% endfor %}
                         {% endfor %}
                         </tbody>
                     </table>
                     <input type="submit">
+                </form>
             </div>
         </div>
     </div>
