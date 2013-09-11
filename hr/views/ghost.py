@@ -21,6 +21,21 @@ from hr.models.UserAllocation import UserAllocation
 from hr.models.BudgetAllocation import BudgetAllocation
 
 
+def getClientHeader(ghost_client):
+
+    header = Header("finanicials");
+    header.division = "office"
+
+    if ghost_client is not None :
+        header.divisionname = ghost_client.office.name
+        header.divisionid = ghost_client.office.id
+
+        header.subdivision = "pipeline"
+        header.subdivisionid = ghost_client.id
+        header.subdivisionname = ghost_client.name
+    return header
+
+
 @view_config(route_name='ghost_client_financials', request_method='GET',
              renderer='templates/ghost_client_financials.html')
 def ghost_client_financials(request):
@@ -44,7 +59,7 @@ def ghost_client_financials(request):
         access_utilization = user.can_access_office(ghost_client.office, "utilization")
 
         financials = ghost_client.getFinancials(year, user)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), ghost_client=ghost_client,
+        return dict(logged_in=authenticated_userid(request), header=getClientHeader(ghost_client), ghost_client=ghost_client,
                     financials=financials, year=year, user=user, account=account, access_pipeline=access_pipeline,
                     access_utilization=access_utilization, access_financials=access_financials)
     except:
@@ -73,7 +88,7 @@ def ghost_client_pipeline(request):
         access_financials = user.can_access_office(ghost_client.office, "financials")
 
         financials = ghost_client.getFinancials(year, user)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), ghost_client=ghost_client,
+        return dict(logged_in=authenticated_userid(request), header=getClientHeader(ghost_client), ghost_client=ghost_client,
                     financials=financials, year=year, user=user, account=account, access_pipeline=access_pipeline,
                     access_utilization=access_utilization, access_financials=access_financials)
     except:
@@ -103,7 +118,7 @@ def ghost_client_utilization(request):
         access_financials = user.can_access_office(ghost_client.office, "financials")
 
         utilization = ghost_client.getUtilization(year)
-        return dict(logged_in=authenticated_userid(request), header=Header("financials"), ghost_client=ghost_client,
+        return dict(logged_in=authenticated_userid(request), header=getClientHeader(ghost_client), ghost_client=ghost_client,
                     utilization=utilization, year=year, user=user, account=account, access_pipeline=access_pipeline,
                     access_utilization=access_utilization, access_financials=access_financials)
     except:
