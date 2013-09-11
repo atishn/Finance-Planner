@@ -59,7 +59,7 @@
                     </tr>
                     {% for user_utilization in utilization.user_utilization %}
                         <tr>
-                            <td>{{ user_utilization.role|title }}: <a
+                            <td>{{ user_utilization.role.name|title }}: <a
                                     href="{{ request.application_url }}/person/{{ user_utilization.id }}/assign/edit?source_type=ghost_client&source_id={{ ghost_client.id }}">{{ user_utilization.name|title }}</a>
                             </td>
                             {% for util in user_utilization.utilization %}
@@ -77,7 +77,7 @@
                     {% for ghost_utilization in utilization.ghost_utilization %}
                         <tr>
                             <td>
-                                <a href="{{ request.application_url }}/ghost/user/{{ ghost_utilization.id }}/assign/edit">{{ ghost_utilization.role|title }}</a>
+                                <a href="{{ request.application_url }}/ghost/user/{{ ghost_utilization.id }}/assign/edit">{{ ghost_utilization.role.name|title }}</a>
                             </td>
                             {% for util in ghost_utilization.utilization %}
                                 {% if util == 0 %}

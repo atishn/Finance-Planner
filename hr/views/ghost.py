@@ -177,7 +177,7 @@ def ghost_client_add(request):
                 percent_allocation = request.params.get(str(department.id) + "-allocation")
                 if percent_allocation is not None and percent_allocation != "":
                     budget_allocation = BudgetAllocation(department, None, new_ghost_project, percent_allocation)
-                    new_ghost_project.budget_allocation.append(budget_allocation)
+                    new_ghost_project.budget_allocations.append(budget_allocation)
 
             DBSession.add(new_ghost_project)
 
