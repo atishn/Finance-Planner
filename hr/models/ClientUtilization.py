@@ -50,7 +50,7 @@ class ClientUtilization(object):
                 old_ghost_utilization = self.ghosts[ghost_allocation.ghost_user_id]
             except:
                 old_ghost_utilization = None
-            ghost_utilization = UserUtilization(ghost_allocation.ghost_user.role, ghost_allocation.ghost_user.role.name,
+            ghost_utilization = UserUtilization(ghost_allocation.ghost_user.role.name, ghost_allocation.ghost_user.role,
                                                 ghost_allocation.ghost_user_id, self.year, ghost_allocation.start_date,
                                                 ghost_allocation.end_date, ghost_allocation.utilization)
             if ghost_utilization.is_active:

@@ -169,7 +169,7 @@ class OfficeUtilization(object):
                     old_freelancer_utilization = self.office_freelancers[freelancer.id]
                 except:
                     old_freelancer_utilization = None
-                freelancer_utilization = UserUtilization(freelancer.name, freelancer.role.name, freelancer.id,
+                freelancer_utilization = UserUtilization(freelancer.name, freelancer.role, freelancer.id,
                                                          self.year, freelancer.start_date, freelancer.end_date,
                                                          freelancer.utilization)
                 if freelancer_utilization.is_active:

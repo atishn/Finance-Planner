@@ -32,7 +32,7 @@ class GhostClientUtilization(object):
                 old_user_utilization = self.users[user_allocation.user.id]
             except:
                 old_user_utilization = None
-            user_utilization = UserUtilization(user_allocation.user.name, user_allocation.user.role.name,
+            user_utilization = UserUtilization(user_allocation.user.name, user_allocation.user.role,
                                                user_allocation.user_id, self.year, user_allocation.start_date,
                                                user_allocation.end_date, user_allocation.utilization)
             if user_utilization.is_active:
@@ -48,7 +48,7 @@ class GhostClientUtilization(object):
             except:
                 old_ghost_utilization = None
             ghost_utilization = UserUtilization(ghost_allocation.ghost_user.role.name,
-                                                ghost_allocation.ghost_user.role.name, ghost_allocation.ghost_user_id,
+                                                ghost_allocation.ghost_user.role, ghost_allocation.ghost_user_id,
                                                 self.year, ghost_allocation.start_date, ghost_allocation.end_date,
                                                 ghost_allocation.utilization)
             if ghost_utilization.is_active:
@@ -60,5 +60,3 @@ class GhostClientUtilization(object):
 
         self.user_utilization = self.users.values()
         self.ghost_utilization = self.ghosts.values()
-        
-       

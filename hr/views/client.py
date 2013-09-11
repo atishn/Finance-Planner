@@ -317,7 +317,7 @@ def client_assign_resource(request):
             return HTTPFound(request.application_url + "/client/" + str(client_id) + "/utilization/" + str(
                 datetime.datetime.now().year))
 
-        clients_all = DBSession.query(Client).filter_by(account_id=account_id).all()
+        clients_all = DBSession.query(Client).filter_by(account_id=account_id).filter_by(is_active=True).all()
         clients = []
         if user.is_administrator or user.permissions_global_utilization:
             clients = clients_all
@@ -331,7 +331,7 @@ def client_assign_resource(request):
         access_administration = user.is_administrator
 
         # fix this so the filtering is btter instead of doing a big loop
-        users_all = DBSession.query(User).filter_by(account_id=account_id).all()
+        users_all = DBSession.query(User).filter_by(account_id=account_id).filter_by(is_active=True).all()
         users = []
         for u in users_all:
             if u.is_active and u.percent_billable > 0 and user.can_access_office(u.office, "utilization"):

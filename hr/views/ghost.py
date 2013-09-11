@@ -183,8 +183,8 @@ def ghost_client_add(request):
 
             DBSession.flush()
 
-            if request.params.get("add_another") is None:
-                return HTTPFound(request.application_url + "/office/" + str(office_id) + "/pipeline/" + str(
+
+            return HTTPFound(request.application_url + "/office/" + str(office_id) + "/pipeline/" + str(
                     datetime.datetime.now().year))
 
         offices_all = DBSession.query(Office).filter_by(account_id=account_id).all()
@@ -391,7 +391,7 @@ def ghost_project_add(request):
 
         if request.method == "POST":
             name = request.params["name"].lower()
-            code = request.params["code"]
+            code = request.params["project_code"]
             client_id = request.params.get("client_id")
             ghost_client_id = request.params.get("ghost_client_id")
             client = None
@@ -457,7 +457,7 @@ def ghost_project_add(request):
             return HTTPFound(request.application_url + "/client/" + str(client_id) + "/pipeline/" + str(
                         datetime.datetime.now().year))
 
-        clients_all = DBSession.query(Client).filter_by(account_id=account_id).all()
+        clients_all = DBSession.query(Client).filter_by(account_id=account_id).filter_by(is_active=True).all()
         clients = []
         if user.is_administrator or user.permissions_global_utilization:
             clients = clients_all
@@ -466,7 +466,7 @@ def ghost_project_add(request):
                 if user.can_access_client(client, "utilization"):
                     clients.append(client)
 
-        ghost_clients_all = DBSession.query(GhostClient).filter_by(account_id=account_id).all()
+        ghost_clients_all = DBSession.query(GhostClient).filter_by(account_id=account_id).filter_by(is_active=True).all()
         ghost_clients = []
         if user.is_administrator or user.permissions_global_pipeline:
             ghost_clients = ghost_clients_all
