@@ -14,6 +14,7 @@ class GhostProject(Base):
     is_active = Column(Boolean, nullable=False)
 
     name = Column(Unicode(40), nullable=False)
+    code = Column(Unicode(40), nullable=False)
 
     account_id = Column(Integer, ForeignKey('account.id'))
     client_id = Column(Integer, ForeignKey('client.id'))
@@ -27,8 +28,9 @@ class GhostProject(Base):
 
     budget_allocations = relationship('BudgetAllocation', backref='ghost_project')
 
-    def __init__(self, name, account, client, ghost_client, revenue, likelihood, start_date, end_date):
+    def __init__(self, name, code, account, client, ghost_client, revenue, likelihood, start_date, end_date):
         self.name = name.lower()
+        self.code = code
         self.client = client
         self.ghost_client = ghost_client
         self.revenue = revenue

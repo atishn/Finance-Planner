@@ -45,6 +45,10 @@
                             </tr>
                         {% endif %}
                         <tr>
+                            <td>Project code:</td>
+                            <td><input type="text" name="project_code" value="{{ ghost_project.code }}"></td>
+                        </tr>
+                        <tr>
                             <td>Revenue ({% if user.currency %}{{ user.currency|upper }}{% else %}USD{% endif %}):</td>
                             <td><input type="text" name="revenue" value="{{ ghost_project.revenue }}"></td>
                         </tr>

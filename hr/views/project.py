@@ -32,6 +32,7 @@ def project_add(request):
         if request.method == "POST":
 
             name = request.params["name"].lower()
+            code = request.params["project_code"]
             client_id = long(request.params["client_id"])
             revenue_local = long(request.params["revenue"])
 
@@ -57,7 +58,7 @@ def project_add(request):
                 if project.name == name:
                     return HTTPFound(request.application_url)
 
-            new_project = Project(name, account, client, revenue, start_date, end_date)
+            new_project = Project(name, code, account, client, revenue, start_date, end_date)
             DBSession.add(new_project)
             DBSession.flush()
 
@@ -222,6 +223,8 @@ def project_edit(request):
         if request.method == "POST":
 
             name = request.params["name"].lower()
+            code = request.params["project_code"]
+
             client_id = long(request.params["client_id"])
             revenue_local = long(request.params["revenue"])
 
@@ -266,6 +269,7 @@ def project_edit(request):
                         DBSession.add(ba)
 
             project.name = name
+            project.code = code
             project.client = client
             project.revenue = revenue
             project.start_date = start_date

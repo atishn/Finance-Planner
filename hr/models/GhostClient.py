@@ -18,13 +18,15 @@ class GhostClient(Base):
     office_id = Column(Integer, ForeignKey('office.id'))
 
     name = Column(Unicode(40))
+    code = Column(Unicode(40))
 
     ghost_projects = relationship('GhostProject', backref='ghost_client')
     team = relationship('UserAllocation', backref='ghost_client')
     ghost_team = relationship('GhostAllocation', backref='ghost_client')
 
-    def __init__(self, name, office):
+    def __init__(self, name, code, office):
         self.name = name.lower()
+        self.code = code
         self.office = office
         self.account_id = office.account_id
         self.is_active = True

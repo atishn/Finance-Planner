@@ -30,6 +30,10 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>Project code:</td>
+                            <td><input type="text" name="project_code" value="{{ project.code }}"></td>
+                        </tr>
+                        <tr>
                             <td>Revenue ({% if user.currency %}{{ user.currency|upper }}{% else %}USD{% endif %}):</td>
                             <td><input type="text" name="revenue" value="{% if user.currency %}{{ project.revenue * user.currency.usd_to_currency }}{% else %}{{ project.revenue }}{% endif %}">
                             </td>

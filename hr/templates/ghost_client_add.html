@@ -31,8 +31,16 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>Client Code:</td>
+                            <td><input type="text" name="ghost_client_code" value=""></td>
+                        </tr>
+                        <tr>
                             <td>Opportunity Name:</td>
                             <td><input type="text" name="ghost_project_name" value=""></td>
+                        </tr>
+                        <tr>
+                            <td>Opportunity code:</td>
+                            <td><input type="text" name="ghost_project_code" value=""></td>
                         </tr>
                         <tr>
                             <td>Revenue ({% if user.currency %}{{ user.currency|upper }}{% else %}USD{% endif %}):</td>

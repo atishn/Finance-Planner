@@ -154,9 +154,10 @@ def client_add(request):
         if request.method == "POST":
 
             name = request.params["name"].lower()
+            code = request.params["client_code"]
             office_id = long(request.params["office_id"])
             project_name = request.params["project_name"]
-
+            project_code = request.params["project_code"]
             revenue_local = long(request.params["revenue"])
             if user.currency is None:
                 revenue = revenue_local
@@ -175,10 +176,10 @@ def client_add(request):
             client = DBSession.query(Client).filter_by(account_id=account_id).filter_by(name=name).first()
 
             if client is None and office is not None and user.can_access_office(office, "financials"):
-                new_client = Client(name, office)
+                new_client = Client(name, office, code)
                 DBSession.add(new_client)
 
-                new_project = Project(project_name, account, new_client, revenue, start_date, end_date)
+                new_project = Project(project_name, project_code, account, new_client, revenue, start_date, end_date)
                 DBSession.add(new_project)
 
                 department_matches = []
@@ -234,6 +235,8 @@ def client_edit(request):
         if request.method == "POST":
 
             name = request.params["name"].lower()
+            code = request.params["client_code"]
+
             office_id = long(request.params["office_id"])
 
             office_temp = DBSession.query(Office).filter_by(id=office_id).filter_by(account_id=account_id).first()
@@ -247,6 +250,7 @@ def client_edit(request):
                 return HTTPFound(request.application_url)
 
             client.name = name
+            client.code = code
             client.office = office_temp
             DBSession.flush()
 

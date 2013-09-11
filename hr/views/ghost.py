@@ -127,7 +127,10 @@ def ghost_client_add(request):
         if request.method == "POST":
 
             ghost_client_name = request.params["ghost_client_name"].lower()
+            ghost_client_code = request.params["ghost_client_code"]
+
             ghost_project_name = request.params["ghost_project_name"].lower()
+            ghost_project_code = request.params["ghost_project_code"]
 
             is_tbg_entry = request.params.get("is_tbg")
             if is_tbg_entry:
@@ -163,11 +166,11 @@ def ghost_client_add(request):
             if client is not None and ghost_client is not None:
                 return HTTPFound(request.application_url)
 
-            new_ghost_client = GhostClient(ghost_client_name, office)
+            new_ghost_client = GhostClient(ghost_client_name, ghost_client_code, office)
             new_ghost_client.is_tbg = is_tbg
             DBSession.add(new_ghost_client)
 
-            new_ghost_project = GhostProject(ghost_project_name, account, None, new_ghost_client, revenue, likelihood,
+            new_ghost_project = GhostProject(ghost_project_name, ghost_project_code, account, None, new_ghost_client, revenue, likelihood,
                                              start_date, end_date)
 
             for department in account.departments:
@@ -225,6 +228,8 @@ def ghost_client_edit(request):
         if request.method == "POST":
 
             ghost_client_name = request.params["ghost_client_name"].lower()
+            ghost_client_code = request.params["ghost_client_code"]
+
             office_id = long(request.params["office_id"])
             office = DBSession.query(Office).filter_by(id=office_id).filter_by(account_id=account_id).first()
 
@@ -246,6 +251,7 @@ def ghost_client_edit(request):
                 return HTTPFound(request.application_url)
 
             ghost_client.name = ghost_client_name
+            ghost_client.code = ghost_client_code
             ghost_client.office = office
             ghost_client.is_tbg = is_tbg
             DBSession.flush()
@@ -385,6 +391,7 @@ def ghost_project_add(request):
 
         if request.method == "POST":
             name = request.params["name"].lower()
+            code = request.params["code"]
             client_id = request.params.get("client_id")
             ghost_client_id = request.params.get("ghost_client_id")
             client = None
@@ -434,7 +441,7 @@ def ghost_project_add(request):
                     if ghost_project.name == name:
                         return HTTPFound(request.application_url)
 
-            new_ghost_project = GhostProject(name, account, client, ghost_client, revenue, likelihood, start_date,
+            new_ghost_project = GhostProject(name, code, account, client, ghost_client, revenue, likelihood, start_date,
                                              end_date)
 
             for department in account.departments:
@@ -508,6 +515,7 @@ def ghost_project_edit(request):
 
         if request.method == "POST":
             name = request.params["name"].lower()
+            code = request.params["project_code"]
             client_id = request.params.get("client_id")
             ghost_client_id = request.params.get("ghost_client_id")
             client = None
@@ -559,6 +567,7 @@ def ghost_project_edit(request):
                         return HTTPFound(request.application_url)
 
             ghost_project.name = name
+            ghost_project.code = code
             ghost_project.client = client
             ghost_project.ghost_client = ghost_client
             ghost_project.revenue = revenue

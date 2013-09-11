@@ -28,8 +28,16 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>Client Code:</td>
+                            <td><input type="text" name="client_code" value=""></td>
+                        </tr>
+                        <tr>
                             <td>Initial project name:</td>
                             <td><input type="text" name="project_name" value=""></td>
+                        </tr>
+                        <tr>
+                            <td>Initial project code:</td>
+                            <td><input type="text" name="project_code" value=""></td>
                         </tr>
                         <tr>
                             <td>Revenue ({% if user.currency %}{{ user.currency|upper }}{% else %}USD{% endif %}):</td>

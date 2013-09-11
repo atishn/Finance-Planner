@@ -14,7 +14,7 @@ class Project(Base):
     created_at = Column(DateTime, nullable=False)
     is_active = Column(Boolean, nullable=False)
     name = Column(Unicode(40), nullable=False)
-
+    code = Column(Unicode(40), nullable=False)
     account_id = Column(Integer, ForeignKey('account.id'))
     client_id = Column(Integer, ForeignKey('client.id'))
 
@@ -25,8 +25,9 @@ class Project(Base):
     actual_revenues = relationship('ActualRevenue', backref='project')
     budget_allocations = relationship('BudgetAllocation', backref='project')
 
-    def __init__(self, name, account, client, revenue, start_date, end_date):
+    def __init__(self, name, code, account, client, revenue, start_date, end_date):
         self.name = name.lower()
+        self.code = code
         self.client = client
         self.revenue = revenue
         self.start_date = start_date
