@@ -102,6 +102,7 @@ def main(global_config, **settings):
     config.add_route('project_delete', '/project/{project_id}/delete')
     config.add_route('freelancer_add', '/freelancer/add')
     config.add_route('freelancer_edit', '/freelancer/{freelancer_id}/edit')
+    config.add_route('freelancer_convert', '/freelancer/{freelancer_id}/convert')
     config.add_route('freelancer_delete', '/freelancer/{freelancer_id}/delete')
 
     config.add_route('ghost_client_add', '/ghost/client/add')

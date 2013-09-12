@@ -134,6 +134,7 @@ hr/templates/department_financials.html
 hr/templates/department_utilization.html
 hr/templates/freelancer_add.html
 hr/templates/freelancer_edit.html
+hr/templates/freelancer_convert.html
 hr/templates/ghost_client_add.html
 hr/templates/ghost_client_assign_resource.html
 hr/templates/ghost_client_edit.html

@@ -1,0 +1,91 @@
+{% extends "templates/shell.html" %}
+{% block content %}
+    <div class="navbar subnav white">
+        <ul class="nav subnav_area">
+            <li class="headline">Convert Freelance to Fulltime</li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="row-fluid">
+            <p><a href="javascript:;" onclick="history.go(-1);">Go back</a></p>
+            <div class="maintable">
+                <form method="post" action="{{ request.application_url }}/freelancer/{{ freelancer.id }}/convert">
+                    <input type="hidden" name="source" value="{{ source }}">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>Name:</td>
+                            <td><input type="text" name="name" value="{{ freelancer.first_name | title}} {{ freelancer.middle_name | title}} {{ freelancer.last_name | title}}"></td>
+                        </tr>
+                        <tr>
+                            <td>Employee ID Number:</td>
+                            <td><input type="text" name="employee_number" value=""></td>
+                        </tr>
+                        <tr>
+                            <td>Email:</td>
+                            <td><input type="text" name="email" value=""></td>
+                        </tr>
+                        <tr>
+                            <td>Annual Salary ({% if user.currency %}{{ user.currency.name|upper }}{% else %}
+                                USD{% endif %}):
+                            </td>
+                            <td><input type="text" name="salary" value=""></td>
+                        </tr>
+                        <tr>
+                            <td>Office:</td>
+                            <td>
+                                <select name="office_id">
+                                    <option value="">Select</option>
+                                    {% for office in offices %}
+                                        {% if office.is_active %}
+                                            <option value="{{ office.id }}">{{ office.name|title }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Role:</td>
+                            <td>
+                                <select name="role_id">
+                                    <option value="">Select</option>
+                                    {% for role in roles %}
+                                        {% if role.is_active %}
+                                            <option value="{{ role.id }}">{{ role.name|title }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Percent Billable (%):</td>
+                            <td><input type="text" name="percent_billable" value="">%</td>
+                        </tr>
+                        <tr>
+                            <td>Start Date:</td>
+                            <td><input class="datepicker" type="text" name="start_date" value=""></td>
+                        </tr>
+                        <tr>
+                            <td>End Date:</td>
+                            <td><input class="datepicker" type="text" name="end_date" value=""></td>
+                        </tr>
+                        <tr>
+                            <td>Currency:</td>
+                            <td>
+                                <select name="currency_id">
+                                    <option value="">USD</option>
+                                    {% for currency in currencies %}
+                                        <option value="{{ currency.id }}">{{ currency.name|upper }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <input type="submit">
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

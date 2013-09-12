@@ -6,11 +6,16 @@ from pyramid.view import view_config
 from pyramid.security import authenticated_userid
 from pyramid.httpexceptions import HTTPFound
 from nameparser.parser import HumanName
+from datetime import timedelta
 
 from hr.models import DBSession
+from hr.models.Salary import Salary
 from hr.models.User import User
 from hr.models.Office import Office
 from hr.models.Client import Client
+from hr.models.Department import Department
+from hr.models.Currency import Currency
+
 from hr.models.Account import Account
 from hr.models.Role import Role
 from hr.models.Freelancer import Freelancer
@@ -218,6 +223,137 @@ def freelancer_edit(request):
 
         return dict(logged_in=authenticated_userid(request), header=Header('financials'), clients=clients,
                     offices=offices, roles=roles, freelancer=freelancer, user=user, account=account)
+    except:
+        print("*************")
+        traceback.print_exc()
+        return HTTPFound(request.application_url)
+
+
+@view_config(route_name='freelancer_convert', request_method='POST', renderer='templates/freelancer_convert.html')
+@view_config(route_name='freelancer_convert', request_method='GET', renderer='templates/freelancer_convert.html')
+def freelancer_convert(request):
+    try:
+        freelancer_id = long(request.matchdict['freelancer_id'])
+
+        account_id = long(request.session['aid'])
+        user_id = long(request.session['uid'])
+        user = DBSession.query(User).filter_by(id=user_id).first()
+        account = DBSession.query(Account).filter_by(id=account_id).first()
+
+        if user is None or account is None:
+            return HTTPFound(request.application_url)
+
+        freelancer = DBSession.query(Freelancer).filter_by(account_id=account_id).filter_by(id=freelancer_id).first()
+        if freelancer is None:
+            return HTTPFound(request.application_url)
+
+        if request.method == "POST":
+            email = request.params["email"]
+            person = DBSession.query(User).filter_by(email=email).first()
+
+            if person is not None:
+                source = 'financials'
+            else:
+
+                account = DBSession.query(Account).filter_by(id=account_id).first()
+
+                name = request.params["name"].lower()
+                if request.params.get("employee_number") is None or request.params.get("employee_number") == '':
+                    employee_number = 0
+                else:
+                    employee_number = long(request.params.get("employee_number"))
+
+                if request.params.get("salary") is None or request.params.get("salary") == '':
+                    salary = 0
+                else:
+                    salary_local = long(request.params.get("salary"))
+                    if user.currency is None:
+                        salary = salary_local
+                    else:
+                        salary = salary_local * user.currency.currency_to_usd
+
+                if request.params.get("office_id") is None or request.params.get("office_id") == '':
+                    office_id = None
+                    office = None
+                else:
+                    office_id = long(request.params.get("office_id"))
+                    office = DBSession.query(Office).filter_by(id=office_id).filter_by(account_id=account_id).first()
+
+                if request.params.get("role_id") is None or request.params.get("role_id") == '':
+                    role_id = None
+                    return HTTPFound(request.application_url + "/person/add")
+                else:
+                    role_id = long(request.params.get("role_id"))
+                    role = DBSession.query(Role).filter_by(id=role_id).first()
+
+                if request.params.get("percent_billable") is None or request.params.get("percent_billable") == '':
+                    percent_billable = 100
+                elif request.params.get("percent_billable") == '0':
+                    percent_billable = 0
+                else:
+                    percent_billable = long(request.params.get("percent_billable"))
+
+                if request.params.get("currency_id") is None or request.params.get("currency_id") == '':
+                    currency_id = None
+                    currency = None
+                else:
+                    currency_id = long(request.params.get("currency_id"))
+                    currency = DBSession.query(Currency).filter_by(id=currency_id).filter_by(
+                        account_id=account_id).first()
+
+                start_date_text = request.params.get("start_date")
+                if start_date_text is None or start_date_text == '':
+                    start_date = datetime.datetime.now()
+                else:
+                    start_dateparts = start_date_text.split("/")
+                    start_date = datetime.date(long(start_dateparts[2]), long(start_dateparts[0]),
+                                               long(start_dateparts[1]))
+
+                end_date_text = request.params.get("end_date")
+                if end_date_text is None or end_date_text == '':
+                    end_date = None
+                else:
+                    end_dateparts = end_date_text.split("/")
+                    end_date = datetime.date(long(end_dateparts[2]), long(end_dateparts[0]), long(end_dateparts[1]))
+
+                is_administrator = False
+
+                is_hr_administrator = False
+
+                u = DBSession.query(User).filter_by(email=email).first()
+                if u is not None:
+                    return HTTPFound(request.application_url + "/person/add")
+
+                new_user = User(account, name, email, office, role, salary, start_date)
+                new_user.employee_number = employee_number
+                new_user.percent_billable = percent_billable
+                new_user.end_date = end_date
+                new_user.is_administrator = is_administrator
+                new_user.is_hr_administrator = is_hr_administrator
+                new_user.currency = currency
+
+                s = Salary(new_user, salary, start_date)
+                new_user.salary_history.append(s)
+
+                DBSession.add(new_user)
+
+                freelancer.converted_fulltime = True
+
+                expected_freelancer_end_date = start_date - timedelta(days=1)
+                if freelancer.end_date.date() > expected_freelancer_end_date:
+                    freelancer.end_date = expected_freelancer_end_date
+
+                DBSession.flush()
+                return HTTPFound(request.application_url + "/client/" + str(freelancer.client.id) + "/utilization/" + str(datetime.datetime.now().year))
+
+        departments = DBSession.query(Department).filter_by(account_id=account_id).all()
+        offices = DBSession.query(Office).filter_by(account_id=account_id).all()
+        roles = DBSession.query(Role).filter_by(account_id=account_id).all()
+        currencies = DBSession.query(Currency).filter_by(account_id=account_id).all()
+
+        return dict(logged_in=authenticated_userid(request), header=Header('financials'),
+                    offices=offices, roles=roles, freelancer=freelancer, currencies=currencies, user=user,
+                    account=account, departments=departments)
     except:
         print("*************")
         traceback.print_exc()

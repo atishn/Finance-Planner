@@ -8,14 +8,22 @@
     <div class="container">
         <div class="row-fluid">
             <p><a href="javascript:;" onclick="history.go(-1);">Go back</a></p>
+
             <div class="maintable">
                 <form method="post" action="{{ request.application_url }}/freelancer/{{ freelancer.id }}/edit">
                     <table class="table">
                         <tbody>
                         <tr>
-                            <td colspan="2" class="align-right"><a
-                                    href="{{ request.application_url }}/freelancer/{{ freelancer.id }}/delete" onclick="confirmClick(event)">Delete
-                                Freelancer</a></td>
+                            <td colspan="2" class="align-right">
+                                {% if freelancer.converted_fulltime == None or freelancer.converted_fulltime == False %}
+                                    <a href="{{ request.application_url }}/freelancer/{{ freelancer.id }}/convert"
+                                       onclick="confirmClick(event)">Convert Fulltime</a> |
+
+                                {% endif %}
+                                <a
+                                        href="{{ request.application_url }}/freelancer/{{ freelancer.id }}/delete"
+                                        onclick="confirmClick(event)">Delete
+                                    Freelancer</a></td>
                         </tr>
                         <tr>
                             <td>Name:</td>

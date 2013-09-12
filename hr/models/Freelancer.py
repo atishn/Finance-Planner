@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, DateTime, Unicode
+from sqlalchemy import Column, ForeignKey, Integer, DateTime, Unicode, Boolean
 from nameparser.parser import HumanName
 
 from hr.models import Base
@@ -23,6 +23,8 @@ class Freelancer(Base):
 
     #use this only if it is nonbillable
     office_id = Column(Integer, ForeignKey('office.id'))
+    converted_fulltime = Column(Boolean, nullable=False)
+
 
     def __init__(self, account, name, role, start_date, end_date, hourly_rate, utilization, client, office=None):
         self.role = role
@@ -34,25 +36,32 @@ class Freelancer(Base):
 
         self.client = client
         self.office = office
+        self.converted_fulltime = False
 
         self.start_date = start_date
         self.end_date = end_date
         self.hourly_rate = hourly_rate
         self.utilization = utilization
 
+
     def _name(self):
         if len(self.middle_name) > 0:
             return self.first_name + " " + self.middle_name[0] + ". " + self.last_name
         return self.first_name + " " + self.last_name
 
+
     name = property(_name)
+
 
     def _rate_per_day(self):
         return self.hourly_rate * 8 * (self.utilization / 100.0) * (5 / 7.0)
 
+
     rate_per_day = property(_rate_per_day)
+
 
     def _rate_per_day_if_employee(self):
         return self.role.loaded_salary_per_day
+
 
     rate_per_day_if_employee = property(_rate_per_day_if_employee)
