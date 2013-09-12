@@ -180,7 +180,7 @@ def quarterly_salary(year, user, start_date, end_date, kind="total", allocation=
         year_length = 366
 
     for x in range(0, year_length):
-        if day_counter >= start_date and day_counter < end_date:
+        if day_counter >= start_date and end_date > day_counter:
             latest_date = None
             temp_salary = 0
             for salary in user.salary_history:

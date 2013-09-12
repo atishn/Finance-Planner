@@ -16,8 +16,8 @@ class ClientFinancials(object):
     ghost_project_revenues = []
     
     expense_salary = [0,0,0,0,0]
-    expense_ghost = [0,0,0,0,0]
     expense_freelance = [0,0,0,0,0]
+    expense_ghost = [0,0,0,0,0]
     expense_freelance_if_employee = [0,0,0,0,0]
     expense_overhead = [0,0,0,0,0]
     expense_total = [0,0,0,0,0]
@@ -177,7 +177,7 @@ class ClientFinancials(object):
             traceback.print_exc()
 
     def convertToLocal(self):
-        if usd_to_local == 1:
+        if self.usd_to_local == 1:
             return
         
         try:
