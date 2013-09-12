@@ -809,10 +809,11 @@ def ghost_user_delete(request):
         if ghost_user is None or user.can_access_office(ghost_user.office, "utilization") == False:
             return HTTPFound(request.application_url)
 
-        ghost_user.is_active = False
+        DBSession.delete(ghost_user)
         DBSession.flush()
 
-        return HTTPFound(location=request.application_url + "/administration/employees")
+        return HTTPFound(location=request.application_url + "/office/" + str(ghost_user.office.id) + "/utilization/" + str(
+            datetime.datetime.now().year))
     except:
         return HTTPFound(request.application_url)
 

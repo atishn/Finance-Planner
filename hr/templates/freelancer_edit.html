@@ -3,6 +3,9 @@
     <div class="navbar subnav white">
         <ul class="nav subnav_area">
             <li class="headline">Edit Freelancer</li>
+            {% if  freelancer.converted_fulltime == True %}
+                <li class="headline bold">Converted to Fulltime</li>
+            {%  endif %}
         </ul>
     </div>
     <div class="container">
@@ -17,9 +20,11 @@
                             <td colspan="2" class="align-right">
                                 {% if freelancer.converted_fulltime == None or freelancer.converted_fulltime == False %}
                                     <a href="{{ request.application_url }}/freelancer/{{ freelancer.id }}/convert"
-                                       onclick="confirmClick(event)">Convert Fulltime</a> |
+                                       onclick="confirmClick(event)">Convert Fulltime</a>
 
-                                {% endif %}
+                                {% else %}
+                                    <span class="bold">Converted to Fulltime</span>
+                                {% endif %} |
                                 <a
                                         href="{{ request.application_url }}/freelancer/{{ freelancer.id }}/delete"
                                         onclick="confirmClick(event)">Delete

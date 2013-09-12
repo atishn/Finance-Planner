@@ -4,6 +4,9 @@
         <ul class="nav subnav_area">
             <li class="headline">Assign {{ ghost_user.role.name|title }} ({{ ghost_user.office.name|title }})</li>
         </ul>
+        <ul class="nav pull-right subnav_area">
+            <li class="submenu-btn"><a class="submenu-btn-text" href='{{ request.application_url }}/ghost/user/{{ ghost_user.id }}/delete' onclick="confirmClick(event)">DELETE REQ</a></li>
+        </ul>
     </div>
     <div class="container">
         <div class="row-fluid">
