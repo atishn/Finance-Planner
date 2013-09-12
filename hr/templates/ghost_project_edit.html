@@ -76,6 +76,28 @@
                             <td><input class="datepicker" type="text" name="end_date"
                                        value="{{ ghost_project.end_date.strftime('%m/%d/%Y')}}"></td>
                         </tr>
+                        <tr>
+                            <td>Budget Allocations (%):</td>
+                            <td>
+                                <table class="budget-allocations">
+                                    <tbody>
+                                    {% for department in account.departments %}
+                                        {% if department.is_active %}
+                                            {%  for budget_allocation in ghost_project.budget_allocations %}
+                                                {% if department.id == budget_allocation.department_id %}
+                                                    <tr>
+                                                        <td>{{ department.name|title }}:</td>
+                                                        <td><input class="input-small" type="text" name="{{ department.id }}-allocation" value="{{ budget_allocation.percent_allocation }}">%</td>
+                                                    </tr>
+                                                {% endif %}
+                                            {%  endfor %}
+
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                     <input type="submit">

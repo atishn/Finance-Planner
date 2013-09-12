@@ -49,18 +49,23 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Budget Allocations (%):</br>TODO: put in current actual allocations</td>
+                            <td>Budget Allocations (%):</td>
                             <td>
                                 <table class="budget-allocations">
                                     <tbody>
-                                        {% for department in account.departments %}
-                                            {% if department.is_active %}
-                                                <tr>
-                                                    <td>{{ department.name|title }}:</td>
-                                                    <td><input class="input-small" type="text" name="{{ department.id }}-allocation" value="">%</td>
-                                                </tr>
-                                            {% endif %}
-                                        {% endfor %}
+                                    {% for department in account.departments %}
+                                        {% if department.is_active %}
+                                            {%  for budget_allocation in project.budget_allocations %}
+                                                {% if department.id == budget_allocation.department_id %}
+                                                    <tr>
+                                                        <td>{{ department.name|title }}:</td>
+                                                        <td><input class="input-small" type="text" name="{{ department.id }}-allocation" value="{{ budget_allocation.percent_allocation }}">%</td>
+                                                    </tr>
+                                                {% endif %}
+                                            {%  endfor %}
+
+                                        {% endif %}
+                                    {% endfor %}
                                     </tbody>
                                 </table>
                             </td>
@@ -68,6 +73,7 @@
                         </tbody>
                     </table>
                     <input type="submit">
+                </form>
             </div>
         </div>
     </div>

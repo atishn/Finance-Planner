@@ -9,6 +9,7 @@ from pyramid.httpexceptions import HTTPFound
 from hr.models import DBSession
 from hr.models.User import User
 from hr.models.Office import Office
+from hr.models.Project import Project
 from hr.models.Client import Client
 from hr.models.GhostClient import GhostClient
 from hr.models.GhostUser import GhostUser
@@ -22,11 +23,10 @@ from hr.models.BudgetAllocation import BudgetAllocation
 
 
 def getClientHeader(ghost_client):
-
     header = Header("finanicials");
     header.division = "office"
 
-    if ghost_client is not None :
+    if ghost_client is not None:
         header.divisionname = ghost_client.office.name
         header.divisionid = ghost_client.office.id
 
@@ -59,7 +59,8 @@ def ghost_client_financials(request):
         access_utilization = user.can_access_office(ghost_client.office, "utilization")
 
         financials = ghost_client.getFinancials(year, user)
-        return dict(logged_in=authenticated_userid(request), header=getClientHeader(ghost_client), ghost_client=ghost_client,
+        return dict(logged_in=authenticated_userid(request), header=getClientHeader(ghost_client),
+                    ghost_client=ghost_client,
                     financials=financials, year=year, user=user, account=account, access_pipeline=access_pipeline,
                     access_utilization=access_utilization, access_financials=access_financials)
     except:
@@ -88,7 +89,8 @@ def ghost_client_pipeline(request):
         access_financials = user.can_access_office(ghost_client.office, "financials")
 
         financials = ghost_client.getFinancials(year, user)
-        return dict(logged_in=authenticated_userid(request), header=getClientHeader(ghost_client), ghost_client=ghost_client,
+        return dict(logged_in=authenticated_userid(request), header=getClientHeader(ghost_client),
+                    ghost_client=ghost_client,
                     financials=financials, year=year, user=user, account=account, access_pipeline=access_pipeline,
                     access_utilization=access_utilization, access_financials=access_financials)
     except:
@@ -118,7 +120,8 @@ def ghost_client_utilization(request):
         access_financials = user.can_access_office(ghost_client.office, "financials")
 
         utilization = ghost_client.getUtilization(year)
-        return dict(logged_in=authenticated_userid(request), header=getClientHeader(ghost_client), ghost_client=ghost_client,
+        return dict(logged_in=authenticated_userid(request), header=getClientHeader(ghost_client),
+                    ghost_client=ghost_client,
                     utilization=utilization, year=year, user=user, account=account, access_pipeline=access_pipeline,
                     access_utilization=access_utilization, access_financials=access_financials)
     except:
@@ -185,7 +188,8 @@ def ghost_client_add(request):
             new_ghost_client.is_tbg = is_tbg
             DBSession.add(new_ghost_client)
 
-            new_ghost_project = GhostProject(ghost_project_name, ghost_project_code, account, None, new_ghost_client, revenue, likelihood,
+            new_ghost_project = GhostProject(ghost_project_name, ghost_project_code, account, None, new_ghost_client,
+                                             revenue, likelihood,
                                              start_date, end_date)
 
             for department in account.departments:
@@ -198,9 +202,8 @@ def ghost_client_add(request):
 
             DBSession.flush()
 
-
             return HTTPFound(request.application_url + "/office/" + str(office_id) + "/pipeline/" + str(
-                    datetime.datetime.now().year))
+                datetime.datetime.now().year))
 
         offices_all = DBSession.query(Office).filter_by(account_id=account_id).all()
         offices = []
@@ -468,9 +471,8 @@ def ghost_project_add(request):
             DBSession.add(new_ghost_project)
             DBSession.flush()
 
-
             return HTTPFound(request.application_url + "/client/" + str(client_id) + "/pipeline/" + str(
-                        datetime.datetime.now().year))
+                datetime.datetime.now().year))
 
         clients_all = DBSession.query(Client).filter_by(account_id=account_id).filter_by(is_active=True).all()
         clients = []
@@ -481,7 +483,8 @@ def ghost_project_add(request):
                 if user.can_access_client(client, "utilization"):
                     clients.append(client)
 
-        ghost_clients_all = DBSession.query(GhostClient).filter_by(account_id=account_id).filter_by(is_active=True).all()
+        ghost_clients_all = DBSession.query(GhostClient).filter_by(account_id=account_id).filter_by(
+            is_active=True).all()
         ghost_clients = []
         if user.is_administrator or user.permissions_global_pipeline:
             ghost_clients = ghost_clients_all
@@ -581,25 +584,46 @@ def ghost_project_edit(request):
                     if g_p.name == name and g_p.id != ghost_project.id:
                         return HTTPFound(request.application_url)
 
-            ghost_project.name = name
-            ghost_project.code = code
-            ghost_project.client = client
-            ghost_project.ghost_client = ghost_client
-            ghost_project.revenue = revenue
-            ghost_project.likelihood = likelihood
-            ghost_project.start_date = start_date
-            ghost_project.end_date = end_date
+            if likelihood == 100 and client is not None:   # Temporary condition until ghost client move get fixed.
+                new_project = Project(name, code, account, client, revenue, start_date, end_date)
+                DBSession.add(new_project)
+                DBSession.flush()
 
-            for department in account.departments:
-                percent_allocation = request.params.get(str(department.id) + "-allocation")
-                for budget_allocation in ghost_project.budget_allocations:
-                    if budget_allocation.department_id == department.id:
-                        if percent_allocation is None or percent_allocation == "":
-                            DBSession.delete(budget_allocation)
-                        else:
-                            budget_allocation.percent_allocation = percent_allocation
+                for department in account.departments:
+                    percent_allocation = request.params.get(str(department.id) + "-allocation")
+                    for budget_allocation in ghost_project.budget_allocations:
+                        if budget_allocation.department_id == department.id:
+                            if percent_allocation is None or percent_allocation == "":
+                                DBSession.delete(budget_allocation)
+                            else:
+                                budget_allocation.percent_allocation = percent_allocation
+                                budget_allocation.project_id = new_project.id;
+                                budget_allocation.ghost_project_id = None
 
-            DBSession.flush()
+                DBSession.delete(ghost_project)
+                DBSession.flush()
+
+            else:
+
+                ghost_project.name = name
+                ghost_project.code = code
+                ghost_project.client = client
+                ghost_project.ghost_client = ghost_client
+                ghost_project.revenue = revenue
+                ghost_project.likelihood = likelihood
+                ghost_project.start_date = start_date
+                ghost_project.end_date = end_date
+
+                for department in account.departments:
+                    percent_allocation = request.params.get(str(department.id) + "-allocation")
+                    for budget_allocation in ghost_project.budget_allocations:
+                        if budget_allocation.department_id == department.id:
+                            if percent_allocation is None or percent_allocation == "":
+                                DBSession.delete(budget_allocation)
+                            else:
+                                budget_allocation.percent_allocation = percent_allocation
+
+                DBSession.flush()
 
             if client is not None:
                 return HTTPFound(request.application_url + "/client/" + str(client_id) + "/pipeline/" + str(
@@ -812,8 +836,9 @@ def ghost_user_delete(request):
         DBSession.delete(ghost_user)
         DBSession.flush()
 
-        return HTTPFound(location=request.application_url + "/office/" + str(ghost_user.office.id) + "/utilization/" + str(
-            datetime.datetime.now().year))
+        return HTTPFound(
+            location=request.application_url + "/office/" + str(ghost_user.office.id) + "/utilization/" + str(
+                datetime.datetime.now().year))
     except:
         return HTTPFound(request.application_url)
 
