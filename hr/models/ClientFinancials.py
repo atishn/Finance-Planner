@@ -37,7 +37,7 @@ class ClientFinancials(object):
     #TODO: ADD DISCRETIONARY PER OFFICE AMOUNT THAT PEOPLE CAN ADD IN
     def __init__(self,client,year,user):
         self.client = client
-        self.year=year
+        self.year=int(year)
 
         self.calculateFinancials()
         

@@ -27,7 +27,7 @@ class GhostClientFinancials(object):
     #TODO: ADD DISCRETIONARY PER OFFICE AMOUNT THAT PEOPLE CAN ADD IN
     def __init__(self, ghost_client, year, user):
         self.ghost_client = ghost_client
-        self.year = year
+        self.year = int(year)
 
         self.calculateFinancials()
 
@@ -86,10 +86,12 @@ class GhostClientFinancials(object):
 
             for x in range(0, 4):
                 self.expense_ghost[x] += ghost_salary[x]
+                self.expense_ghost[4] += ghost_salary[x]
 
         for x in range(0, 4):
             self.expense_overhead[x] = int((self.expense_salary[x] * self.ghost_client.office.expense_overhead)/100)
             self.expense_overhead[4] = self.expense_overhead[4] + self.expense_overhead[x]
+
             self.expense_total[x] = self.expense_total[x] + self.expense_ghost[x] + self.expense_salary[x] + self.expense_overhead[x]
             self.expense_total[4] = self.expense_total[4] + self.expense_total[x]
 

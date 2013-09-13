@@ -184,8 +184,16 @@ def administration_expenses_offices(request):
                                              long(quarter_end_date_parts[1]))
 
             for office in account.offices:
-                expense_local_lc = long(request.params.get(str(office.id) + "-local"))
-                expense_global_lc = long(request.params.get(str(office.id) + "-global"))
+
+                if request.params.get(str(office.id) + "-local")!= "":
+                    expense_local_lc = long(request.params.get(str(office.id) + "-local"))
+                else:
+                    expense_local_lc = 0
+
+                if request.params.get(str(office.id) + "-global")!= "":
+                    expense_global_lc = long(request.params.get(str(office.id) + "-global"))
+                else:
+                    expense_global_lc = 0
 
                 if user.currency is None:
                     expense_local = expense_local_lc
@@ -198,14 +206,12 @@ def administration_expenses_offices(request):
                     quarter_end_date=quarter_end_date).first()
 
                 if actual_expense is not None:
-                    actual_expense.expense_local = expense_local
-                    actual_expense.expense_global = expense_global
+                    actual_expense.expense_local += expense_local
+                    actual_expense.expense_global += expense_global
                 else:
                     actual_expense = ActualExpense(office, None, expense_local, expense_global, quarter_end_date)
-
+                    DBSession.add(actual_expense)
                 DBSession.flush()
-
-                # return HTTPFound(request.application_url + "/administration/expenses")
 
         return dict(logged_in=authenticated_userid(request), header=Header("administration"), account=account,
                     user=user, year=year)
@@ -238,7 +244,10 @@ def administration_expenses_clients(request):
                                              long(quarter_end_date_parts[1]))
 
             for client in account.clients:
-                expense_lc = long(request.params.get(str(client.id) + "-expense"))
+                if request.params.get(str(client.id) + "-expense") is not None and request.params.get(str(client.id) + "-expense") != "":
+                    expense_lc = long(request.params.get(str(client.id) + "-expense"))
+                else:
+                    expense_lc = 0
 
                 if user.currency is None:
                     expense_local = expense_lc
@@ -246,16 +255,15 @@ def administration_expenses_clients(request):
                     expense_local = expense_lc * user.currency.currency_to_usd
 
                 actual_expense = DBSession.query(ActualExpense).filter_by(client_id=client.id).filter_by(
-                    quarter_end_date=quarter_end_date).first()
+                        quarter_end_date=quarter_end_date).first()
 
                 if actual_expense is not None:
-                    actual_expense.expense_local = expense_local
+                        actual_expense.expense_local += expense_local
                 else:
-                    actual_expense = ActualExpense(None, client, expense_local, None, quarter_end_date)
+                        actual_expense = ActualExpense(None, client, expense_local, None, quarter_end_date)
+                        DBSession.add(actual_expense)
 
-                DBSession.flush()
-
-                # return HTTPFound(request.application_url + "/administration/expenses")
+            DBSession.flush()
 
         return dict(logged_in=authenticated_userid(request), header=Header("administration"), account=account,
                     user=user, year=year)

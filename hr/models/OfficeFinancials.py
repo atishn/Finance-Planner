@@ -69,7 +69,7 @@ class OfficeFinancials(object):
 
     def __init__(self,office,year,user):
         self.office = office
-        self.year = year
+        self.year = int(year)
         self.user = user
 
         if user.currency is not None:
@@ -266,7 +266,7 @@ class OfficeFinancials(object):
                         revenue_per_dollar_salary_freelance = self.revenue_total[x] / (self.expense_salary_billable[x] + self.expense_freelance_billable_if_employee[x])
                     else:
                         revenue_per_dollar_salary_freelance = 0
-                    self.potential_revenue[x] = self.revenue_total[x] + ((self.expense_salary_bench[x] + expense_salary_prospects[x] + expense_salary_tbg[x]) * revenue_per_dollar_salary_freelance)
+                    self.potential_revenue[x] = self.revenue_total[x] + ((self.expense_salary_bench[x] + self.expense_salary_prospects[x] + self.expense_salary_tbg[x]) * revenue_per_dollar_salary_freelance)
             elif datetime.datetime.now().month < 4:
                 old_office_financials = OfficeFinancials(self.office,self.year-1,self.user)
                 if (old_office_financials.expense_salary_billable[4] + old_office_financials.expense_freelance_billable_if_employee[4]) > 0:
