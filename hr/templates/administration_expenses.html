@@ -65,6 +65,46 @@
                     </table>
                     <input class="center-submit" type="submit">
                 </form>
+                <table class="table">
+                    <thead>
+                    <th>Expenses By Office ({% if user.currency %}{{ user.currency.name|upper }}{% else %}
+                        USD{% endif %}):
+                        <div class="btn-group">
+                            <a id="year_button" class="year-text dropdown-toggle" data-toggle="dropdown"
+                               href="#">{{ expense_year }} <span class="year-carot caret"></span></a>
+{#                            <ul class="dropdown-menu">#}
+{#                                {% for y in account.years %}#}
+{#                                    <li><a href="{{ request.application_url }}/global/office/{{ y }}"#}
+{#                                           tabindex="-1">{{ y }}</a></li>#}
+{#                                {% endfor %}#}
+{#                            </ul>#}
+                        </div>
+                    </th>
+                    <th colspan="2" class="center">Q1 (SGA|Global)</th>
+                    <th colspan="2" class="center">Q2 (SGA|Global)</th>
+                    <th colspan="2" class="center">Q3 (SGA|Global)</th>
+                    <th colspan="2" class="center">Q4 (SGA|Global)</th>
+                    </thead>
+                    <tbody>
+
+                    {% for office in account.offices %}
+                        <tr>
+                            <td>
+                                <a href="{{ request.application_url }}/office/{{ office.id }}/financials/{{ year }}">{{ office.name|title }}</a>
+                            </td>
+                            <td class="align-right">{{ "{:,.0f}".format(all_office_expense_sga[loop.index0][0])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(all_office_expense_salary_global[loop.index0][0])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(all_office_expense_sga[loop.index0][1])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(all_office_expense_salary_global[loop.index0][1])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(all_office_expense_sga[loop.index0][2])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(all_office_expense_salary_global[loop.index0][2])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(all_office_expense_sga[loop.index0][3])}}</td>
+                            <td class="align-right">{{ "{:,.0f}".format(all_office_expense_salary_global[loop.index0][3])}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </div>
