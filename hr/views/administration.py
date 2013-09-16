@@ -211,7 +211,7 @@ def administration_expenses_offices(request):
                     actual_expense = ActualExpense(office, None, expense_local, expense_global, quarter_end_date)
                     DBSession.add(actual_expense)
 
-        DBSession.flush()
+            DBSession.flush()
 
         usd_to_local = 1
         if user.currency is not None:
@@ -274,7 +274,7 @@ def administration_expenses_clients(request):
         account = DBSession.query(Account).filter_by(id=account_id).first()
         user = DBSession.query(User).filter_by(id=user_id).first()
         year = str(datetime.datetime.now().year)
-
+        quarter_end_year_text = None
         if user is None or account is None or user.is_administrator == False:
             return HTTPFound(request.application_url)
 
@@ -309,8 +309,41 @@ def administration_expenses_clients(request):
 
             DBSession.flush()
 
+        usd_to_local = 1
+        if user.currency is not None:
+            usd_to_local = user.currency.usd_to_currency
+
+        if quarter_end_year_text is not None:
+            expense_year = int(quarter_end_year_text)
+        else:
+            expense_year = int(year)
+
+        all_client_expense_sga = []
+        for client in account.clients:
+            client_expense_sga = [0, 0, 0, 0]
+
+            for actual_expense in client.actual_expenses:
+                if actual_expense.quarter_end_date.year == expense_year:
+
+                    if actual_expense.quarter_end_date.month == 3:
+                        if actual_expense.expense_local is not None:
+                            client_expense_sga[0] = actual_expense.expense_local * usd_to_local
+
+                    elif actual_expense.quarter_end_date.month == 6:
+                        if actual_expense.expense_local is not None:
+                            client_expense_sga[1] = actual_expense.expense_local * usd_to_local
+
+                    elif actual_expense.quarter_end_date.month == 9:
+                        if actual_expense.expense_local is not None:
+                            client_expense_sga[2] = actual_expense.expense_local * usd_to_local
+
+                    elif actual_expense.quarter_end_date.month == 12:
+                        if actual_expense.expense_local is not None:
+                            client_expense_sga[3] = actual_expense.expense_local * usd_to_local
+
+            all_client_expense_sga.append(client_expense_sga)
         return dict(logged_in=authenticated_userid(request), header=Header("administration"), account=account,
-                    user=user, year=year)
+                    user=user, year=year, all_client_expense_sga=all_client_expense_sga, expense_year=expense_year)
     except:
         traceback.print_exc()
         return HTTPFound(request.application_url)
