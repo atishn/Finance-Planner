@@ -332,7 +332,7 @@ def freelancer_convert(request):
                 new_user.is_hr_administrator = is_hr_administrator
                 new_user.currency = currency
 
-                s = Salary(new_user, salary, start_date)
+                s = Salary(new_user, salary, role.id, start_date)
                 new_user.salary_history.append(s)
 
                 DBSession.add(new_user)

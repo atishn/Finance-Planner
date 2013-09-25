@@ -47,7 +47,7 @@ def main(argv=sys.argv):
         aaron = User(huge, "Atish Narlawar", "anarlawar@hugeinc.com", office, ceo, 100000, datetime.date(2012, 1, 1))
         aaron.set_password("atish")
         aaron.is_administrator = True
-        salary = Salary(aaron, 100000, datetime.date(2012, 1, 1), 100)
+        salary = Salary(aaron, 100000, 1, datetime.date(2012, 1, 1), 100)
         aaron.salary_history.append(salary)
 
         DBSession.add(aaron)

@@ -270,7 +270,7 @@ def person_add(request):
                     if department is not None:
                         new_user.permissions_department_utilization.append(department)
 
-                s = Salary(new_user, salary, start_date)
+                s = Salary(new_user, salary, role.id, start_date)
                 new_user.salary_history.append(s)
 
                 DBSession.add(new_user)
@@ -477,10 +477,11 @@ def person_edit(request):
                 s = DBSession.query(Salary).filter_by(user_id=person.id).order_by(Salary.start_date.desc()).first()
 
                 if (is_raise is not None or change_allocation is not None) and (datetime.datetime.now().date() != s.start_date.date()):
-                    s = Salary(person, salary, datetime.datetime.now(), percent_billable)
+                    s = Salary(person, salary, role.id, datetime.datetime.now(), percent_billable)
                     DBSession.add(s)
                 else:
                     s.salary = salary
+                    s.role_id = int(role.id)
                     s.percent_billable = percent_billable
 
                 change_allocation

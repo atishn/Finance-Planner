@@ -8,11 +8,13 @@ class Salary(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
     salary = Column(Integer, nullable=False)
+    role_id = Column(Integer, nullable=False)
     start_date = Column(DateTime, nullable=False)
     percent_billable = Column(Integer, nullable=False)
 
-    def __init__(self, user, salary, start_date, percent_billable=100):
+    def __init__(self, user, salary, role_id, start_date, percent_billable=100):
         self.user = user
         self.salary = salary
+        self.role_id = int(role_id)
         self.start_date = start_date
         self.percent_billable = percent_billable
