@@ -276,21 +276,21 @@ class DepartmentFinancials(object):
                                 q4_g_found = True
                                 self.all_expense_salary_global[3] += actual_expense.expense_global * self.usd_to_local
 
-                if q1_l_found == False:
+                if not q1_l_found:
                     self.all_expense_sga[0] += (office.sga_expense * self.usd_to_local) / 4
-                if q2_l_found == False:
+                if not q2_l_found:
                     self.all_expense_sga[1] += (office.sga_expense * self.usd_to_local) / 4
-                if q3_l_found == False:
+                if not q3_l_found:
                     self.all_expense_sga[2] += (office.sga_expense * self.usd_to_local) / 4
-                if q4_l_found == False:
+                if not q4_l_found:
                     self.all_expense_sga[3] += (office.sga_expense * self.usd_to_local) / 4
-                if q1_g_found == False:
+                if not q1_g_found:
                     self.all_expense_salary_global[0] += (office.allocated_salary_expense * self.usd_to_local) / 4
-                if q2_g_found == False:
+                if not q2_g_found:
                     self.all_expense_salary_global[1] += (office.allocated_salary_expense * self.usd_to_local) / 4
-                if q3_g_found == False:
+                if not q3_g_found:
                     self.all_expense_salary_global[2] += (office.allocated_salary_expense * self.usd_to_local) / 4
-                if q4_g_found == False:
+                if not q4_g_found:
                     self.all_expense_salary_global[3] += (office.allocated_salary_expense * self.usd_to_local) / 4
 
             self.all_expense_sga[4] = self.all_expense_sga[0] + self.all_expense_sga[1] + self.all_expense_sga[2] + self.all_expense_sga[3]
