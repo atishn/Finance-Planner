@@ -313,7 +313,7 @@ class DepartmentFinancials(object):
                 # end hack
                 self.expense_open_req_bench[x] = self.full_open_req_billable[x] - (self.expense_open_req_billable[x] + self.expense_open_req_prospects[x])
 
-                self.expense_total[x] = self.non_billable_expenses[x] + self.expense_salary_billable[x] + self.expense_salary_non_billable[x] + self.expense_salary_prospects[x] + self.expense_salary_bench[x]+self.expense_open_req_billable[x]+self.expense_open_req_non_billable[x]+self.expense_open_req_prospects[x]+self.expense_open_req_bench[x]+self.expense_freelance_billable[x]+self.expense_freelance_non_billable[x]
+                self.expense_total[x] = self.non_billable_expenses[x] + self.expense_salary_billable[x] + self.expense_salary_non_billable[x] + self.expense_salary_prospects[x] + self.expense_salary_bench[x]+self.expense_open_req_billable[x]+self.expense_open_req_non_billable[x]+self.expense_open_req_prospects[x]+self.expense_open_req_bench[x]+self.expense_freelance_billable[x]+self.expense_freelance_non_billable[x]+self.expense_sga[x]
                 self.revenue_total[x] = self.revenue_closed[x] + self.revenue_client_opportunities[x] + self.revenue_prospects[x] + self.revenue_tbg[x]
 
                 self.profit[x] = self.revenue_total[x] - self.expense_total[x]
