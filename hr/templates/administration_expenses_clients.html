@@ -8,12 +8,10 @@
             {% if user.is_administrator or user.permissions_global_financials %}
                 <li class="entity-nav-pull-left-cell push-down"><a
                         href="{{ request.application_url }}/administration/expenses"
-                        >OFFICE</a>
+                        class="entity-nav-selected">OFFICE</a>
                 </li>
                 <li class="entity-nav-pull-left-cell-selected push-down"><a
-                        class="entity-nav-selected" href="{{ request.application_url }}/administration/expenses/clients">CLIENTS</a></li>
-            {% endif %}
-            {% if user.is_administrator %}
+                        href="{{ request.application_url }}/administration/expenses/clients" class="entity-nav-selected">CLIENTS</a></li>
                 <li class="entity-nav-pull-left-cell push-down"><a
                         href="{{ request.application_url }}/administration/expenses/global/{{ year }}">GLOBAL</a>
                 </li>

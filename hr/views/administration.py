@@ -121,7 +121,7 @@ def administration_revenue(request):
         account = DBSession.query(Account).filter_by(id=account_id).first()
         user = DBSession.query(User).filter_by(id=user_id).first()
 
-        if user is None or account is None or user.is_administrator == False:
+        if user is None or account is None or not (user.is_administrator or user.permissions_global_financials):
             return HTTPFound(request.application_url)
 
         if request.method == "POST":
@@ -158,7 +158,6 @@ def administration_revenue(request):
         traceback.print_exc()
         return HTTPFound(request.application_url)
 
-
 @view_config(route_name='administration_expenses', request_method='GET',
              renderer='templates/administration_expenses.html')
 @view_config(route_name='administration_expenses', request_method='POST',
@@ -171,7 +170,7 @@ def administration_expenses_offices(request):
         user = DBSession.query(User).filter_by(id=user_id).first()
         year = str(datetime.datetime.now().year)
         quarter_end_year_text = None
-        if user is None or account is None or user.is_administrator == False:
+        if user is None or account is None or not (user.is_administrator or user.permissions_global_financials):
             return HTTPFound(request.application_url)
 
         if request.method == "POST":
@@ -275,7 +274,7 @@ def administration_expenses_clients(request):
         user = DBSession.query(User).filter_by(id=user_id).first()
         year = str(datetime.datetime.now().year)
         quarter_end_year_text = None
-        if user is None or account is None or user.is_administrator == False:
+        if user is None or account is None or not (user.is_administrator or user.permissions_global_financials):
             return HTTPFound(request.application_url)
 
         if request.method == "POST":
@@ -361,11 +360,11 @@ def global_expenses(request):
         user = DBSession.query(User).filter_by(id=user_id).first()
         account = DBSession.query(Account).filter_by(id=account_id).first()
 
-        if user is None or account is None or user.is_administrator == False:
+        if user is None or account is None or not (user.is_administrator or user.permissions_global_financials):
             return HTTPFound(request.application_url)
 
         offices = DBSession.query(Office).filter_by(account_id=account_id).all()
-        if offices == None:
+        if offices is None:
             return HTTPFound(request.application_url)
 
         if request.method == "POST":

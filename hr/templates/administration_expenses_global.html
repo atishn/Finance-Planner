@@ -12,10 +12,8 @@
                 </li>
                 <li class="entity-nav-pull-left-cell push-down"><a
                         href="{{ request.application_url }}/administration/expenses/clients">CLIENTS</a></li>
-            {% endif %}
-            {% if user.is_administrator %}
                 <li class="entity-nav-pull-left-cell-selected push-down"><a
-                        class="entity-nav-selected" href="{{ request.application_url }}/administration/expenses/global/{{ year }}" class="entity-nav-selected">GLOBAL</a>
+                        href="{{ request.application_url }}/administration/expenses/global/{{ year }}" class="entity-nav-selected">GLOBAL</a>
                 </li>
             {% endif %}
         </ul>

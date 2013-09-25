@@ -30,10 +30,10 @@ def roles(request):
             for department in user.permissions.view_departments:
                 if department.id == department_id:
                     roles = DBSession.query(Role).filter_by(department_id=department_id).filter(
-                        Role.is_active == True).all()
+                        Role.is_active is True).all()
                     dept_match = True
                     break
-            if dept_match == False:
+            if dept_match is False:
                 HTTPFound(request.application_url)
 
     header = _get_header(department_id)

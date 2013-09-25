@@ -279,11 +279,12 @@ def person_add(request):
 
         departments = DBSession.query(Department).filter_by(account_id=account_id).all()
         offices = DBSession.query(Office).filter_by(account_id=account_id).all()
+        clients= DBSession.query(Client).filter_by(account_id=account_id).all()
         roles = DBSession.query(Role).filter_by(account_id=account_id).all()
         currencies = DBSession.query(Currency).filter_by(account_id=account_id).all()
 
         return dict(logged_in=authenticated_userid(request), header=Header(source), offices=offices, roles=roles,
-                    currencies=currencies, user=user, departments=departments)
+                    clients=clients, currencies=currencies, user=user, departments=departments)
     except:
         traceback.print_exc()
         return HTTPFound(request.application_url)
@@ -318,10 +319,8 @@ def person_edit(request):
             email = request.params["email"].lower()
             salary = long(request.params["salary"])
 
-            is_raise = None
             is_raise = request.POST.get('raise')
 
-            change_allocation = None
             change_allocation = request.POST.get('change_allocation')
 
             office_id = request.POST.get('office_id')
@@ -420,7 +419,7 @@ def person_edit(request):
                         office = DBSession.query(Office).filter_by(account_id=account_id).filter_by(
                             id=office_id).first()
                         if office is not None:
-                            user.permissions_office_utilization.append(office)
+                            person.permissions_office_utilization.append(office)
                 person.permissions_office_pipeline = []
                 if person.permissions_global_pipeline == False:
                     for office_id in permissions_office_pipeline:
@@ -480,11 +479,13 @@ def person_edit(request):
 
         departments = DBSession.query(Department).filter_by(account_id=account_id).all()
         offices = DBSession.query(Office).filter_by(account_id=account_id).all()
+        clients = DBSession.query(Client).filter_by(account_id=account_id).all()
+
         roles = DBSession.query(Role).filter_by(account_id=account_id).all()
         currencies = DBSession.query(Currency).filter_by(account_id=account_id).all()
 
         return dict(logged_in=authenticated_userid(request), header=Header(source), departments=departments,
-                    offices=offices, roles=roles, user=user, person=person, currencies=currencies)
+                    offices=offices, clients=clients, roles=roles, user=user, person=person, currencies=currencies)
     except:
         traceback.print_exc()
         return HTTPFound(request.application_url)

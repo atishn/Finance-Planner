@@ -174,7 +174,7 @@
                                     {% for client in clients %}
                                         {% if client.is_active %}
                                             <option value="{{ client.id }}"
-                                                    {% for cl in person.permissions_client_financials %}{% if cl.id == office.id %}selected
+                                                    {% for cl in person.permissions_client_financials %}{% if cl.id == client.id %}selected
                                                     {% endif %}{% endfor %}>{{ client.name|title }}</option>
                                         {% endif %}
                                     {% endfor %}
@@ -195,7 +195,7 @@
                                     {% for client in clients %}
                                         {% if client.is_active %}
                                             <option value="{{ client.id }}"
-                                                    {% for cl in person.permissions_client_pipeline %}{% if cl.id == office.id %}selected
+                                                    {% for cl in person.permissions_client_pipeline %}{% if cl.id == client.id %}selected
                                                     {% endif %}{% endfor %}>{{ client.name|title }}</option>
                                         {% endif %}
                                     {% endfor %}
@@ -213,7 +213,7 @@
                                     {% for client in clients %}
                                         {% if client.is_active %}
                                             <option value="{{ client.id }}"
-                                                    {% for cl in person.permissions_client_utilization %}{% if cl.id == office.id %}selected
+                                                    {% for cl in person.permissions_client_utilization %}{% if cl.id == client.id %}selected
                                                     {% endif %}{% endfor %}>{{ client.name|title }}</option>
                                         {% endif %}
                                     {% endfor %}
@@ -223,6 +223,7 @@
                         </tbody>
                     </table>
                     <input type="submit">
+                </form>
             </div>
         </div>
     </div>

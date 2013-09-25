@@ -45,7 +45,7 @@
                     </li>
                 {% endif %}
 
-                {% if user.is_administrator %}
+                {% if user.is_administrator or user.permissions_global_financials%}
                     <li>
                         <a href="{{ request.application_url }}/administration/expenses">Expenses</a>
                     </li>

@@ -88,7 +88,7 @@ def global_utilization(request):
         account = DBSession.query(Account).filter_by(id=account_id).first()
 
         if user is None or account is None or (
-                user.is_administrator == False and user.permissions_global_utilization == False):
+                user.is_administrator is False and user.permissions_global_utilization is False) and not user.is_hr_administrator:
             return HTTPFound(request.application_url)
 
         utilization = account.getUtilization(year)

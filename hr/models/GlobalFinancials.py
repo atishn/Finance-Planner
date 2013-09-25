@@ -84,7 +84,7 @@ class GlobalFinancials(object):
         
         for office in self.account.offices:
             if office.is_active:
-                office_finances = OfficeFinancials(office,self.year,self.user)
+                office_finances = OfficeFinancials(office, self.year, self.user)
                 self.office_financials.append(office_finances)
             
                 for x in range(0, 5):
