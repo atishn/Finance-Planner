@@ -226,7 +226,9 @@ class OfficeFinancials(object):
                             self.expense_sga[3] = actual_expense.expense_local * self.usd_to_local
                         if actual_expense.expense_global is not None:
                             self.expense_salary_global[3] = actual_expense.expense_global * self.usd_to_local
-                         
+
+            self.expense_sga[4] = self.expense_sga[0] + self.expense_sga[1] + self.expense_sga[2] + self.expense_sga[3]
+
             for x in range(0,5):
                 # not totally accurate; does not account for people billed out to clients in other offices - fix
                 self.expense_salary_bench[x] = self.full_billable_salary[x] - (self.expense_salary_billable[x] + self.expense_salary_prospects[x])
@@ -236,7 +238,7 @@ class OfficeFinancials(object):
                     # end hack
                 self.expense_open_req_bench[x] = self.full_open_req_billable[x] - (self.expense_open_req_billable[x] + self.expense_open_req_prospects[x])
         
-                if self.expense_sga[x] == 0:
+                if self.expense_sga[4] == 0:
                     if x == 4:
                         self.expense_sga[x] = self.office.sga_expense * self.usd_to_local
                     elif self.office.allocated_salary_expense is not None:
@@ -258,7 +260,7 @@ class OfficeFinancials(object):
                 else:
                     self.margin[x] = 0
             
-            # calculate potential revenue and margin, which is based on ratios from last full quarter applied moving forward
+            #calculate potential revenue and margin, which is based on ratios from last full quarter applied moving forward
             
             if datetime.datetime.now().year > self.year:
                 for x in range(0,4):
