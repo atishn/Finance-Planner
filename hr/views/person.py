@@ -191,6 +191,11 @@ def person_add(request):
                 else:
                     is_hr_administrator = True
 
+                if request.params.get("employee_assignment_access") is None or request.params.get("employee_assignment_access") == '':
+                    employee_assignment_access = False
+                else:
+                    employee_assignment_access = True
+
                 u = DBSession.query(User).filter_by(email=email).first()
                 if u is not None:
                     return HTTPFound(request.application_url + "/person/add")
@@ -202,6 +207,7 @@ def person_add(request):
                 new_user.is_administrator = is_administrator
                 new_user.is_hr_administrator = is_hr_administrator
                 new_user.currency = currency
+                new_user.employee_assignment_access = employee_assignment_access
 
                 permissions_office_financials = request.params.getall("permissions_office_financials")
                 for office_id in permissions_office_financials:
@@ -366,6 +372,13 @@ def person_edit(request):
             else:
                 is_hr_administrator = False
 
+            is_e_a = long(request.POST.get('employee_assignment_access', '0'))
+            if is_e_a == 1:
+                employee_assignment_access = True
+            else:
+                employee_assignment_access = False
+
+
             u = DBSession.query(User).filter_by(email=email).first()
             if u is None or u.id == person_id:
                 permissions_office_financials = request.params.getall("permissions_office_financials")
@@ -402,6 +415,7 @@ def person_edit(request):
                 person.currency = currency
                 person.is_administrator = is_administrator
                 person.is_hr_administrator = is_hr_administrator
+                person.employee_assignment_access = employee_assignment_access
                 person.permissions_global_financials = permissions_global_financials
                 person.permissions_global_utilization = permissions_global_utilization
                 person.permissions_global_pipeline = permissions_global_pipeline

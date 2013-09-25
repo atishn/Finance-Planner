@@ -14,9 +14,11 @@
             </li>
         </ul>
         <ul class="nav pull-right subnav_area">
+            {% if user.employee_assignment_access %}
             <li class="submenu-btn"><a class="submenu-btn-text"
                                        href='{{ request.application_url }}/ghost/client/assign/resource'>ASSIGN
                 PERSON</a></li>
+            {%  endif %}
             <li class="submenu-btn"><a class="submenu-btn-text"
                                        href='{{ request.application_url }}/client/assign/ghost'>ASSIGN OPEN REQ</a></li>
         </ul>

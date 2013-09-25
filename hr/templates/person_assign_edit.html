@@ -62,8 +62,10 @@
                     {% endfor %}
                     <tr>
                         <td colspan="6"><input type="submit"><br/><br/>
+                            {% if user.employee_assignment_access %}
                             Or, <a href="{{ request.application_url }}/person/{{ person.id }}/assign/add">Add
                                 Assignment</a><br/>
+                            {% endif %}
                             {% if   source_type == "office" %}
                                 <a href="{{ request.application_url }}/office/{{ source_id }}/utilization/{{ year }}">Return
                                     to Utilization</a>

@@ -58,6 +58,7 @@ class User(Base):
 
     is_administrator = Column(Boolean, nullable=False)
     is_hr_administrator = Column(Boolean, nullable=False)
+    employee_assignment_access = Column(Boolean, nullable=False)
 
     permissions_office_financials = relationship("Office", secondary=permissions_office_financials)
     permissions_office_pipeline = relationship("Office", secondary=permissions_office_pipeline)
@@ -88,6 +89,7 @@ class User(Base):
 
         self.is_administrator = False
         self.is_hr_administrator = False
+        self.employee_assignment_access = False
         self.permissions_global_pipeline = False
         self.permissions_global_financials = False
         self.permissions_global_utilization = False
