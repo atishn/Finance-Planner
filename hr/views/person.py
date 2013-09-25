@@ -474,11 +474,12 @@ def person_edit(request):
                     if department is not None:
                         person.permissions_department_utilization.append(department)
 
-                if is_raise is not None or change_allocation is not None:
+                s = DBSession.query(Salary).filter_by(user_id=person.id).order_by(Salary.start_date.desc()).first()
+
+                if (is_raise is not None or change_allocation is not None) and (datetime.datetime.now().date() != s.start_date.date()):
                     s = Salary(person, salary, datetime.datetime.now(), percent_billable)
                     DBSession.add(s)
                 else:
-                    s = DBSession.query(Salary).filter_by(user_id=person.id).order_by(Salary.start_date.desc()).first()
                     s.salary = salary
                     s.percent_billable = percent_billable
 
