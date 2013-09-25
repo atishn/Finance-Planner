@@ -3,6 +3,9 @@
 *.iml
 .metadata
 
+*.log
+*.pid
+
 *.py[cod]
 
 # C extensions
