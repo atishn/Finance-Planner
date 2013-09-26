@@ -42,7 +42,7 @@
                                href="#">{{ year }} <span class="year-carot caret"></span></a>
                             <ul class="dropdown-menu">
                                 {% for y in account.years %}
-                                    <li><a href="{{ request.application_url }}/global/utilization/{{ y }}"
+                                    <li><a href="{{ request.application_url }}/office/{{ office.id }}/clients/{{ y }}"
                                            tabindex="-1">{{ y }}</a></li>
                                 {% endfor %}
                             </ul>

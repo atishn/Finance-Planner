@@ -816,6 +816,7 @@ h5 {
     vertical-align: middle;
 }
 
+
 .administration-title {
     margin: 0;
     border-bottom: 1px solid #E6E6E6;
@@ -827,4 +828,8 @@ h5 {
     font-size: 18px;
     padding: 15px 0px 10px 15px;
     margin: 0;
+}
+
+.highlight-row{
+    background-color: lightgray !important;
 }
