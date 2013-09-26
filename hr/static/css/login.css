@@ -21,6 +21,7 @@
 .login h1 {
     text-align: left;
     text-transform: uppercase;
+    text-shadow: 0 1px 0 pink;
 }
 
 .login .form-item input {
