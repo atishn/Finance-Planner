@@ -786,6 +786,7 @@ h5 {
     width: 60%;
     margin: 20px auto;
 }
+
 .expenses-table td, .expenses-table th {
     border: 1px solid #E6E6E6 !important;
 }
@@ -821,7 +822,6 @@ h5 {
     vertical-align: middle;
 }
 
-
 .administration-title {
     margin: 0;
     border-bottom: 1px solid #E6E6E6;
@@ -835,6 +835,10 @@ h5 {
     margin: 0;
 }
 
-.highlight-row{
+.highlight-row {
     background-color: lightgray !important;
+}
+
+.highlight-td {
+    font-family: proxima-nova-bold !important;
 }
