@@ -802,7 +802,6 @@ h5 {
 
 .breadcrumbs li {
     display: inline-block;
-    margin-right: 10px;
     font-size: 14px;
 }
 
@@ -812,7 +811,7 @@ h5 {
 
 .breadcrumbs span {
     font-size: 18px;
-    padding: 0 5px 0 20px;
+    padding: 0 15px 0 10px;
     vertical-align: middle;
 }
 

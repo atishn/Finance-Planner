@@ -1,21 +1,21 @@
 <div>
     <ul class="breadcrumbs">
-        <li><a href="/">HUGE</a><span>&gt;</span></li>
+        <li><a href="/">HUGE</a></li>
 
         {%  if header.division %}
-            <li><a href="/global/{{ header.division }}/{{ header.year }}">{{ header.division|title }}</a><span>&gt;</span></li>
+            <li><span>&gt;</span><a href="/global/{{ header.division }}/{{ header.year }}">{{ header.division|title }}</a></li>
         {%  endif %}
 
         {%  if header.divisionname %}
-            <li><a href="/{{ header.division }}/{{ header.divisionid }}/financials/{{ header.year }}">{{ header.divisionname|title }}</a><span>&gt;</span></li>
+            <li><span>&gt;</span><a href="/{{ header.division }}/{{ header.divisionid }}/financials/{{ header.year }}">{{ header.divisionname|title }}</a></li>
         {%  endif %}
 
         {%  if header.subdivision %}
-            <li><a href="/{{ header.division }}/{{ header.divisionid }}/{{ header.subdivision }}/{{ header.year }}">{{ header.subdivision|title }}</a><span>&gt;</span></li>
+            <li><span>&gt;</span><a href="/{{ header.division }}/{{ header.divisionid }}/{{ header.subdivision }}/{{ header.year }}">{{ header.subdivision|title }}</a></li>
         {%  endif %}
 
         {%  if header.subdivisionname %}
-            <li><a href="#">{{ header.subdivisionname|title }}</a></li>
+            <li><span>&gt;</span><a href="#">{{ header.subdivisionname|title }}</a></li>
         {%  endif %}
 
     </ul>
