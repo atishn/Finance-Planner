@@ -279,16 +279,6 @@ def project_edit(request):
             return HTTPFound(request.application_url + "/client/" + str(client_id) + "/projects/" + str(
                 datetime.datetime.now().year))
 
-        matched_departments = []
-        for budget_allocation in project.budget_allocations:
-            matched_departments.append(budget_allocation.department_id)
-
-        budgetAllocations = project.budget_allocations
-
-        for department in account.departments:
-            if department.id not in matched_departments:
-                budgetAllocations.append(BudgetAllocation(department, project, None, 0))
-
         clients_all = DBSession.query(Client).filter_by(account_id=account_id).all()
         clients = []
         if user.is_administrator or user.permissions_global_utilization:
@@ -300,7 +290,7 @@ def project_edit(request):
         if len(clients) == 0:
             return HTTPFound(request.application_url)
         return dict(logged_in=authenticated_userid(request), header=Header("financials"), clients=clients, user=user,
-                    account=account, project=project, budgetAllocations=budgetAllocations)
+                    account=account, project=project)
     except:
         return HTTPFound(request.application_url)
 

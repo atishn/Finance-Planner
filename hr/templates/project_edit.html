@@ -53,21 +53,7 @@
                             <td>
                                 <table class="budget-allocations">
                                     <tbody>
-{#                                    {% for department in account.departments %}#}
-{#                                        {% if department.is_active %}#}
-{#                                            {%  for budget_allocation in project.budget_allocations %}#}
-{#                                                {% if department.id == budget_allocation.department_id %}#}
-{#                                                    <tr>#}
-{#                                                        <td>{{ department.name|title }}:</td>#}
-{#                                                        <td><input class="input-small" type="text" name="{{ department.id }}-allocation" value="{{ budget_allocation.percent_allocation }}">%</td>#}
-{#                                                    </tr>#}
-{#                                                {% endif %}#}
-{#                                            {%  endfor %}#}
-{##}
-{#                                        {% endif %}#}
-{#                                    {% endfor %}#}
-
-                                    {%  for budget_allocation in budgetAllocations %}
+                                    {%  for budget_allocation in project.budget_allocations %}
                                                 <td>{{ budget_allocation.department.name|title }}:</td>
                                                 <td><input class="input-small" type="text" name="{{ budget_allocation.department_id }}-allocation" value="{{ budget_allocation.percent_allocation }}">%</td>
                                             </tr>
