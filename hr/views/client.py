@@ -338,8 +338,15 @@ def client_assign_resource(request):
                 users.append(u)
         if len(users) == 0:
             return HTTPFound(request.application_url)
+
+        currentClientId = request.params.get('clientid')
+        currentClient = None
+
+        if currentClientId is not None:
+            currentClient =  DBSession.query(Client).filter_by(id = currentClientId).filter_by(is_active=True).first()
+
         return dict(logged_in=authenticated_userid(request), header=getHeader(None), clients=clients, users=users,
-                    user=user, account=account, access_administration=access_administration)
+                    user=user, account=account, access_administration=access_administration, currentClient = currentClient)
     except:
         print("*****")
         traceback.print_exc()

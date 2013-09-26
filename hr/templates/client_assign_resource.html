@@ -39,7 +39,7 @@
                                 <select name="client_id">
                                     <option value="">Select</option>
                                     {% for client in clients %}
-                                        <option value="{{ client.id }}">{{ client.name|title }}</option>
+                                        <option {%  if client.id == currentClient.id %} selected {%  endif %}value="{{ client.id }}">{{ client.name|title }}</option>
                                     {% endfor %}
                                 </select>
                             </td>
