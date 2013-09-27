@@ -484,8 +484,6 @@ def person_edit(request):
                     s.role_id = int(role.id)
                     s.percent_billable = percent_billable
 
-                change_allocation
-
                 DBSession.flush()
 
                 if source == "reviews":
@@ -830,7 +828,3 @@ def person_disable_login(request):
         return HTTPFound(request.application_url + "/administration/employees")
     except:
         return HTTPFound(request.application_url)
-        
-        
-        
-        
