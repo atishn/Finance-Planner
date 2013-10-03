@@ -474,6 +474,18 @@ def ghost_project_add(request):
             return HTTPFound(request.application_url + "/client/" + str(client_id) + "/pipeline/" + str(
                 datetime.datetime.now().year))
 
+        currentClientId = request.params.get('clientid')
+        currentClient = None
+
+        if currentClientId is not None:
+                currentClient = DBSession.query(Client).filter_by(id=currentClientId).filter_by(is_active=True).first()
+
+        currentGhostClientId = request.params.get('ghostclientid')
+        currentGhostClient = None
+
+        if currentGhostClientId is not None:
+            currentGhostClient = DBSession.query(GhostClient).filter_by(id=currentGhostClientId).filter_by(is_active=True).first()
+
         clients_all = DBSession.query(Client).filter_by(account_id=account_id).filter_by(is_active=True).all()
         clients = []
         if user.is_administrator or user.permissions_global_utilization:
@@ -497,7 +509,7 @@ def ghost_project_add(request):
             return HTTPFound(request.application_url)
 
         return dict(logged_in=authenticated_userid(request), header=Header("financials"), clients=clients,
-                    ghost_clients=ghost_clients, user=user, account=account)
+                    ghost_clients=ghost_clients, user=user, account=account, currentClient = currentClient, currentGhostClient=currentGhostClient)
     except:
         return HTTPFound(request.application_url)
 
