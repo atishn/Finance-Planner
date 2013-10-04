@@ -29,7 +29,8 @@
                                 <select name="office_id">
                                     <option value="">Select</option>
                                     {% for office in offices %}
-                                        <option value="{{ office.id }}">{{ office.name|title }}</option>
+                                        <option {% if office.id == currentOffice.id %}
+                                            selected {% endif %}value="{{ office.id }}">{{ office.name|title }}</option>
                                     {% endfor %}
                                 </select>
                             </td>

@@ -87,6 +87,12 @@ def freelancer_add(request):
                     return HTTPFound(request.application_url + "/office/" + str(office_id) + "/utilization/" + str(
                         datetime.datetime.now().year))
 
+        currentClientId = request.params.get('clientid')
+        currentClient = None
+
+        if currentClientId is not None:
+            currentClient = DBSession.query(Client).filter_by(id=currentClientId).filter_by(is_active=True).first()
+
         clients_all = DBSession.query(Client).filter_by(account_id=account_id).all()
         clients = []
         if user.is_administrator or user.permissions_global_utilization:
@@ -112,7 +118,7 @@ def freelancer_add(request):
         roles = DBSession.query(Role).filter_by(account_id=account_id).all()
 
         return dict(logged_in=authenticated_userid(request), header=Header('financials'), clients=clients,
-                    offices=offices, roles=roles, user=user, account=account)
+                    offices=offices, roles=roles, user=user, account=account, currentClient=currentClient)
     except:
         return HTTPFound(request.application_url)
 

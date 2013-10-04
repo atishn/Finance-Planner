@@ -25,13 +25,13 @@
         <ul class="nav pull-right subnav_area">
             {% if user.employee_assignment_access %}
             <li class="submenu-btn"><a class="submenu-btn-text"
-                                       href='{{ request.application_url }}/client/assign/resource'>ASSIGN EMPLOYEE</a>
+                                       href='{{ request.application_url }}/client/assign/resource?clientid={{ client.id }}'>ASSIGN EMPLOYEE</a>
             </li>
             {% endif %}
-            <li class="submenu-btn"><a class="submenu-btn-text" href='{{ request.application_url }}/freelancer/add'>ADD
+            <li class="submenu-btn"><a class="submenu-btn-text" href='{{ request.application_url }}/freelancer/add?clientid={{ client.id }}'>ADD
                 FREELANCER</a></li>
             <li class="submenu-btn"><a class="submenu-btn-text"
-                                       href='{{ request.application_url }}/client/assign/ghost'>ASSIGN OPEN REQ</a></li>
+                                       href='{{ request.application_url }}/client/assign/ghost?clientid={{ client.id }}'>ASSIGN OPEN REQ</a></li>
         </ul>
     </div>
     <div class="container-fluid">

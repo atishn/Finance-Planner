@@ -202,6 +202,12 @@ def client_add(request):
                     return HTTPFound(request.application_url + "/office/" + str(office_id) + "/clients/" + str(
                         datetime.datetime.now().year))
 
+        officeId = request.params.get('officeid')
+        currentOffice = None
+
+        if officeId is not None:
+            currentOffice = DBSession.query(Office).filter_by(id=officeId).filter_by(is_active=True).first()
+
         offices_all = DBSession.query(Office).filter_by(account_id=long(request.session['aid'])).all()
         offices = []
         if user.is_administrator or user.permissions_global_financials:
@@ -212,7 +218,7 @@ def client_add(request):
                     offices.append(office)
 
         return dict(logged_in=authenticated_userid(request), header=getHeader(None), offices=offices, user=user,
-                    account=account)
+                    account=account, currentOffice=currentOffice)
     except:
         traceback.print_exc()
         return HTTPFound(request.application_url)
@@ -416,6 +422,19 @@ def client_assign_ghost(request):
                     request.application_url + "/ghost/client/" + str(ghost_client_id) + "/utilization/" + str(
                         datetime.datetime.now().year))
 
+        currentClientId = request.params.get('clientid')
+        currentClient = None
+
+        if currentClientId is not None:
+            currentClient = DBSession.query(Client).filter_by(id=currentClientId).filter_by(is_active=True).first()
+
+        currentGhostClientId = request.params.get('ghostclientid')
+        currentGhostClient = None
+
+        if currentGhostClientId is not None:
+            currentGhostClient = DBSession.query(GhostClient).filter_by(id=currentGhostClientId).filter_by(
+                is_active=True).first()
+
         clients_all = DBSession.query(Client).filter_by(account_id=account_id).all()
         clients = []
         if user.is_administrator or user.permissions_global_utilization:
@@ -447,7 +466,7 @@ def client_assign_ghost(request):
                     ghost_clients.append(ghost_client)
 
         return dict(logged_in=authenticated_userid(request), header=getHeader(None), clients=clients,
-                    ghost_users=ghost_users, user=user, account=account, ghost_clients=ghost_clients)
+                    ghost_users=ghost_users, user=user, account=account, ghost_clients=ghost_clients, currentClient=currentClient, currentGhostClient=currentGhostClient)
     except:
         print("*****")
         traceback.print_exc()
@@ -478,8 +497,3 @@ def client_delete(request):
             datetime.datetime.now().year))
     except:
         return HTTPFound(request.application_url)
-
-
-        
-        
-        

@@ -23,7 +23,7 @@
             {% endif %}
         </ul>
         <ul class="nav pull-right subnav_area">
-            <li class="submenu-btn"><a class="submenu-btn-text" href='{{ request.application_url }}/client/add'>ADD
+            <li class="submenu-btn"><a class="submenu-btn-text" href='{{ request.application_url }}/client/add?officeid={{ office.id }}'>ADD
                 CLIENT</a></li>
             <li class="submenu-btn"><a class="submenu-btn-text"
                                        href='{{ request.application_url }}/office/{{ office.id }}/projects/update'>UPDATE

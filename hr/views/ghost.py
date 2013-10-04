@@ -369,6 +369,19 @@ def ghost_client_assign_resource(request):
             return HTTPFound(request.application_url + "/ghost/client/" + str(ghost_client_id) + "/utilization/" + str(
                 datetime.datetime.now().year))
 
+        currentClientId = request.params.get('clientid')
+        currentClient = None
+
+        if currentClientId is not None:
+            currentClient = DBSession.query(Client).filter_by(id=currentClientId).filter_by(is_active=True).first()
+
+
+        currentGhostClientId = request.params.get('ghostclientid')
+        currentGhostClient = None
+
+        if currentGhostClientId is not None:
+            currentGhostClient = DBSession.query(GhostClient).filter_by(id=currentGhostClientId).filter_by(is_active=True).first()
+
         ghost_clients_all = DBSession.query(GhostClient).filter_by(account_id=account_id).all()
         ghost_clients = []
         if user.is_administrator or user.permissions_global_utilization:
@@ -386,10 +399,11 @@ def ghost_client_assign_resource(request):
         for u in users_all:
             if u.is_active and u.percent_billable > 0 and user.can_access_office(u.office, "utilization"):
                 users.append(u)
+
         if len(users) == 0:
             return HTTPFound(request.application_url)
         return dict(logged_in=authenticated_userid(request), header=Header("financials"), ghost_clients=ghost_clients,
-                    users=users, user=user, account=account)
+                    users=users, user=user, account=account, currentClient=currentClient, currentGhostClient=currentGhostClient)
     except:
         traceback.print_exc()
         return HTTPFound(request.application_url)
@@ -751,6 +765,13 @@ def ghost_user_add(request):
                         datetime.datetime.now().year))
 
         roles = DBSession.query(Role).filter_by(account_id=account_id).all()
+
+        currentOfficeId = request.params.get('officeid')
+        currentOffice = None
+
+        if currentOfficeId is not None:
+            currentOffice = DBSession.query(Office).filter_by(id=currentOfficeId).filter_by(is_active=True).first()
+
         offices_all = DBSession.query(Office).filter_by(account_id=account_id).all()
         offices = []
         if user.is_administrator or user.permissions_global_utilization:
@@ -763,7 +784,7 @@ def ghost_user_add(request):
             return HTTPFound(request.application_url)
 
         return dict(logged_in=authenticated_userid(request), header=Header("financials"), roles=roles, offices=offices,
-                    user=user, account=account)
+                    user=user, account=account, currentOffice=currentOffice)
     except:
         return HTTPFound(request.application_url)
 
@@ -1099,7 +1120,3 @@ def ghost_user_assign_delete(request):
     except:
         traceback.print_exc()
         return HTTPFound(request.application_url)
-  
-        
-    
-        
