@@ -46,7 +46,7 @@ class Role(Base):
         count = 0
         for user in self.users:
             if user.is_active:
-                count = count + 1
+                count += 1
         return count
 
     active_users_count = property(_active_users_count)
@@ -69,5 +69,3 @@ class Role(Base):
         return (self.salary_middle + (self.salary_middle * self.account.benefits_and_bonus / 100)) / 365
 
     loaded_salary_per_day = property(_loaded_salary_per_day)
-        
-        

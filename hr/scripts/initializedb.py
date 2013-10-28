@@ -41,7 +41,7 @@ def main(argv=sys.argv):
     Base.metadata.create_all(engine)
     with transaction.manager:
         huge = Account("Huge", 2013)
-        office = Office("New York", huge)
+        office = Office("New York", 10, huge)
         corporate = Department("Corporate", huge)
         ceo = Role(huge, "Senior Developer", corporate, 150000, 50000)
         aaron = User(huge, "Atish Narlawar", "anarlawar@hugeinc.com", office, ceo, 100000, datetime.date(2012, 1, 1))

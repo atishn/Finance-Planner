@@ -32,9 +32,11 @@ class Office(Base):
     freelancers = relationship('Freelancer', backref='office')
 
     actual_expenses = relationship('ActualExpense', backref='office')
+    benefits_and_bonus = Column(Integer, nullable=False)
 
-    def __init__(self, name, account):
+    def __init__(self, name, benefits_and_bonus, account):
         self.name = name.lower()
+        self.benefits_and_bonus = int(benefits_and_bonus)
         self.account = account
         self.created_at = db_utc_now()
         self.is_active = True

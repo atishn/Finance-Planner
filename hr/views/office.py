@@ -138,7 +138,8 @@ def office_add(request):
             office = DBSession.query(Office).filter_by(account_id=long(request.session['aid'])).filter_by(
                 name=name).first()
             if office is None:
-                new_office = Office(name, account)
+                benefits_and_bonus = long(request.params["benefits_and_bonus"])
+                new_office = Office(name, benefits_and_bonus, account)
                 DBSession.add(new_office)
                 DBSession.flush()
 
@@ -163,13 +164,13 @@ def office_edit(request):
             return HTTPFound(request.application_url)
 
         office_id = request.matchdict['office_id']
-
         if request.method == "POST":
             name = request.params["name"].lower()
             off = DBSession.query(Office).filter_by(account_id=long(request.session['aid'])).filter_by(
                 name=name).first()
-            if off is None or off.id == office_id:
-                DBSession.query(Office).filter_by(id=office_id).filter_by(account_id=account_id).update({'name': name})
+            if off is None or str(off.id) == office_id:
+                benefits_and_bonus = long(request.params["benefits_and_bonus"])
+                DBSession.query(Office).filter_by(id=office_id).filter_by(account_id=account_id).update({'name': name, 'benefits_and_bonus': benefits_and_bonus})
                 DBSession.flush()
 
             return HTTPFound(request.application_url + "/administration/company")

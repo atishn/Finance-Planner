@@ -180,7 +180,6 @@ class User(Base):
 
     def _salary_formatted_micro(self):
         return money_formatted_micro(self.office.currency, self.salary)
-        return self.salary
 
     salary_formatted_micro = property(_salary_formatted_micro)
 
@@ -190,18 +189,18 @@ class User(Base):
     salary_per_day = property(_salary_per_day)
 
     def _loaded_salary_per_day(self):
-        return (self.salary + (self.salary * self.account.benefits_and_bonus / 100)) / 365
+        return (self.salary + (self.salary * self.office.benefits_and_bonus / 100)) / 365
 
     loaded_salary_per_day = property(_loaded_salary_per_day)
 
     def _loaded_non_billable_salary_per_day(self):
-        return ((self.salary + (self.salary * self.account.benefits_and_bonus / 100)) * (
+        return ((self.salary + (self.salary * self.office.benefits_and_bonus / 100)) * (
             1 - self.percent_billable / 100)) / 365
 
     loaded_non_billable_salary_per_day = property(_loaded_non_billable_salary_per_day)
 
     def _loaded_billable_salary_per_day(self):
-        return ((self.salary + self.salary * self.account.benefits_and_bonus / 100) * self.percent_billable / 100) / 365
+        return ((self.salary + self.salary * self.office.benefits_and_bonus / 100) * self.percent_billable / 100) / 365
 
     loaded_billable_salary_per_day = property(_loaded_billable_salary_per_day)
 

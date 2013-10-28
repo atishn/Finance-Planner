@@ -187,12 +187,12 @@ def quarterly_salary(year, user, start_date, end_date, kind="total", allocation=
                 if ((latest_date is None or salary.start_date >= latest_date) and salary.start_date <= day_counter):
                     latest_date = salary.start_date
                     if kind == "total":
-                        temp_salary = salary.salary * (1 + user.account.benefits_and_bonus / 100) * (allocation / 100)
+                        temp_salary = salary.salary * (1 + user.office.benefits_and_bonus / 100) * (allocation / 100)
                     elif kind == "billable":
-                        temp_salary = salary.salary * (1 + user.account.benefits_and_bonus / 100) * (
+                        temp_salary = salary.salary * (1 + user.office.benefits_and_bonus / 100) * (
                         salary.percent_billable / 100)
                     elif kind == "non-billable":
-                        temp_salary = salary.salary * (1 + user.account.benefits_and_bonus / 100) * (
+                        temp_salary = salary.salary * (1 + user.office.benefits_and_bonus / 100) * (
                         (100 - salary.percent_billable) / 100)
             salary_per_day.append(temp_salary / year_length)
         else:
