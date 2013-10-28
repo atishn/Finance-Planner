@@ -66,7 +66,7 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td colspan="13">Fulltime Staff</td>
+                        <td colspan="13" class="highlight-row">Fulltime Staff</td>
                     </tr>
                     {% for user_utilization in utilization.user_utilization %}
                         <tr>
@@ -92,7 +92,7 @@
                         </tr>
                     {% endfor %}
                     <tr>
-                        <td colspan="13">Open Reqs</td>
+                        <td colspan="13" class="highlight-row">Open Reqs</td>
                     </tr>
                     {% for ghost_utilization in utilization.ghost_utilization %}
                         <tr>
@@ -134,7 +134,7 @@
                         </tr>
                     {% endfor %}
                     <tr>
-                        <td colspan="13">Freelancers</td>
+                        <td colspan="13" class="highlight-row">Freelancers</td>
                     </tr>
                     {% for freelance_utilization in utilization.freelance_utilization %}
                         <tr>
@@ -154,7 +154,7 @@
                         </tr>
                     {% endfor %}
                     <tr>
-                        <td colspan="13">Bench</td>
+                        <td colspan="13" class="highlight-row">Bench</td>
                     </tr>
                     {% for u in utilization.bench %}
                         <tr>
@@ -191,7 +191,7 @@
                         </tr>
                     {% endfor %}
                     <tr>
-                        <td colspan="13">Non-Billable</td>
+                        <td colspan="13" class="highlight-row">Non-Billable</td>
                     </tr>
                     {% for u in utilization.non_billable %}
                         <tr>
