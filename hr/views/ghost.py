@@ -149,6 +149,7 @@ def ghost_client_add(request):
 
             ghost_project_name = request.params["ghost_project_name"].lower()
             ghost_project_code = request.params["ghost_project_code"]
+            ghost_target_margin = request.params["target_margin"]
 
             is_tbg_entry = request.params.get("is_tbg")
             if is_tbg_entry:
@@ -184,7 +185,7 @@ def ghost_client_add(request):
             if client is not None and ghost_client is not None:
                 return HTTPFound(request.application_url)
 
-            new_ghost_client = GhostClient(ghost_client_name, ghost_client_code, office)
+            new_ghost_client = GhostClient(ghost_client_name, ghost_client_code, office, ghost_target_margin)
             new_ghost_client.is_tbg = is_tbg
             DBSession.add(new_ghost_client)
 
@@ -234,19 +235,20 @@ def ghost_client_edit(request):
         user = DBSession.query(User).filter_by(id=user_id).first()
         account = DBSession.query(Account).filter_by(id=account_id).first()
 
-        if user == None or account == None:
+        if user is None or account is None:
             return HTTPFound(request.application_url)
 
         ghost_client_id = long(request.matchdict['ghost_client_id'])
         ghost_client = DBSession.query(GhostClient).filter_by(id=ghost_client_id).first()
 
-        if ghost_client == None:
+        if ghost_client is None:
             return HTTPFound(request.application_url)
 
         if request.method == "POST":
 
             ghost_client_name = request.params["ghost_client_name"].lower()
             ghost_client_code = request.params["ghost_client_code"]
+            ghost_target_margin = request.params["target_margin"]
 
             office_id = long(request.params["office_id"])
             office = DBSession.query(Office).filter_by(id=office_id).filter_by(account_id=account_id).first()
@@ -265,13 +267,14 @@ def ghost_client_edit(request):
             ghost_client_temp = DBSession.query(GhostClient).filter_by(account_id=account_id).filter_by(
                 name=ghost_client_name).first()
 
-            if (client is not None or (ghost_client_temp is not None and ghost_client_temp.id != ghost_client_id)):
+            if client is not None or (ghost_client_temp is not None and ghost_client_temp.id != ghost_client_id):
                 return HTTPFound(request.application_url)
 
             ghost_client.name = ghost_client_name
             ghost_client.code = ghost_client_code
             ghost_client.office = office
             ghost_client.is_tbg = is_tbg
+            ghost_client.target_margin = ghost_target_margin
             DBSession.flush()
 
             return HTTPFound(request.application_url + "/office/" + str(office_id) + "/pipeline/" + str(

@@ -18,6 +18,7 @@ class Client(Base):
 
     name = Column(Unicode(40), nullable=False)
     code = Column(Unicode(40), nullable=False)
+    target_margin = Column(Integer, nullable=False)
 
     projects = relationship('Project', backref='client')
     ghost_projects = relationship('GhostProject', backref='client')
@@ -27,13 +28,14 @@ class Client(Base):
 
     actual_expenses = relationship('ActualExpense', backref='client')
 
-    def __init__(self, name, office, code):
+    def __init__(self, name, office, code, target_margin):
         self.name = name.lower()
         self.office = office
         self.code = code
         self.is_active = True
         self.created_at = db_utc_now()
         self.account_id = office.account_id
+        self.target_margin = target_margin
 
     def getFinancials(self, year, user):
         return ClientFinancials(self, year, user)

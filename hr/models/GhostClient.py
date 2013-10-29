@@ -19,12 +19,13 @@ class GhostClient(Base):
 
     name = Column(Unicode(40))
     code = Column(Unicode(40))
+    target_margin = Column(Integer, nullable=False)
 
     ghost_projects = relationship('GhostProject', backref='ghost_client')
     team = relationship('UserAllocation', backref='ghost_client')
     ghost_team = relationship('GhostAllocation', backref='ghost_client')
 
-    def __init__(self, name, code, office):
+    def __init__(self, name, code, office, target_margin):
         self.name = name.lower()
         self.code = code
         self.office = office
@@ -35,6 +36,7 @@ class GhostClient(Base):
             self.is_tbg = True
         else:
             self.is_tbg = False
+        self.target_margin = target_margin
 
     def getFinancials(self, year, user):
         return GhostClientFinancials(self, year, user)
