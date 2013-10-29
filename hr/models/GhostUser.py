@@ -25,7 +25,7 @@ class GhostUser(Base):
         self.percent_billable = percent_billable
 
     def _loaded_salary_per_day(self):
-        return self.role.loaded_salary_per_day
+        return self.role.get_salary_per_day(self.office.benefits_and_bonus)
 
     loaded_salary_per_day = property(_loaded_salary_per_day)
 
@@ -35,7 +35,6 @@ class GhostUser(Base):
     loaded_non_billable_salary_per_day = property(_loaded_non_billable_salary_per_day)
 
     def _loaded_billable_salary_per_day(self):
-        return self.loaded_salary_per_day * (self.percent_billable) / 100
+        return self.loaded_salary_per_day * self.percent_billable / 100
 
     loaded_billable_salary_per_day = property(_loaded_billable_salary_per_day)
-      

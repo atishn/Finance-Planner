@@ -111,7 +111,7 @@ class ClientFinancials(object):
                     self.expense_salary[4] += user_salary[x]
                 
             for ghost_allocation in self.client.ghost_team:
-                salary_per_day = (ghost_allocation.ghost_user.role.loaded_salary_per_day * ghost_allocation.utilization/100) * self.usd_to_local
+                salary_per_day = (ghost_allocation.ghost_user.loaded_salary_per_day * ghost_allocation.utilization/100) * self.usd_to_local
                 ghost_salary = quarterly_money(self.year,ghost_allocation.start_date,ghost_allocation.end_date,salary_per_day,None,"ghost_salary")
                 for x in range(0, 4):
                     self.expense_ghost[x] += ghost_salary[x]

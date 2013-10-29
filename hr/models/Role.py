@@ -65,7 +65,7 @@ class Role(Base):
 
     salary_middle = property(_salary_middle)
 
-    def _loaded_salary_per_day(self):
-        return (self.salary_middle + (self.salary_middle * self.account.benefits_and_bonus / 100)) / 365
-
-    loaded_salary_per_day = property(_loaded_salary_per_day)
+    def get_salary_per_day(self, benefits_and_bonus):
+        if benefits_and_bonus is None:
+            benefits_and_bonus = 0
+        return (self.salary_middle + (self.salary_middle * benefits_and_bonus / 100)) / 36

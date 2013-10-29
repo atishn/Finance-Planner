@@ -56,7 +56,7 @@ class GhostClientFinancials(object):
             return
 
         for ghost_project in self.ghost_client.ghost_projects:
-            if ghost_project.is_active == True:
+            if ghost_project.is_active is True:
                 ghost_project_revenue = GhostProjectRevenue(ghost_project, self.year)
                 if ghost_project_revenue.Q1 > 0 or ghost_project_revenue.Q2 > 0 or ghost_project_revenue.Q3 > 0 or ghost_project_revenue.Q4 > 0:
                     self.ghost_project_revenues.append(ghost_project_revenue)
@@ -81,8 +81,8 @@ class GhostClientFinancials(object):
 
         for ghost_allocation in self.ghost_client.ghost_team:
             #eventually change this so it is the average of existing people in this role
-            salary_per_day = ghost_allocation.ghost_user.role.loaded_salary_per_day * (ghost_allocation.utilization/100)  * self.usd_to_local
-            ghost_salary = quarterly_money(self.year,ghost_allocation.start_date,ghost_allocation.end_date,salary_per_day,None,"ghost_salary")
+            salary_per_day = ghost_allocation.ghost_user.loaded_salary_per_day * (ghost_allocation.utilization/100)* self.usd_to_local
+            ghost_salary = quarterly_money(self.year, ghost_allocation.start_date, ghost_allocation.end_date, salary_per_day, None,"ghost_salary")
 
             for x in range(0, 4):
                 self.expense_ghost[x] += ghost_salary[x]
