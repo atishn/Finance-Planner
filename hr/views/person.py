@@ -524,8 +524,6 @@ def person_assign_add(request):
             return HTTPFound(request.application_url)
 
         if request.method == "POST":
-            client_id = None
-            ghost_client_id = None
             client_id = request.params.get("client_id")
             ghost_client_id = request.params.get("ghost_client_id")
             client = None

@@ -103,7 +103,7 @@
                         <tr>
                             <td>Employee Assignment Access:</td>
                             <td>
-                                <input type="checkbox" name="employee_assignment_access" value="1"> Assign Employees to Clients</br>
+                                <input type="checkbox" name="employee_assignment_access" value="1" {% if person.employee_assignment_access %}checked{% endif %}> Assign Employees to Clients</br>
                                 <br>
                                 Note: This should be given to PM only.
                             </td>
