@@ -22,11 +22,10 @@ from hr.models.Header import Header
 
 
 def getHeader(client):
-
     header = Header("finanicials");
     header.division = "office"
 
-    if client is not None :
+    if client is not None:
         header.divisionname = client.office.name
         header.divisionid = client.office.id
 
@@ -317,8 +316,9 @@ def client_assign_resource(request):
             if person is None or client is None or user.can_access_client(client, "utilization") == False:
                 return HTTPFound(request.application_url)
 
-            if person.start_date.date() > start_date:
-                return HTTPFound(request.application_url)
+            if person.start_date.date() > start_date or start_date > end_date:
+                print("*** late start")
+                return HTTPFound(request.path)
 
             ua = UserAllocation(person, client, None, utilization, start_date, end_date)
             DBSession.add(ua)
@@ -352,10 +352,11 @@ def client_assign_resource(request):
         currentClient = None
 
         if currentClientId is not None:
-            currentClient =  DBSession.query(Client).filter_by(id = currentClientId).filter_by(is_active=True).first()
+            currentClient = DBSession.query(Client).filter_by(id=currentClientId).filter_by(is_active=True).first()
 
         return dict(logged_in=authenticated_userid(request), header=getHeader(None), clients=clients, users=users,
-                    user=user, account=account, access_administration=access_administration, currentClient = currentClient)
+                    user=user, account=account, access_administration=access_administration,
+                    currentClient=currentClient)
     except:
         print("*****")
         traceback.print_exc()
@@ -409,6 +410,10 @@ def client_assign_ghost(request):
             end_date_text = request.params["end_date"]
             end_dateparts = end_date_text.split("/")
             end_date = datetime.date(long(end_dateparts[2]), long(end_dateparts[0]), long(end_dateparts[1]))
+
+            if ghost_user.start_date.date() > start_date or start_date > end_date:
+                print('**** late start')
+                return HTTPFound(request.path)
 
             gua = GhostAllocation(ghost_user, client, ghost_client, utilization, start_date, end_date)
             DBSession.add(gua)
@@ -469,7 +474,8 @@ def client_assign_ghost(request):
                     ghost_clients.append(ghost_client)
 
         return dict(logged_in=authenticated_userid(request), header=getHeader(None), clients=clients,
-                    ghost_users=ghost_users, user=user, account=account, ghost_clients=ghost_clients, currentClient=currentClient, currentGhostClient=currentGhostClient)
+                    ghost_users=ghost_users, user=user, account=account, ghost_clients=ghost_clients,
+                    currentClient=currentClient, currentGhostClient=currentGhostClient)
     except:
         print("*****")
         traceback.print_exc()

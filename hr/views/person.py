@@ -558,6 +558,10 @@ def person_assign_add(request):
             end_dateparts = end_date_text.split("/")
             end_date = datetime.date(long(end_dateparts[2]), long(end_dateparts[0]), long(end_dateparts[1]))
 
+            if person.start_date.date() > start_date or start_date > end_date:
+                print("*** late start")
+                return HTTPFound(request.path)
+
             ua = UserAllocation(person, client, ghost_client, utilization, start_date, end_date)
             DBSession.add(ua)
             DBSession.flush()
@@ -664,6 +668,10 @@ def person_assign_edit(request):
                 end_date_text = request.params[str(assignment.id) + "-end_date"]
                 end_dateparts = end_date_text.split("/")
                 end_date = datetime.date(long(end_dateparts[2]), long(end_dateparts[0]), long(end_dateparts[1]))
+
+                if person.start_date.date() > start_date or start_date > end_date:
+                    print("*** late start")
+                    return HTTPFound(request.path)
 
                 assignment.client = client
                 assignment.ghost_client = ghost_client
