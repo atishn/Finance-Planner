@@ -4,13 +4,13 @@ Getting Started
 ---------------
 
 sudo  easy_install pip
-sudo pip install pyramid_jinja2
+sudo pip install pyramid_jinja2 cython
 pip install supervisor --upgrade
 
 // Jinja2-2.6
-- cd <directory containing this file>
+cd <directory containing this file>
 
-- python setup.py develop
+python setup.py develop
 
 In MySql
 1. Create database hr;

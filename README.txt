@@ -3,14 +3,16 @@ HugePlanner README
 Getting Started
 ---------------
 
+Make sure mysql is installed.
+
 sudo  easy_install pip
-sudo pip install pyramid_jinja2
+sudo pip install pyramid_jinja2 cython
 pip install supervisor --upgrade
 
 //- cd <directory containing this file>
 
 //This may need to be run in sudo
-- python setup.py develop
+python setup.py develop
 
 In MySql
 1. Login to root/admin

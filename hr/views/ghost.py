@@ -378,12 +378,12 @@ def ghost_client_assign_resource(request):
         if currentClientId is not None:
             currentClient = DBSession.query(Client).filter_by(id=currentClientId).filter_by(is_active=True).first()
 
-
         currentGhostClientId = request.params.get('ghostclientid')
         currentGhostClient = None
 
         if currentGhostClientId is not None:
-            currentGhostClient = DBSession.query(GhostClient).filter_by(id=currentGhostClientId).filter_by(is_active=True).first()
+            currentGhostClient = DBSession.query(GhostClient).filter_by(id=currentGhostClientId).filter_by(
+                is_active=True).first()
 
         ghost_clients_all = DBSession.query(GhostClient).filter_by(account_id=account_id).all()
         ghost_clients = []
@@ -406,7 +406,8 @@ def ghost_client_assign_resource(request):
         if len(users) == 0:
             return HTTPFound(request.application_url)
         return dict(logged_in=authenticated_userid(request), header=Header("financials"), ghost_clients=ghost_clients,
-                    users=users, user=user, account=account, currentClient=currentClient, currentGhostClient=currentGhostClient)
+                    users=users, user=user, account=account, currentClient=currentClient,
+                    currentGhostClient=currentGhostClient)
     except:
         traceback.print_exc()
         return HTTPFound(request.application_url)
@@ -495,13 +496,14 @@ def ghost_project_add(request):
         currentClient = None
 
         if currentClientId is not None:
-                currentClient = DBSession.query(Client).filter_by(id=currentClientId).filter_by(is_active=True).first()
+            currentClient = DBSession.query(Client).filter_by(id=currentClientId).filter_by(is_active=True).first()
 
         currentGhostClientId = request.params.get('ghostclientid')
         currentGhostClient = None
 
         if currentGhostClientId is not None:
-            currentGhostClient = DBSession.query(GhostClient).filter_by(id=currentGhostClientId).filter_by(is_active=True).first()
+            currentGhostClient = DBSession.query(GhostClient).filter_by(id=currentGhostClientId).filter_by(
+                is_active=True).first()
 
         clients_all = DBSession.query(Client).filter_by(account_id=account_id).filter_by(is_active=True).all()
         clients = []
@@ -526,7 +528,8 @@ def ghost_project_add(request):
             return HTTPFound(request.application_url)
 
         return dict(logged_in=authenticated_userid(request), header=Header("financials"), clients=clients,
-                    ghost_clients=ghost_clients, user=user, account=account, currentClient = currentClient, currentGhostClient=currentGhostClient)
+                    ghost_clients=ghost_clients, user=user, account=account, currentClient=currentClient,
+                    currentGhostClient=currentGhostClient)
     except:
         return HTTPFound(request.application_url)
 

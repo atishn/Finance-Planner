@@ -81,7 +81,11 @@ hr/static/transparent.gif
 hr/static/css/login.css
 hr/static/css/main.css
 hr/static/img/btn_login.png
+hr/static/img/favico.ico
 hr/static/img/intranet_logo.png
+hr/static/js/hugeplanner.js
+hr/static/js/login.js
+hr/static/lib/css/bootstrap-datepicker.css
 hr/static/lib/css/bootstrap-responsive.min.css
 hr/static/lib/css/bootstrap-scroll-modal.css
 hr/static/lib/css/bootstrap.min.css
@@ -93,6 +97,7 @@ hr/static/lib/js/bootstrap-alert.js
 hr/static/lib/js/bootstrap-button.js
 hr/static/lib/js/bootstrap-carousel.js
 hr/static/lib/js/bootstrap-collapse.js
+hr/static/lib/js/bootstrap-datepicker.js
 hr/static/lib/js/bootstrap-dropdown.js
 hr/static/lib/js/bootstrap-modal.js
 hr/static/lib/js/bootstrap-popover.js
@@ -117,6 +122,7 @@ hr/templates/administration_expenses_clients.html
 hr/templates/administration_expenses_global.html
 hr/templates/administration_password.html
 hr/templates/administration_revenue.html
+hr/templates/breadcrumbs.html
 hr/templates/client_add.html
 hr/templates/client_assign_ghost.html
 hr/templates/client_assign_resource.html
@@ -133,8 +139,8 @@ hr/templates/department_edit.html
 hr/templates/department_financials.html
 hr/templates/department_utilization.html
 hr/templates/freelancer_add.html
-hr/templates/freelancer_edit.html
 hr/templates/freelancer_convert.html
+hr/templates/freelancer_edit.html
 hr/templates/ghost_client_add.html
 hr/templates/ghost_client_assign_resource.html
 hr/templates/ghost_client_edit.html
