@@ -1,5 +1,6 @@
 from pyramid.config import Configurator
-from sqlalchemy import engine_from_config
+from sqlalchemy import engine_from_config, event
+from sqlalchemy.exc import DisconnectionError
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
@@ -14,11 +15,24 @@ from hr.models import (
     Base,
     )
 
+def checkout_listener(dbapi_con, con_record, con_proxy):
+    try:
+        try:
+            dbapi_con.ping(False)
+        except TypeError:
+            dbapi_con.ping()
+    except dbapi_con.OperationalError as exc:
+        if exc.args[0] in (2006, 2013, 2014, 2045, 2055):
+            raise DisconnectionError()
+        else:
+            raise
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
     engine = engine_from_config(settings, 'sqlalchemy.')
+    event.listen(engine, 'checkout', checkout_listener)
+
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
     authn_policy = AuthTktAuthenticationPolicy('mysupersecret', callback=permission_finder, hashalg='sha512')
