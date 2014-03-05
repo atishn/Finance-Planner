@@ -2,6 +2,7 @@
 .idea
 *.iml
 .metadata
+*plugin.xml
 
 *.log
 *.pid
