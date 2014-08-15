@@ -158,6 +158,7 @@ def administration_revenue(request):
         traceback.print_exc()
         return HTTPFound(request.application_url)
 
+
 @view_config(route_name='administration_expenses', request_method='GET',
              renderer='templates/administration_expenses.html')
 @view_config(route_name='administration_expenses', request_method='POST',

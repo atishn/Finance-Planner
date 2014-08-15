@@ -1,1 +1,2 @@
-python setup.py develop 
+#!/bin/sh
+python setup.py develop
