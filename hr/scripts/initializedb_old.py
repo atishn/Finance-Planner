@@ -54,7 +54,7 @@ def main(argv=sys.argv):
     DBSession.configure(bind=engine)
     Base.metadata.create_all(engine)
     with transaction.manager:
-        huge = Account("Huge", 2013)
+        huge = Account("Finance", 2013)
         huge.benefits_and_bonus = 25
         huge.midyear_review_start = datetime.date(2013, 4, 15)
         huge.midyear_review_setup_deadline = datetime.date(2013, 4, 25)

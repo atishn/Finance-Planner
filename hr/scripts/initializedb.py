@@ -40,7 +40,7 @@ def main(argv=sys.argv):
     DBSession.configure(bind=engine)
     Base.metadata.create_all(engine)
     with transaction.manager:
-        huge = Account("Huge", 2013)
+        huge = Account("Finance", 2013)
         office = Office("New York", 10, huge)
         corporate = Department("Corporate", huge)
         ceo = Role(huge, "Senior Developer", corporate, 150000, 50000)
